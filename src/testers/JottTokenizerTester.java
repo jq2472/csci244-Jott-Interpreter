@@ -1,9 +1,5 @@
-<<<<<<< HEAD:testers/JottTokenizerTester.java
 package testers;
 import provided.*;
-=======
-package src.testers;
->>>>>>> 14f56d5 (reformated directory tree):src/testers/JottTokenizerTester.java
 
 /*
  * Tester for phase 1 of the Jott Translator
