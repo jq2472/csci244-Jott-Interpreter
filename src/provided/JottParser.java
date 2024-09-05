@@ -1,4 +1,4 @@
-package provided;
+package src.provided;
 
 /**
  * This class is responsible for paring Jott Tokens

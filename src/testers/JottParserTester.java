@@ -1,5 +1,10 @@
+<<<<<<< HEAD:testers/JottParserTester.java
 package testers;
 import provided.*;
+=======
+package src.testers;
+
+>>>>>>> 14f56d5 (reformated directory tree):src/testers/JottParserTester.java
 /*
   Jott parser tester. This will test the parsing phase of the Jott
   project.

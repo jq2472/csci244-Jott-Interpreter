@@ -1,4 +1,4 @@
-package provided;
+package src.provided;
 
 /**
  * Interface for all Jott parse tree nodes
