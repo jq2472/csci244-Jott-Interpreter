@@ -1,5 +1,5 @@
-package testers;
-import provided.*;
+package src.testers;
+import src.provided.*;
 
 /*
  * Tester for phase 1 of the Jott Translator
