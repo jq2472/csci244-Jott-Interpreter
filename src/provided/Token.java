@@ -1,4 +1,4 @@
-package src.provided;
+package provided;
 /**
  * Class representing a token string for the Jott translator
  *

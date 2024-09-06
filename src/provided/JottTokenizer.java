@@ -1,4 +1,4 @@
-package src.provided;
+package provided;
 
 /**
  * This class is responsible for tokenizing Jott code.
