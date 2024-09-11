@@ -15,8 +15,10 @@ import java.util.Stack;
 import tokens.Assign;
 import tokens.FcHeader;
 import tokens.LBrace;
+import tokens.LBracket;
 import tokens.MathOp;
 import tokens.RBrace;
+import tokens.RBracket;
 import tokens.RelOp;
 import tokens.StringToken;
 
@@ -71,6 +73,7 @@ public class JottTokenizer {
                                 System.err.println("Incorrect syntax with not equals");
                             }
                             else{
+                                
                                 uniquetoken = "";
                             }
                         }
@@ -125,6 +128,31 @@ public class JottTokenizer {
                                 RBrace rBrace = new RBrace();
                                 rBrace.setrbrace(uniquetoken);
                                 Token token = new Token(uniquetoken, filename, linenumber, TokenType.R_BRACE);
+                                tokens.add(token);
+                                stack.pop();
+                                uniquetoken = "";
+                            }
+                        }
+                        if(uniquetoken.equals("{"))
+                        {
+                            LBracket lBracket = new LBracket();
+                            lBracket.setlbracket(uniquetoken);
+                            Token token = new Token(lBracket.getlbracket(), filename, linenumber, TokenType.L_BRACKET);
+                            tokens.add(token);
+                            stack.push(uniquetoken);
+                            uniquetoken = "";
+                        }
+                        if(uniquetoken.equals("}"))
+                        {
+                            if(stack.isEmpty())
+                            {
+                                System.err.println("Incorrect syntax of braces");
+                            }
+                            else
+                            {
+                                RBracket rBracket = new RBracket();
+                                rBracket.setrbracket(uniquetoken);
+                                Token token = new Token(rBracket.getrbracket(), filename, linenumber, TokenType.R_BRACKET);
                                 tokens.add(token);
                                 stack.pop();
                                 uniquetoken = "";
