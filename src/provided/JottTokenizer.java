@@ -10,10 +10,13 @@ import java.io.IOException;
  **/
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import tokens.Assign;
 import tokens.FcHeader;
+import tokens.LBrace;
 import tokens.MathOp;
+import tokens.RBrace;
 import tokens.RelOp;
 import tokens.StringToken;
 
@@ -26,7 +29,8 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-		    ArrayList<Token>tokens = new ArrayList<>();
+		ArrayList<Token>tokens = new ArrayList<>();
+        Stack<String> stack = new Stack<>();
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
@@ -100,6 +104,31 @@ public class JottTokenizer {
                             Token token = new Token(mathop.getmathop(), filename, linenumber, TokenType.MATH_OP);
                             tokens.add(token);
                             uniquetoken = "";
+                        }
+                        if(uniquetoken.equals("["))
+                        {
+                            LBrace lBrace = new LBrace();
+                            lBrace.setlbrace(uniquetoken);
+                            Token token = new Token(lBrace.getlbrace(), filename, linenumber, TokenType.L_BRACE);
+                            tokens.add(token);
+                            stack.push(uniquetoken);
+                            uniquetoken = "";
+                        }
+                        if(uniquetoken.equals("]"))
+                        {
+                            if(stack.isEmpty())
+                            {
+                                System.err.println("Incorrect syntax of braces");
+                            }
+                            else
+                            {
+                                RBrace rBrace = new RBrace();
+                                rBrace.setrbrace(uniquetoken);
+                                Token token = new Token(uniquetoken, filename, linenumber, TokenType.R_BRACE);
+                                tokens.add(token);
+                                stack.pop();
+                                uniquetoken = "";
+                            }
                         }
                     }
 
