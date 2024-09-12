@@ -63,6 +63,7 @@ public class JottTokenizer {
                             {
                                 RelOp relOp = new RelOp(filename, linenumber);
                                 tokens.add(relOp);
+                                uniquetoken = "";
                                 
                             }
                             if(uniquetoken.charAt(1)=='!')
@@ -78,6 +79,7 @@ public class JottTokenizer {
                         {
                             RelOp relOp = new RelOp(filename, linenumber);
                             tokens.add(relOp);
+                            uniquetoken = "";
                         }
                         if(uniquetoken.contains("\""))
                         {
@@ -96,19 +98,15 @@ public class JottTokenizer {
                         }
                         if(uniquetoken.equals("+")||uniquetoken.equals("-") || uniquetoken.equals("/") || uniquetoken.equals("*"))
                         {
-                            MathOp mathop = new MathOp();
-                            mathop.setmathop(uniquetoken);
-                            Token token = new Token(mathop.getmathop(), filename, linenumber, TokenType.MATH_OP);
-                            tokens.add(token);
+                            MathOp mathop = new MathOp(uniquetoken, filename, linenumber);
+                            tokens.add(mathop);
                             uniquetoken = "";
                         }
                         if(uniquetoken.equals("["))
                         {
-                            LBrace lBrace = new LBrace();
-                            lBrace.setlbrace(uniquetoken);
-                            Token token = new Token(lBrace.getlbrace(), filename, linenumber, TokenType.L_BRACE);
-                            tokens.add(token);
-                            stack.push(uniquetoken);
+                            LBrace lBrace = new LBrace(filename, linenumber);
+                            tokens.add(lBrace);
+                            
                             uniquetoken = "";
                         }
                         if(uniquetoken.equals("]"))
@@ -119,21 +117,16 @@ public class JottTokenizer {
                             }
                             else
                             {
-                                RBrace rBrace = new RBrace();
-                                rBrace.setrbrace(uniquetoken);
-                                Token token = new Token(uniquetoken, filename, linenumber, TokenType.R_BRACE);
-                                tokens.add(token);
-                                stack.pop();
+                                RBrace rBrace = new RBrace(filename, linenumber);
+                                tokens.add(rBrace);
                                 uniquetoken = "";
                             }
                         }
                         if(uniquetoken.equals("{"))
                         {
-                            LBracket lBracket = new LBracket();
-                            lBracket.setlbracket(uniquetoken);
-                            Token token = new Token(lBracket.getlbracket(), filename, linenumber, TokenType.L_BRACKET);
-                            tokens.add(token);
-                            stack.push(uniquetoken);
+                            LBracket lBracket = new LBracket(filename, linenumber);
+                            tokens.add(lBracket);
+                            
                             uniquetoken = "";
                         }
                         if(uniquetoken.equals("}"))
@@ -144,11 +137,8 @@ public class JottTokenizer {
                             }
                             else
                             {
-                                RBracket rBracket = new RBracket();
-                                rBracket.setrbracket(uniquetoken);
-                                Token token = new Token(rBracket.getrbracket(), filename, linenumber, TokenType.R_BRACKET);
-                                tokens.add(token);
-                                stack.pop();
+                                RBracket rBracket = new RBracket(filename, linenumber);
+                                tokens.add(rBracket);
                                 uniquetoken = "";
                             }
                         }
@@ -158,10 +148,8 @@ public class JottTokenizer {
                         }
                         if(Character.isDigit(uniquetoken.charAt(0)))
                         {
-                            NumberToken numbertoken = new NumberToken();
-                            numbertoken.setstrnumber(uniquetoken);
-                            Token token = new Token(numbertoken.getstrnumber(), filename, linenumber, TokenType.NUMBER);
-                            tokens.add(token);
+                            NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
+                            tokens.add(numbertoken);
                             uniquetoken = "";
                         }
                     }
@@ -170,10 +158,12 @@ public class JottTokenizer {
                 }
                 if(uniquetoken.contains("#"))
                 {
-                    FcHeader fcHeader = new FcHeader();
-                    fcHeader.setfcheader(uniquetoken);
-                    Token token = new Token(fcHeader.getfcheader(), filename, linenumber, TokenType.FC_HEADER);
-                    tokens.add(token);
+                  continue;
+                    
+
+                }
+                if(uniquetoken.contains(":"))
+                {
 
                 }
                 linenumber++;
