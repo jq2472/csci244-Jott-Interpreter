@@ -7,7 +7,7 @@ public class Comma extends Token {
     public final static TokenType TOKEN = TokenType.COMMA;
 
     /**
-     * Creates Colon Token
+     * Creates Comma Token
      * @param filename the name of the file the token came from
      * @param lineNum the number of the line in the file that the token appears on
      * @return the token
