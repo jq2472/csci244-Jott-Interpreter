@@ -55,10 +55,8 @@ public class JottTokenizer {
                         {
                             if(uniquetoken.length()==1)
                             {
-                                Assign assign = new Assign();
-                                assign.setassign(uniquetoken);
-                                Token token = new Token(assign.getassign(), filename, linenumber, TokenType.ASSIGN);
-                                tokens.add(token);
+                                Token assign = new Assign(filename, linenumber);
+                                tokens.add(assign);
                                 uniquetoken = "";
                             }
                             if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<="))

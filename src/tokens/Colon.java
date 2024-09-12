@@ -1,9 +1,10 @@
 package tokens;
 import provided.*;
 
-public class Colon {
+public class Colon extends Token {
 
     public final static TokenType TOKEN = TokenType.COLON;
+    
     private Token colon;
 
     /**
@@ -14,7 +15,7 @@ public class Colon {
      */
     public Colon(String filename, int lineNumber)
     {
-        this.colon = new Token(":", filename, lineNumber,TOKEN);
+        super(":", filename, lineNumber,TOKEN);
     }
     
 }

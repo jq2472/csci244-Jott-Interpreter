@@ -1,17 +1,22 @@
 package tokens;
+import provided.*;
 
-public class Assign {
-    private String assign;
-    public Assign()
+public class Assign extends Token {
+
+    public final static TokenType TOKEN = TokenType.ASSIGN;
+    
+    private Token assign;
+
+    /**
+     * Creates Assign Token
+     * @param filename the name of the file the token came from
+     * @param lineNum the number of the line in the file that the token appears on
+     * @return the token
+     */
+    public Assign(String filename, int lineNumber)
     {
-        this.assign="";
-    }
-    public String getassign()
-    {
-        return this.assign;
-    }
-    public void setassign(String assignstr)
-    {
-        this.assign=assignstr;
+        super("=", filename, lineNumber,TOKEN);
     }
 }
+
+
