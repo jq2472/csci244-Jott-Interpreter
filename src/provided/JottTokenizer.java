@@ -105,7 +105,7 @@ public class JottTokenizer {
                         {
                             LBrace lBrace = new LBrace(filename, linenumber);
                             tokens.add(lBrace);
-                            
+                            stack.push(uniquetoken);
                             uniquetoken = "";
                         }
                         if(uniquetoken.equals("]"))
@@ -118,14 +118,16 @@ public class JottTokenizer {
                             {
                                 RBrace rBrace = new RBrace(filename, linenumber);
                                 tokens.add(rBrace);
+                                stack.pop();
                                 uniquetoken = "";
                             }
                         }
                         if(uniquetoken.equals("{"))
                         {
+
                             LBracket lBracket = new LBracket(filename, linenumber);
                             tokens.add(lBracket);
-                            
+                            stack.push(uniquetoken);
                             uniquetoken = "";
                         }
                         if(uniquetoken.equals("}"))
@@ -138,6 +140,7 @@ public class JottTokenizer {
                             {
                                 RBracket rBracket = new RBracket(filename, linenumber);
                                 tokens.add(rBracket);
+                                stack.pop();
                                 uniquetoken = "";
                             }
                         }
@@ -179,7 +182,7 @@ public class JottTokenizer {
         }
         catch(Exception e)
         {
-            
+
         }
         return tokens;
 
