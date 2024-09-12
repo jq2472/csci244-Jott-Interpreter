@@ -12,16 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import tokens.Assign;
-import tokens.FcHeader;
-import tokens.LBrace;
-import tokens.LBracket;
-import tokens.MathOp;
-import tokens.NumberToken;
-import tokens.RBrace;
-import tokens.RBracket;
-import tokens.RelOp;
-import tokens.StringToken;
+import tokens.*;
 
 public class JottTokenizer {
 
@@ -182,6 +173,7 @@ public class JottTokenizer {
         }
         catch(Exception e)
         {
+            return null;
 
         }
         return tokens;
