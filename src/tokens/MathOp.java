@@ -1,17 +1,19 @@
 package tokens;
 
-public class MathOp {
-    public String mathop;
-    public MathOp()
+import provided.*;
+
+public class MathOp extends Token {
+
+    public final static TokenType TOKEN = TokenType.MATH_OP;
+
+    /**
+     * Creates MathOp Token
+     * @param filename the name of the file the token came from
+     * @param lineNum the number of the line in the file that the token appears on
+     * @return the token
+     */
+    public MathOp(String filename, int lineNumber)
     {
-        this.mathop="";
-    }
-    public void setmathop(String mathop)
-    {
-        this.mathop=mathop;
-    }
-    public String getmathop()
-    {
-        return this.mathop;
+        super("*", filename, lineNumber,TOKEN);
     }
 }

@@ -1,17 +1,20 @@
 package tokens;
 
-public class NumberToken {
-    private String number;
-    public NumberToken()
+import provided.*;
+
+public class NumberToken extends Token {
+
+    public final static TokenType TOKEN = TokenType.NUMBER;
+
+    /**
+     * Creates Number Token
+     * @param charStream the stream of necessary scanned characters
+     * @param filename the name of the file the token came from
+     * @param lineNum the number of the line in the file that the token appears on
+     * @return the token
+     */
+    public NumberToken(String charStream, String filename, int lineNumber)
     {
-        this.number = "";
-    }
-    public String getstrnumber()
-    {
-        return this.number;
-    }
-    public void setstrnumber(String strnum)
-    {
-        this.number = strnum;
+        super(charStream, filename, lineNumber,TOKEN);
     }
 }
