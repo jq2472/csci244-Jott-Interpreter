@@ -42,16 +42,18 @@ public class JottTokenizer {
             while((line = jotReader.readLine())!=null)
             {
 
+                if(line.contains("#"))
+                {
+                    linenumber++;
+                    continue;
+                }
                 String uniquetoken = "";
                 for(int i = 0; i < line.length(); i++)
                 {
 
                     if(line.charAt(i)==' ')
                     {
-                        if(uniquetoken.contains("#"))
-                        {
-                            uniquetoken+=String.valueOf(line.charAt(i));
-                        }
+                        
                         if(uniquetoken.contains("="))
                         {
                             if(uniquetoken.length()==1)
@@ -158,12 +160,7 @@ public class JottTokenizer {
 
                     
                 }
-                if(uniquetoken.contains("#"))
-                {
-                  continue;
-                    
-
-                }
+                
                 if(uniquetoken.equals("::"))
                 {
                     FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
