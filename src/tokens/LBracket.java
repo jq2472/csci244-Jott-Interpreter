@@ -1,17 +1,18 @@
 package tokens;
 
-public class LBracket {
-    private String lbracket;
-    public LBracket()
+import provided.*;
+
+public class LBracket extends Token {
+    public final static TokenType TOKEN = TokenType.L_BRACKET;
+
+    /**
+     * Creates LBracket Token
+     * @param filename the name of the file the token came from
+     * @param lineNum the number of the line in the file that the token appears on
+     * @return the token
+     */
+    public LBracket(String filename, int lineNumber)
     {
-        this.lbracket = "";
-    }
-    public String getlbracket()
-    {
-        return this.lbracket;
-    }
-    public void setlbracket(String lbracket)
-    {
-        this.lbracket = lbracket;
+        super("[", filename, lineNumber,TOKEN);
     }
 }
