@@ -104,11 +104,9 @@ public class JottTokenizer {
                         }
                         if(uniquetoken.equals("["))
                         {
-                            LBrace lBrace = new LBrace();
-                            lBrace.setlbrace(uniquetoken);
-                            Token token = new Token(lBrace.getlbrace(), filename, linenumber, TokenType.L_BRACE);
-                            tokens.add(token);
-                            stack.push(uniquetoken);
+                            LBrace lBrace = new LBrace(filename, linenumber);
+                            tokens.add(lBrace);
+                            
                             uniquetoken = "";
                         }
                         if(uniquetoken.equals("]"))
@@ -119,11 +117,8 @@ public class JottTokenizer {
                             }
                             else
                             {
-                                RBrace rBrace = new RBrace();
-                                rBrace.setrbrace(uniquetoken);
-                                Token token = new Token(uniquetoken, filename, linenumber, TokenType.R_BRACE);
-                                tokens.add(token);
-                                stack.pop();
+                                RBrace rBrace = new RBrace(filename, linenumber);
+                                tokens.add(rBrace);
                                 uniquetoken = "";
                             }
                         }
