@@ -148,10 +148,8 @@ public class JottTokenizer {
                         }
                         if(Character.isDigit(uniquetoken.charAt(0)))
                         {
-                            NumberToken numbertoken = new NumberToken();
-                            numbertoken.setstrnumber(uniquetoken);
-                            Token token = new Token(numbertoken.getstrnumber(), filename, linenumber, TokenType.NUMBER);
-                            tokens.add(token);
+                            NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
+                            tokens.add(numbertoken);
                             uniquetoken = "";
                         }
                     }
@@ -160,10 +158,12 @@ public class JottTokenizer {
                 }
                 if(uniquetoken.contains("#"))
                 {
-                    FcHeader fcHeader = new FcHeader();
-                    fcHeader.setfcheader(uniquetoken);
-                    Token token = new Token(fcHeader.getfcheader(), filename, linenumber, TokenType.FC_HEADER);
-                    tokens.add(token);
+                  continue;
+                    
+
+                }
+                if(uniquetoken.contains(":"))
+                {
 
                 }
                 linenumber++;
