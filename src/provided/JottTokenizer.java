@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import tokens.Assign;
+import tokens.Colon;
 import tokens.FcHeader;
 import tokens.LBrace;
 import tokens.LBracket;
@@ -160,9 +161,17 @@ public class JottTokenizer {
                     
 
                 }
-                if(uniquetoken.contains(":"))
+                if(uniquetoken.equals("::"))
                 {
-
+                    FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
+                    tokens.add(fcHeader);
+                    uniquetoken = "";
+                }
+                if(uniquetoken.equals(":"))
+                {
+                    Colon colon = new Colon(filename, linenumber);
+                    tokens.add(colon);
+                    uniquetoken = "";
                 }
                 linenumber++;
                 
@@ -170,7 +179,7 @@ public class JottTokenizer {
         }
         catch(Exception e)
         {
-
+            
         }
         return tokens;
 
