@@ -85,10 +85,8 @@ public class JottTokenizer {
                         {
                             if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
                             {
-                                StringToken stringToken = new StringToken();
-                                stringToken.setstringtoken(uniquetoken);
-                                Token token = new Token(stringToken.getstringtoken(), filename, linenumber, TokenType.STRING);
-                                tokens.add(token);
+                                StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
+                                tokens.add(stringToken);
                                 uniquetoken = "";
                             }
                             else
