@@ -4,8 +4,6 @@ import provided.*;
 public class Assign extends Token {
 
     public final static TokenType TOKEN = TokenType.ASSIGN;
-    
-    private Token assign;
 
     /**
      * Creates Assign Token

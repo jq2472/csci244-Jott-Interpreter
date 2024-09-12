@@ -4,8 +4,6 @@ import provided.*;
 public class Colon extends Token {
 
     public final static TokenType TOKEN = TokenType.COLON;
-    
-    private Token colon;
 
     /**
      * Creates Colon Token
