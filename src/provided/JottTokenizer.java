@@ -61,11 +61,9 @@ public class JottTokenizer {
                             }
                             if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<="))
                             {
-                                RelOp relOp = new RelOp();
-                                relOp.setrelop(uniquetoken);
-                                Token token = new Token(relOp.getrelop(), filename, linenumber, TokenType.REL_OP);
-                                tokens.add(token);
-                                uniquetoken = "";
+                                RelOp relOp = new RelOp(filename, linenumber);
+                                tokens.add(relOp);
+                                
                             }
                             if(uniquetoken.charAt(1)=='!')
                             {
@@ -78,11 +76,8 @@ public class JottTokenizer {
                         }
                         if(uniquetoken.equals(">") || uniquetoken.contains("<"))
                         {
-                            RelOp relOp = new RelOp();
-                            relOp.setrelop(uniquetoken);
-                            Token token = new Token(relOp.getrelop(), filename, linenumber, TokenType.REL_OP);
-                            tokens.add(token);
-                            uniquetoken = "";
+                            RelOp relOp = new RelOp(filename, linenumber);
+                            tokens.add(relOp);
                         }
                         if(uniquetoken.contains("\""))
                         {
