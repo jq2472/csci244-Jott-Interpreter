@@ -14,7 +14,7 @@ public class RBrace extends Token {
      */
     public RBrace(String filename, int lineNumber)
     {
-        super("{", filename, lineNumber,TOKEN);
+        super("}", filename, lineNumber,TOKEN);
     }
     
 }
