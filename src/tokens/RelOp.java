@@ -1,17 +1,19 @@
 package tokens;
 
-public class RelOp {
-    private String relop;
-    public RelOp()
+import provided.*;
+
+public class RelOp extends Token {
+    public final static TokenType TOKEN = TokenType.REL_OP;
+
+    /**
+     * Creates RelOp Token
+     * @param filename the name of the file the token came from
+     * @param lineNum the number of the line in the file that the token appears on
+     * @return the token
+     */
+    public RelOp(String filename, int lineNumber)
     {
-        this.relop="";
+        super("<>", filename, lineNumber,TOKEN);
     }
-    public void setrelop(String relop)
-    {
-        this.relop=relop;
-    }
-    public String getrelop()
-    {
-        return this.relop;
-    }
+    
 }
