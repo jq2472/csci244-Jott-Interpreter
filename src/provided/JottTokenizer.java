@@ -17,6 +17,7 @@ import tokens.FcHeader;
 import tokens.LBrace;
 import tokens.LBracket;
 import tokens.MathOp;
+import tokens.NumberToken;
 import tokens.RBrace;
 import tokens.RBracket;
 import tokens.RelOp;
@@ -157,6 +158,18 @@ public class JottTokenizer {
                                 stack.pop();
                                 uniquetoken = "";
                             }
+                        }
+                        if(uniquetoken.equals("."))
+                        {   
+                            System.err.println("Incorrect syntax for number");
+                        }
+                        if(Character.isDigit(uniquetoken.charAt(0)))
+                        {
+                            NumberToken numbertoken = new NumberToken();
+                            numbertoken.setstrnumber(uniquetoken);
+                            Token token = new Token(numbertoken.getstrnumber(), filename, linenumber, TokenType.NUMBER);
+                            tokens.add(token);
+                            uniquetoken = "";
                         }
                     }
 
