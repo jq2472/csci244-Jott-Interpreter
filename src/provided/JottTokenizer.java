@@ -14,6 +14,7 @@ import java.util.Stack;
 
 import tokens.Assign;
 import tokens.Colon;
+import tokens.Comma;
 import tokens.FcHeader;
 import tokens.LBrace;
 import tokens.LBracket;
@@ -178,6 +179,12 @@ public class JottTokenizer {
                     {
                         Semicolon semicolon = new Semicolon(filename, linenumber);
                         tokens.add(semicolon);
+                        uniquetoken = "";
+                    }
+                    if(line.charAt(i) == ',')
+                    {
+                        Comma comma = new Comma(filename, linenumber);
+                        tokens.add(comma);
                         uniquetoken = "";
                     }
 
