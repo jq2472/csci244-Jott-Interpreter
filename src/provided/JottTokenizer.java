@@ -51,6 +51,18 @@ public class JottTokenizer {
                 String uniquetoken = "";
                 for(int i = 0; i < line.length(); i++)
                 {
+                    if(uniquetoken.equals("::"))
+                    {
+                        FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
+                        tokens.add(fcHeader);
+                        uniquetoken = "";
+                    }
+                    if(uniquetoken.equals(":"))
+                    {
+                        Colon colon = new Colon(filename, linenumber);
+                        tokens.add(colon);
+                        uniquetoken = "";
+                    }
 
                     if(line.charAt(i)==' ')
                     {
@@ -172,18 +184,6 @@ public class JottTokenizer {
                     
                 }
                 
-                if(uniquetoken.equals("::"))
-                {
-                    FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
-                    tokens.add(fcHeader);
-                    uniquetoken = "";
-                }
-                if(uniquetoken.equals(":"))
-                {
-                    Colon colon = new Colon(filename, linenumber);
-                    tokens.add(colon);
-                    uniquetoken = "";
-                }
                 linenumber++;
                 
             }
