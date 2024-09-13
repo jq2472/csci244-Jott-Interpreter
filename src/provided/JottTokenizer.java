@@ -16,6 +16,7 @@ import tokens.Assign;
 import tokens.Colon;
 import tokens.Comma;
 import tokens.FcHeader;
+import tokens.IdKeyword;
 import tokens.LBrace;
 import tokens.LBracket;
 import tokens.MathOp;
@@ -110,6 +111,12 @@ public class JottTokenizer {
                             {
                                 System.err.println("Incorrect syntax with a string");
                             }
+                        }
+                        if(Character.isLetter(uniquetoken.charAt(0)))
+                        {
+                            IdKeyword idKeyword = new IdKeyword(uniquetoken, filename, linenumber);
+                            tokens.add(idKeyword);
+                            uniquetoken = "";
                         }
                         if(uniquetoken.equals("+")||uniquetoken.equals("-") || uniquetoken.equals("/") || uniquetoken.equals("*"))
                         {
