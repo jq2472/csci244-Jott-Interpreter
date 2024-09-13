@@ -22,6 +22,7 @@ import tokens.NumberToken;
 import tokens.RBrace;
 import tokens.RBracket;
 import tokens.RelOp;
+import tokens.Semicolon;
 import tokens.StringToken;
 
 public class JottTokenizer {
@@ -34,7 +35,7 @@ public class JottTokenizer {
      */
     public static ArrayList<Token> tokenize(String filename){
 		ArrayList<Token>tokens = new ArrayList<>();
-        Stack<String> stack = new Stack<>();
+        Stack<Character> stack = new Stack<>();
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
@@ -103,27 +104,6 @@ public class JottTokenizer {
                             tokens.add(mathop);
                             uniquetoken = "";
                         }
-                        if(uniquetoken.equals("["))
-                        {
-                            LBrace lBrace = new LBrace(filename, linenumber);
-                            tokens.add(lBrace);
-                            stack.push(uniquetoken);
-                            uniquetoken = "";
-                        }
-                        if(uniquetoken.equals("]"))
-                        {
-                            if(stack.isEmpty())
-                            {
-                                System.err.println("Incorrect syntax of braces");
-                            }
-                            else
-                            {
-                                RBrace rBrace = new RBrace(filename, linenumber);
-                                tokens.add(rBrace);
-                                stack.pop();
-                                uniquetoken = "";
-                            }
-                        }
                         if(uniquetoken.equals("."))
                         {   
                             System.err.println("Incorrect syntax for number");
@@ -140,48 +120,54 @@ public class JottTokenizer {
                         }
                     }
                     if(line.charAt(i) == '[')
+                    {
+                        LBrace lBrace = new LBrace(filename, linenumber);
+                        tokens.add(lBrace);
+                        stack.push(line.charAt(i));
+                        uniquetoken = "";
+                    }
+                    if(line.charAt(i)== ']')
+                    {
+                        if(stack.isEmpty())
                         {
-                            LBrace lBrace = new LBrace(filename, linenumber);
-                            tokens.add(lBrace);
-                            stack.push(uniquetoken);
+                            System.err.println("Incorrect syntax of braces");
+                        }
+                        else
+                        {
+                            RBrace rBrace = new RBrace(filename, linenumber);
+                            tokens.add(rBrace);
+                            stack.pop();
                             uniquetoken = "";
                         }
-                        if(line.charAt(i)== ']')
-                        {
-                            if(stack.isEmpty())
-                            {
-                                System.err.println("Incorrect syntax of braces");
-                            }
-                            else
-                            {
-                                RBrace rBrace = new RBrace(filename, linenumber);
-                                tokens.add(rBrace);
-                                stack.pop();
-                                uniquetoken = "";
-                            }
-                        }
-                        if(uniquetoken.equals("{"))
-                        {
+                    }
+                    if(line.charAt(i)=='{')
+                    {
 
-                            LBracket lBracket = new LBracket(filename, linenumber);
-                            tokens.add(lBracket);
-                            stack.push(uniquetoken);
+                        LBracket lBracket = new LBracket(filename, linenumber);
+                        tokens.add(lBracket);
+                        stack.push(line.charAt(i));
+                        uniquetoken = "";
+                    }
+                    if(line.charAt(i)=='}')
+                    {
+                        if(stack.isEmpty())
+                        {
+                            System.err.println("Incorrect syntax of braces");
+                        }
+                        else
+                        {
+                            RBracket rBracket = new RBracket(filename, linenumber);
+                            tokens.add(rBracket);
+                            stack.pop();
                             uniquetoken = "";
                         }
-                        if(uniquetoken.equals("}"))
-                        {
-                            if(stack.isEmpty())
-                            {
-                                System.err.println("Incorrect syntax of braces");
-                            }
-                            else
-                            {
-                                RBracket rBracket = new RBracket(filename, linenumber);
-                                tokens.add(rBracket);
-                                stack.pop();
-                                uniquetoken = "";
-                            }
-                        }
+                    }
+                    if(line.charAt(i)==';')
+                    {
+                        Semicolon semicolon = new Semicolon(filename, linenumber);
+                        tokens.add(semicolon);
+                        uniquetoken = "";
+                    }
 
                     
                 }
