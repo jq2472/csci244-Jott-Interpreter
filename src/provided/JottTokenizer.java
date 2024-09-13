@@ -124,6 +124,42 @@ public class JottTokenizer {
                                 uniquetoken = "";
                             }
                         }
+                        if(uniquetoken.equals("."))
+                        {   
+                            System.err.println("Incorrect syntax for number");
+                        }
+                        if(Character.isDigit(uniquetoken.charAt(0)))
+                        {
+                            NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
+                            tokens.add(numbertoken);
+                            uniquetoken = "";
+                        }
+                        if(uniquetoken.isEmpty())
+                        {
+                            continue;
+                        }
+                    }
+                    if(line.charAt(i) == '[')
+                        {
+                            LBrace lBrace = new LBrace(filename, linenumber);
+                            tokens.add(lBrace);
+                            stack.push(uniquetoken);
+                            uniquetoken = "";
+                        }
+                        if(line.charAt(i)== ']')
+                        {
+                            if(stack.isEmpty())
+                            {
+                                System.err.println("Incorrect syntax of braces");
+                            }
+                            else
+                            {
+                                RBrace rBrace = new RBrace(filename, linenumber);
+                                tokens.add(rBrace);
+                                stack.pop();
+                                uniquetoken = "";
+                            }
+                        }
                         if(uniquetoken.equals("{"))
                         {
 
@@ -146,17 +182,6 @@ public class JottTokenizer {
                                 uniquetoken = "";
                             }
                         }
-                        if(uniquetoken.equals("."))
-                        {   
-                            System.err.println("Incorrect syntax for number");
-                        }
-                        if(Character.isDigit(uniquetoken.charAt(0)))
-                        {
-                            NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
-                            tokens.add(numbertoken);
-                            uniquetoken = "";
-                        }
-                    }
 
                     
                 }
