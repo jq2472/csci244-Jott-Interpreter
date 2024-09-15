@@ -65,6 +65,15 @@ public class JottTokenizer {
                     {
                         uniquetoken += String.valueOf(line.charAt(i));
                     }
+                    
+                    if(uniquetoken.equals("!"))
+                    {
+                        tokens.clear();
+                        System.err.println("Invalid syntax");
+                        System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
+                        System.err.println(filename+".jott:"+linenumber);
+                        break;
+                    }
                     if(uniquetoken.equals("::") ||i == line.length()-1)
                     {
                         FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
@@ -86,7 +95,7 @@ public class JottTokenizer {
                         if(uniquetoken.contains("="))
                         {
                             
-                            if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!="))
+                            if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!=") || i == line.length()-1)
                             {
                                 RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
                                 tokens.add(relOp);
@@ -144,7 +153,7 @@ public class JottTokenizer {
                             continue;
                         }
                     }
-                    if(line.charAt(i)=='=')
+                    if(line.charAt(i)=='=' && uniquetoken.isEmpty())
                     {
                         Token assign = new Assign(filename, linenumber);
                         tokens.add(assign);
