@@ -22,7 +22,7 @@ public class JottTokenizer {
 
     public static void main(String[] args) {
         System.out.println("About to try to parse try 3");
-        ArrayList<Token> t = tokenize("tokenizerTestCases\\singleCharTokens.jott");
+        ArrayList<Token> t = tokenize("tokenizerTestCases\\number.jott");
         for(int i = 0; i < t.size(); i++)
         {
             System.out.println(t.get(i).getToken());
@@ -129,12 +129,15 @@ public class JottTokenizer {
                         {   
                             System.err.println("Incorrect syntax for number");
                         }
-                        if(Character.isDigit(uniquetoken.charAt(0)) || i == line.length()-1)
+                        if(uniquetoken.contains(".") || Character.isDigit(uniquetoken.charAt(0)))
                         {
-                            NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
-                            tokens.add(numbertoken);
-                            uniquetoken = "";
-                            continue;
+                            if(Character.isDigit(uniquetoken.charAt(0)) || uniquetoken.charAt(0)=='.' || i == line.length()-1)
+                            {
+                                NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
+                                tokens.add(numbertoken);
+                                uniquetoken = "";
+                                continue;
+                            }
                         }
                         if(uniquetoken.isEmpty())
                         {
