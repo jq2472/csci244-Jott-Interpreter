@@ -23,7 +23,10 @@ public class JottTokenizer {
     public static void main(String[] args) {
         System.out.println("About to try to parse try 3");
         ArrayList<Token> t = tokenize("tokenizerTestCases\\relOpsTokens.jott");
-        System.out.println(t);
+        for(int i = 0; i < t.size(); i++)
+        {
+            System.out.println(t.get(i).getToken());
+        }
     }
 
 	/**
@@ -42,6 +45,7 @@ public class JottTokenizer {
             String line;
             System.out.println(jotReader);
             int linenumber = 1;
+            String uniquetoken = "";
             System.out.println(linenumber);
             while((line = jotReader.readLine())!=null)
             {
@@ -52,24 +56,32 @@ public class JottTokenizer {
                     linenumber++;
                     continue;
                 }
-                String uniquetoken = "";
+                
                 for(int i = 0; i < line.length(); i++)
                 {
-                    if(uniquetoken.equals("::"))
+                    System.out.println(i);
+                    
+                    if(i == line.length()-1)
+                    {
+                        uniquetoken += String.valueOf(line.charAt(i));
+                    }
+                    if(uniquetoken.equals("::") ||i == line.length()-1)
                     {
                         FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
                         tokens.add(fcHeader);
                         uniquetoken = "";
+                        continue;
                     }
-                    if(uniquetoken.equals(":"))
+                    if(uniquetoken.equals(":") ||i == line.length()-1)
                     {
                         Colon colon = new Colon(filename, linenumber);
                         tokens.add(colon);
                         uniquetoken = "";
+                        continue;
                     }
 
-                    if(line.charAt(i)==' ')
-                    {
+                    if(line.charAt(i)==' ' || i == line.length()-1)
+                    {   
                         
                         if(uniquetoken.contains("="))
                         {
@@ -78,77 +90,78 @@ public class JottTokenizer {
                                 Token assign = new Assign(filename, linenumber);
                                 tokens.add(assign);
                                 uniquetoken = "";
+                                continue;
                             }
-                            if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<="))
+                            if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!="))
                             {
                                 RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
                                 tokens.add(relOp);
                                 uniquetoken = "";
+                                continue;
                                 
                             }
-                            if(uniquetoken.charAt(1)=='!')
-                            {
-                                System.err.println("Incorrect syntax with not equals");
-                            }
-                            else{
-                                
-                                uniquetoken = "";
-                            }
+                            
                         }
-                        if(uniquetoken.equals(">") || uniquetoken.contains("<"))
+                        if(uniquetoken.equals(">") || uniquetoken.contains("<") || i == line.length()-1)
                         {
                             RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
                             tokens.add(relOp);
                             uniquetoken = "";
+                            continue;
                         }
-                        if(uniquetoken.contains("\""))
+                        if(uniquetoken.contains("\"") || i == line.length()-1)
                         {
                             if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
                             {
                                 StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
                                 tokens.add(stringToken);
                                 uniquetoken = "";
+                                continue;
                             }
                             else
                             {
                                 System.err.println("Incorrect syntax with a string");
                             }
                         }
-                        if(Character.isLetter(uniquetoken.charAt(0)))
+                        if(Character.isLetter(uniquetoken.charAt(0)) || i == line.length()-1)
                         {
                             IdKeyword idKeyword = new IdKeyword(uniquetoken, filename, linenumber);
                             tokens.add(idKeyword);
                             uniquetoken = "";
+                            continue;
                         }
-                        if(uniquetoken.equals("+")||uniquetoken.equals("-") || uniquetoken.equals("/") || uniquetoken.equals("*"))
+                        if(uniquetoken.equals("+")||uniquetoken.equals("-") || uniquetoken.equals("/") || uniquetoken.equals("*") || i == line.length()-1)
                         {
                             MathOp mathop = new MathOp(uniquetoken, filename, linenumber);
                             tokens.add(mathop);
                             uniquetoken = "";
+                            continue;
                         }
-                        if(uniquetoken.equals("."))
+                        if(uniquetoken.equals(".") || i == line.length()-1)
                         {   
                             System.err.println("Incorrect syntax for number");
                         }
-                        if(Character.isDigit(uniquetoken.charAt(0)))
+                        if(Character.isDigit(uniquetoken.charAt(0)) || i == line.length()-1)
                         {
                             NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
                             tokens.add(numbertoken);
                             uniquetoken = "";
+                            continue;
                         }
                         if(uniquetoken.isEmpty())
                         {
                             continue;
                         }
                     }
-                    if(line.charAt(i) == '[')
+                    if(line.charAt(i) == '[' || i == line.length()-1)
                     {
                         LBrace lBrace = new LBrace(filename, linenumber);
                         tokens.add(lBrace);
                         stack.push(line.charAt(i));
                         uniquetoken = "";
+                        continue;
                     }
-                    if(line.charAt(i)== ']')
+                    if(line.charAt(i)== ']' || i == line.length()-1)
                     {
                         if(stack.isEmpty())
                         {
@@ -160,9 +173,10 @@ public class JottTokenizer {
                             tokens.add(rBrace);
                             stack.pop();
                             uniquetoken = "";
+                            continue;
                         }
                     }
-                    if(line.charAt(i)=='{')
+                    if(line.charAt(i)=='{' || i == line.length()-1)
                     {
 
                         LBracket lBracket = new LBracket(filename, linenumber);
@@ -170,7 +184,7 @@ public class JottTokenizer {
                         stack.push(line.charAt(i));
                         uniquetoken = "";
                     }
-                    if(line.charAt(i)=='}')
+                    if(line.charAt(i)=='}' || i == line.length()-1)
                     {
                         if(stack.isEmpty())
                         {
@@ -182,20 +196,26 @@ public class JottTokenizer {
                             tokens.add(rBracket);
                             stack.pop();
                             uniquetoken = "";
+                            continue;
                         }
                     }
-                    if(line.charAt(i)==';')
+                    if(line.charAt(i)==';' || i == line.length()-1)
                     {
                         Semicolon semicolon = new Semicolon(filename, linenumber);
                         tokens.add(semicolon);
                         uniquetoken = "";
+                        continue;
                     }
-                    if(line.charAt(i) == ',')
+                    if(line.charAt(i) == ',' || i == line.length()-1)
                     {
                         Comma comma = new Comma(filename, linenumber);
                         tokens.add(comma);
                         uniquetoken = "";
+                        continue;
                     }
+                    
+                    uniquetoken += String.valueOf(line.charAt(i));
+                    
 
                     
                 }
@@ -206,7 +226,7 @@ public class JottTokenizer {
         }
         catch(Exception e)
         {
-
+            System.out.println(e.getMessage());
         }
         return tokens;
 
