@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "src"
+                "src",
+                "src/tokens"
             ],
             "defines": [
                 "_DEBUG",

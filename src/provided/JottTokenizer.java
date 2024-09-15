@@ -61,7 +61,7 @@ public class JottTokenizer {
                 {
                    
                     
-                    if(i == line.length()-1)
+                    if(i == line.length()-1 && Character.isLetterOrDigit(line.charAt(i)))
                     {
                         uniquetoken += String.valueOf(line.charAt(i));
                     }
@@ -82,7 +82,7 @@ public class JottTokenizer {
                         break;
                     }
                     if(uniquetoken.equals("::") ||i == line.length()-1)
-                    {
+                    {//sees / as a funch header for some reason
                         FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
                         tokens.add(fcHeader);
                         uniquetoken = "";
