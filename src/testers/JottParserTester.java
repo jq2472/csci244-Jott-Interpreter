@@ -107,6 +107,7 @@ public class JottParserTester {
                 if (jottCode == null) {
                     System.err.println("\tFailed Test: " + test.testName);
                     System.err.println("Expected a program string; got null");
+                    writer.close();
                     return false;
                 }
                 writer.write(jottCode);
