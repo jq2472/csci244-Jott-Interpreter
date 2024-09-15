@@ -22,7 +22,7 @@ public class JottTokenizer {
 
     public static void main(String[] args) {
         System.out.println("About to try to parse try 3");
-        ArrayList<Token> t = tokenize("tokenizerTestCases\\relOpsTokens.jott");
+        ArrayList<Token> t = tokenize("tokenizerTestCases\\mathOpsTest.jott");
         for(int i = 0; i < t.size(); i++)
         {
             System.out.println(t.get(i).getToken());
@@ -59,7 +59,7 @@ public class JottTokenizer {
                 
                 for(int i = 0; i < line.length(); i++)
                 {
-                    System.out.println(i);
+                   
                     
                     if(i == line.length()-1)
                     {
@@ -130,13 +130,7 @@ public class JottTokenizer {
                             uniquetoken = "";
                             continue;
                         }
-                        if(uniquetoken.equals("+")||uniquetoken.equals("-") || uniquetoken.equals("/") || uniquetoken.equals("*") || i == line.length()-1)
-                        {
-                            MathOp mathop = new MathOp(uniquetoken, filename, linenumber);
-                            tokens.add(mathop);
-                            uniquetoken = "";
-                            continue;
-                        }
+                        
                         if(uniquetoken.equals(".") || i == line.length()-1)
                         {   
                             System.err.println("Incorrect syntax for number");
@@ -152,6 +146,13 @@ public class JottTokenizer {
                         {
                             continue;
                         }
+                    }
+                    if(line.charAt(i)=='+'||line.charAt(i)=='-' || line.charAt(i)=='/' || line.charAt(i)=='*' || i == line.length()-1)
+                    {
+                        MathOp mathop = new MathOp(String.valueOf(line.charAt(i)), filename, linenumber);
+                        tokens.add(mathop);
+                        uniquetoken = "";
+                        continue;
                     }
                     if(line.charAt(i) == '[' || i == line.length()-1)
                     {
