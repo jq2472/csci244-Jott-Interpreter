@@ -1,17 +1,8 @@
 package provided;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-/**
- * This class is responsible for tokenizing Jott code.
- * 
- * @author 
- **/
-
 import java.util.ArrayList;
 import java.util.Stack;
-
 import tokens.Assign;
 import tokens.Colon;
 import tokens.Comma;
@@ -29,6 +20,12 @@ import tokens.StringToken;
 
 public class JottTokenizer {
 
+    public static void main(String[] args) {
+        System.out.println("About to try to parse try 3");
+        ArrayList<Token> t = tokenize("tokenizerTestCases\\relOpsTokens.jott");
+        System.out.println(t);
+    }
+
 	/**
      * Takes in a filename and tokenizes that file into Tokens
      * based on the rules of the Jott Language
@@ -36,14 +33,19 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
+        System.out.println("Parsing started");
 		ArrayList<Token>tokens = new ArrayList<>();
         Stack<Character> stack = new Stack<>();
+        System.out.println("About to enter reading, no print statement in the function after this one works");
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
+            System.out.println(jotReader);
             int linenumber = 1;
+            System.out.println(linenumber);
             while((line = jotReader.readLine())!=null)
             {
+                System.out.println(linenumber);
 
                 if(line.contains("#"))
                 {
