@@ -22,7 +22,7 @@ public class JottTokenizer {
 
     public static void main(String[] args) {
         System.out.println("About to try to parse try 3");
-        ArrayList<Token> t = tokenize("tokenizerTestCases\\mathOpsTest.jott");
+        ArrayList<Token> t = tokenize("tokenizerTestCases\\singleCharTokens.jott");
         for(int i = 0; i < t.size(); i++)
         {
             System.out.println(t.get(i).getToken());
@@ -72,7 +72,7 @@ public class JottTokenizer {
                         uniquetoken = "";
                         continue;
                     }
-                    if(uniquetoken.equals(":") ||i == line.length()-1)
+                    if(line.charAt(i)==':'||i == line.length()-1)
                     {
                         Colon colon = new Colon(filename, linenumber);
                         tokens.add(colon);
@@ -85,13 +85,7 @@ public class JottTokenizer {
                         
                         if(uniquetoken.contains("="))
                         {
-                            if(uniquetoken.length()==1)
-                            {
-                                Token assign = new Assign(filename, linenumber);
-                                tokens.add(assign);
-                                uniquetoken = "";
-                                continue;
-                            }
+                            
                             if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!="))
                             {
                                 RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
@@ -146,6 +140,13 @@ public class JottTokenizer {
                         {
                             continue;
                         }
+                    }
+                    if(line.charAt(i)=='=')
+                    {
+                        Token assign = new Assign(filename, linenumber);
+                        tokens.add(assign);
+                        uniquetoken = "";
+                        continue;
                     }
                     if(line.charAt(i)=='+'||line.charAt(i)=='-' || line.charAt(i)=='/' || line.charAt(i)=='*' || i == line.length()-1)
                     {
