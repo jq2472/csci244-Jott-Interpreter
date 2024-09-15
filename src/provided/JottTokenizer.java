@@ -22,7 +22,7 @@ public class JottTokenizer {
 
     public static void main(String[] args) {
         System.out.println("About to try to parse try 3");
-        ArrayList<Token> t = tokenize("tokenizerTestCases\\number.jott");
+        ArrayList<Token> t = tokenize("tokenizerTestCases\\strings.jott");
         for(int i = 0; i < t.size(); i++)
         {
             System.out.println(t.get(i).getToken());
@@ -65,7 +65,14 @@ public class JottTokenizer {
                     {
                         uniquetoken += String.valueOf(line.charAt(i));
                     }
-                    
+                    if(uniquetoken.equals(".") && i == line.length()-1)
+                    {
+                        tokens.clear();
+                        System.err.println("Invalid syntax");
+                        System.err.println("Expecting a float");
+                        System.err.println(filename+".jott:"+linenumber);
+                        break;
+                    }
                     if(uniquetoken.equals("!"))
                     {
                         tokens.clear();
