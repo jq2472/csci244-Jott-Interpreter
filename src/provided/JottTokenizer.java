@@ -22,7 +22,7 @@ public class JottTokenizer {
 
     public static void main(String[] args) {
         System.out.println("About to try to parse try 3");
-        ArrayList<Token> t = tokenize("tokenizerTestCases\\errorTokens3.jott");
+        ArrayList<Token> t = tokenize("tokenizerTestCases\\phase1Example.jott");
         for(int i = 0; i < t.size(); i++)
         {
             System.out.println(t.get(i).getToken()+" "+ t.get(i).getTokenType());
@@ -60,8 +60,8 @@ public class JottTokenizer {
                 for(int i = 0; i < line.length(); i++)
                 {
                    
-                    
-                    if(i == line.length()-1)
+                    boolean singlecharboolean = line.charAt(i) == ',' || line.charAt(i)=='[' ||line.charAt(i)==']'||line.charAt(i)=='{' || line.charAt(i)=='}'|| line.charAt(i)==';'|| line.charAt(i)==':'||line.charAt(i)=='=';
+                    if(i == line.length()-1 && !(singlecharboolean))
                     {
                         uniquetoken += String.valueOf(line.charAt(i));
                     }
@@ -134,6 +134,10 @@ public class JottTokenizer {
                             IdKeyword idKeyword = new IdKeyword(uniquetoken, filename, linenumber);
                             tokens.add(idKeyword);
                             uniquetoken = "";
+                            if(i == line.length() -1 && !(Character.isLetter(line.charAt(i))))
+                            {
+                                solvetokenconcat(String.valueOf(line.charAt(i)), tokens, filename, linenumber, stack);
+                            }
                             continue;
                         }
                         
@@ -156,27 +160,50 @@ public class JottTokenizer {
                             continue;
                         }
                     }
-                    
                     if(line.charAt(i)=='+'||line.charAt(i)=='-' || line.charAt(i)=='/' || line.charAt(i)=='*')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                            if(i == line.length() - 1)
+                            {
+                                continue;
+                            }
+                            
+                        }
                         MathOp mathop = new MathOp(String.valueOf(line.charAt(i)), filename, linenumber);
                         tokens.add(mathop);
                         uniquetoken = "";
                         continue;
                     }
-                    if(line.charAt(i) == '[')
+                    if(line.charAt(i) == '{')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
                         LBrace lBrace = new LBrace(filename, linenumber);
                         tokens.add(lBrace);
                         stack.push(line.charAt(i));
                         uniquetoken = "";
                         continue;
                     }
-                    if(line.charAt(i)== ']')
+                    if(line.charAt(i)== '}')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
                         if(stack.isEmpty())
                         {
+                            tokens.clear();
+                            System.err.println("Invalid syntax");
                             System.err.println("Incorrect syntax of braces");
+                            System.err.println(filename+".jott:"+linenumber);
+                            break;
                         }
                         else
                         {
@@ -187,16 +214,27 @@ public class JottTokenizer {
                             continue;
                         }
                     }
-                    if(line.charAt(i)=='{')
+                    if(line.charAt(i)=='[')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
 
                         LBracket lBracket = new LBracket(filename, linenumber);
                         tokens.add(lBracket);
                         stack.push(line.charAt(i));
                         uniquetoken = "";
+                        continue;
                     }
-                    if(line.charAt(i)=='}')
+                    if(line.charAt(i)==']')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
                         if(stack.isEmpty())
                         {
                             System.err.println("Incorrect syntax of braces");
@@ -212,6 +250,11 @@ public class JottTokenizer {
                     }
                     if(line.charAt(i)==';')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
                         Semicolon semicolon = new Semicolon(filename, linenumber);
                         tokens.add(semicolon);
                         uniquetoken = "";
@@ -219,6 +262,11 @@ public class JottTokenizer {
                     }
                     if(line.charAt(i) == ',')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
                         Comma comma = new Comma(filename, linenumber);
                         tokens.add(comma);
                         uniquetoken = "";
@@ -226,13 +274,24 @@ public class JottTokenizer {
                     }
                     if(line.charAt(i)==':')
                     {
+                        if(!(uniquetoken.isEmpty()))
+                        {
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                            uniquetoken = "";
+                        }
                         Colon colon = new Colon(filename, linenumber);
                         tokens.add(colon);
                         uniquetoken = "";
                         continue;
                     }
                     
-                    uniquetoken += String.valueOf(line.charAt(i));
+                    if(i == line.length() - 1)
+                    {
+                        continue;
+                    }
+                    else{
+                        uniquetoken += String.valueOf(line.charAt(i));
+                    }
                     
 
                     
@@ -249,4 +308,90 @@ public class JottTokenizer {
         return tokens;
 
 	}
+    private static ArrayList<Token> solvetokenconcat(String token, ArrayList<Token>tokens, String filename, int linenumber, Stack<Character> stack)
+    {
+        switch(token)
+        {
+            case "=":
+                Assign assign = new Assign(filename, linenumber);
+                tokens.add(assign);
+                break;
+            case "+":
+            case "-":
+            case "/":
+            case "*":
+                MathOp mathOp = new MathOp(token, filename, linenumber);
+                tokens.add(mathOp);
+                break;
+            case "{":
+                LBrace lBrace = new LBrace(filename, linenumber);
+                tokens.add(lBrace);
+                stack.push('[');
+                break;
+            case "}":
+                if(stack.isEmpty())
+                {
+                    tokens.clear();
+                    System.err.println("Invalid syntax");
+                    System.err.println("Incorrect syntax of braces");
+                    System.err.println(filename+".jott:"+linenumber);
+                    
+                }
+                else
+                {
+                    RBrace rBrace = new RBrace(filename, linenumber);
+                    tokens.add(rBrace);
+                    stack.pop();
+                }
+                break;
+            case "[":
+                LBracket lBracket = new LBracket(filename, linenumber);
+                tokens.add(lBracket);
+                stack.push('{');
+                break;
+            case "]":
+                RBracket rBracket = new RBracket(filename, linenumber);
+                tokens.add(rBracket);
+                stack.pop();
+                break;
+            case ";":
+                Semicolon semicolon = new Semicolon(filename, linenumber);
+                tokens.add(semicolon);
+                break;
+            case ",":
+                Comma comma = new Comma(filename, linenumber);
+                tokens.add(comma);
+                break;
+            case ":": 
+                Colon colon = new Colon(filename, linenumber);
+                tokens.add(colon);
+                break;
+            case "::":
+                FcHeader fcHeader = new FcHeader(token, filename, linenumber);
+                tokens.add(fcHeader);
+                break;
+            default:
+                if(Character.isLetter(token.charAt(0)))
+                {
+                    IdKeyword idKeyword = new IdKeyword(token, filename, linenumber);
+                    tokens.add(idKeyword);
+                }
+                else if(token.contains(".") || Character.isDigit(token.charAt(0)))
+                {
+                    NumberToken numberToken = new NumberToken(token, filename, linenumber);
+                    tokens.add(numberToken);
+                }
+                else if (token.startsWith("\"") && token.endsWith("\"")) {
+                    StringToken stringToken = new StringToken(token, filename, linenumber);
+                    tokens.add(stringToken);
+                }
+                else{
+                    System.err.println("Unknown token:" + token);
+                }
+                
+        }
+
+
+        return tokens;
+    }
 }
