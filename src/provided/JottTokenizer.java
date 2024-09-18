@@ -61,9 +61,16 @@ public class JottTokenizer {
                 {
                    
                     boolean singlecharboolean = line.charAt(i) == ',' || line.charAt(i)=='[' ||line.charAt(i)==']'||line.charAt(i)=='{' || line.charAt(i)=='}'|| line.charAt(i)==';'|| line.charAt(i)==':'||line.charAt(i)=='=';
+                    
                     if(i == line.length()-1 && !(singlecharboolean))
                     {
                         uniquetoken += String.valueOf(line.charAt(i));
+                    }
+                    if(line.charAt(i)=='=' && i == line.length() -1)
+                    {
+                        uniquetoken +=String.valueOf(line.charAt(i));
+                        solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                        continue;
                     }
                     if(uniquetoken.equals(".") && i == line.length()-1)
                     {
@@ -75,6 +82,7 @@ public class JottTokenizer {
                     }
                     if(uniquetoken.equals("!") && i == line.length()-1)
                     {
+                        
                         tokens.clear();
                         System.err.println("Invalid syntax");
                         System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
@@ -92,6 +100,15 @@ public class JottTokenizer {
 
                     if(line.charAt(i)==' ' || i == line.length()-1)
                     {   
+                        if(uniquetoken.isEmpty())
+                        {
+                            if(singlecharboolean)
+                            {
+                                solvetokenconcat(String.valueOf(line.charAt(i)), tokens, filename, linenumber, stack);
+                            
+                            }
+                            continue;
+                        }
                         
                         if(uniquetoken.equals("=") )
                         {
@@ -155,10 +172,7 @@ public class JottTokenizer {
                                 continue;
                             }
                         }
-                        if(uniquetoken.isEmpty())
-                        {
-                            continue;
-                        }
+                        
                     }
                     if(line.charAt(i)=='+'||line.charAt(i)=='-' || line.charAt(i)=='/' || line.charAt(i)=='*')
                     {
@@ -279,11 +293,21 @@ public class JottTokenizer {
                             solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
                             uniquetoken = "";
                         }
-                        Colon colon = new Colon(filename, linenumber);
-                        tokens.add(colon);
-                        uniquetoken = "";
-                        continue;
+                        if(line.charAt(i+1)==':')
+                        {
+                            uniquetoken += String.valueOf(line.charAt(i));
+                            continue;
+                        }
+                        else
+                        {
+                            Colon colon = new Colon(filename, linenumber);
+                            tokens.add(colon);
+                            uniquetoken = "";
+                            continue;
+                        }
+                            
                     }
+                    
                     
                     if(i == line.length() - 1)
                     {
@@ -384,6 +408,11 @@ public class JottTokenizer {
                 else if (token.startsWith("\"") && token.endsWith("\"")) {
                     StringToken stringToken = new StringToken(token, filename, linenumber);
                     tokens.add(stringToken);
+                }
+                else if(token.equals("==") || token.equals(">=") || token.equals("<=") || token.equals("!="))
+                {
+                    RelOp relOp = new RelOp(token, filename, linenumber);
+                    tokens.add(relOp);
                 }
                 else{
                     System.err.println("Unknown token:" + token);
