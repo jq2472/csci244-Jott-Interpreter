@@ -1,7 +1,0 @@
-#this is an example
-Def main[]:Void{
-    ::print[5;
-    If[ x ! 5 ]{
-        ::print[ 10 ];
-    }
-}
