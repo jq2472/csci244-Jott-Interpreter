@@ -270,23 +270,31 @@ public class JottTokenizer {
                             uniquetoken += String.valueOf(line.charAt(i));
                             continue;
                         }
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            if(uniquetoken.contains(":"))
-                            {
-                                uniquetoken+=String.valueOf(line.charAt(i));
-                            }
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-
                         else
                         {
-                            Colon colon = new Colon(filename, linenumber);
-                            tokens.add(colon);
+                            uniquetoken += String.valueOf(line.charAt(i));
+                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
                             uniquetoken = "";
                             continue;
+                            
                         }
+                        // if(!(uniquetoken.isEmpty()))
+                        // {
+                        //     if(uniquetoken.contains(":"))
+                        //     {
+                        //         uniquetoken+=String.valueOf(line.charAt(i));
+                        //     }
+                        //     solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                        //     uniquetoken = "";
+                        // }
+
+                        // else
+                        // {
+                        //     Colon colon = new Colon(filename, linenumber);
+                        //     tokens.add(colon);
+                        //     uniquetoken = "";
+                        //     continue;
+                        // }
 
                     }
 
