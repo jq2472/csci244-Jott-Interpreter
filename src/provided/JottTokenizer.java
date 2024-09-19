@@ -24,6 +24,7 @@ public class JottTokenizer {
             int linenumber = 1;
 
             System.out.println(linenumber);
+            outerloop:
             while((line = jotReader.readLine())!=null)
             {
                 System.out.println(linenumber);
@@ -57,14 +58,33 @@ public class JottTokenizer {
                         System.err.println(filename+".jott:"+linenumber);
                         break;
                     }
-                    if(uniquetoken.equals("!") && i == line.length()-1)
+                    if(uniquetoken.equals("!"))
                     {
-
-                        tokens.clear();
-                        System.err.println("Invalid syntax");
-                        System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
-                        System.err.println(filename+".jott:"+linenumber);
-                        break;
+                        if(i == line.length()-1)
+                        {
+                            tokens.clear();
+                            System.err.println("Invalid syntax");
+                            System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
+                            System.err.println(filename+".jott:"+linenumber);
+                            break;
+                        }
+                        else
+                        {
+                            if(line.charAt(i+1)=='=')
+                            {
+                                uniquetoken += String.valueOf(line.charAt(i));
+                                continue;
+                            }
+                            else
+                            {
+                                tokens.clear();
+                                System.err.println("Invalid syntax");
+                                System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
+                                System.err.println(filename+".jott:"+linenumber);
+                                break outerloop;
+                            }
+                        }
+                        
                     }
                     if(uniquetoken.equals("::"))
                     {//sees / as a funch header for some reason
