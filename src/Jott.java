@@ -1,11 +1,8 @@
 import provided.JottTokenizer;
 import provided.Token;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 public class Jott {
 
     public static void test_tokenizer(){
