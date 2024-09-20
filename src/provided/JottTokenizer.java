@@ -22,6 +22,7 @@ public class JottTokenizer {
             String line;
             System.out.println(jotReader);
             int linenumber = 1;
+            boolean quoteread = false;
 
             System.out.println(linenumber);
             outerloop:
@@ -50,7 +51,7 @@ public class JottTokenizer {
                         solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
                         continue;
                     }
-                    if(uniquetoken.equals(".") && i == line.length()-1)
+                    if(uniquetoken.equals("."))
                     {
                         if(i == line.length()-1)
                         {
@@ -137,8 +138,31 @@ public class JottTokenizer {
                         }
                         if(uniquetoken.contains("\""))
                         {
+                            if (quoteread){
+                                if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
+                            {
+                                quoteread = false;
+                                StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
+                                tokens.add(stringToken);
+                                uniquetoken = "";
+                                continue;
+                            }
+                            }
+                            if (!quoteread){
+                                String substring = line.substring(i+1);
+                                if (!substring.contains("\"")){
+                                    tokens.clear();
+                                    System.out.println("Invalid Syntax");
+                                    System.out.println("opened quotes \" must be closed on the same line");
+                                    System.err.println(filename+".jott:"+linenumber);
+                                    return null;
+                                }
+                                quoteread=true;
+                                
+                            }
                             if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
                             {
+                                quoteread = true;
                                 StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
                                 tokens.add(stringToken);
                                 uniquetoken = "";
