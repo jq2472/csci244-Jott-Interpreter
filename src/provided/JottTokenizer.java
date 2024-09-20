@@ -140,13 +140,13 @@ public class JottTokenizer {
                         {
                             if (quoteread){
                                 if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
-                            {
-                                quoteread = false;
-                                StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
-                                tokens.add(stringToken);
-                                uniquetoken = "";
-                                continue;
-                            }
+                                {
+                                    quoteread = false;
+                                    StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
+                                    tokens.add(stringToken);
+                                    uniquetoken = "";
+                                    continue;
+                                }
                             }
                             if (!quoteread){
                                 String substring = line.substring(i+1);
