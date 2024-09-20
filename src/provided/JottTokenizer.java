@@ -369,6 +369,15 @@ public class JottTokenizer {
         return tokens;
 
 	}
+    /**
+     * 
+     * @param token The current token that is being tested in the switch cases
+     * @param tokens Arraylist of tokens that will append a current token.
+     * @param filename the name of the file to tokenize; can be relative or absolute path
+     * @param linenumber The current linenumber that loop is on.
+     * @param stack Used to test for any braces, brackets.
+     * @return The arraylist of tokens so they can used further in the program.
+     */
     private static ArrayList<Token> solvetokenconcat(String token, ArrayList<Token>tokens, String filename, int linenumber, Stack<Character> stack)
     {
         switch(token)
