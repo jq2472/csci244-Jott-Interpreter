@@ -17,6 +17,7 @@ public class JottTokenizer {
 		ArrayList<Token>tokens = new ArrayList<>();
         Stack<Character> stack = new Stack<>();
         System.out.println("About to enter reading, no print statement in the function after this one works");
+        //We will read the jott file
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
@@ -25,17 +26,18 @@ public class JottTokenizer {
             boolean quoteread = false;
 
             System.out.println(linenumber);
-            outerloop:
+            //This will go through ever line in the jott file.
             while((line = jotReader.readLine())!=null)
             {
                 System.out.println(linenumber);
-
+                //If there is # we skip that line moved to one that doesn't have a #.
                 if(line.contains("#"))
                 {
                     linenumber++;
                     continue;
                 }
                 String uniquetoken = "";
+                //This will for loop every character in the current line.
                 for(int i = 0; i < line.length(); i++)
                 {
 
@@ -91,16 +93,20 @@ public class JottTokenizer {
                         
                     }
                     if(uniquetoken.equals("::"))
-                    {//sees / as a funch header for some reason
+                    {
                         FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
                         tokens.add(fcHeader);
                         uniquetoken = "";
                         continue;
                     }
 
-
+                    /**
+                     * Check if the current character is a space, or it is the last character. 
+                     */
                     if(line.charAt(i)==' ' || i == line.length()-1)
                     {
+                        //Check if the current uniquetoken is empty, if it is, it will if current character is single character or not.
+                        //If it is, then it will call in solvetokenconcat to prevent any incorrect token concatenation from happening.
                         if(uniquetoken.isEmpty())
                         {
                             if(singlecharboolean)
@@ -110,7 +116,8 @@ public class JottTokenizer {
                             }
                             continue;
                         }
-
+                        //if uniquetoken is "=" then it uniquetoken will go to Assign token class and be added the tokens list.
+                        // uniquetoken become empty.
                         if(uniquetoken.equals("=") )
                         {
                             Token assign = new Assign(filename, linenumber);
@@ -118,7 +125,8 @@ public class JottTokenizer {
                             uniquetoken = "";
                             continue;
                         }
-
+                        //If uniquetoken is one of the relation operators with an = sign, then it go to RelOp token class and be added to the tokens list.
+                        //uniquetoken become empty.
                         if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!="))
                         {
                             RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
@@ -128,7 +136,8 @@ public class JottTokenizer {
 
                         }
 
-
+                        //If it is > or <, then it will go to RelOp token class and be added to tokens list.
+                        // uniquetoken then becomes empty.
                         if(uniquetoken.equals(">") || uniquetoken.contains("<"))
                         {
                             RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
@@ -136,6 +145,13 @@ public class JottTokenizer {
                             uniquetoken = "";
                             continue;
                         }
+                        /**
+                         * Check if there is quotes in the uniquetoken, if quoteread is true, then if check if there is both quotes in the token, if it si 
+                         * quoteread will be false, and it uniquetoken will be added to the string and uniquetoken is empty.
+                         * Next if statement if quoteread is false then it will get the substring of string ahead of current character. If it doesn't contain 
+                         * a quote in the the end, then at that is a syntax error and the program will stop and print out syntax error statment.
+                         * If the token has both quotes, then it is string that added to String token class and added to list, uniquetoken is now empty.
+                         */
                         if(uniquetoken.contains("\""))
                         {
                             if (quoteread){
@@ -345,7 +361,9 @@ public class JottTokenizer {
 
                     }
 
-
+                    //If i == line.length() - 1, we just continue due to getting the character early on so we can get the 
+                    //token.
+                    //Otherwise, we just add the character to the token.
                     if(i == line.length() - 1)
                     {
                         continue;
@@ -370,7 +388,9 @@ public class JottTokenizer {
 
 	}
     /**
-     * 
+     * solvetokenconcat is a method that is suppose to prevent any wrong concatenation from happening so we don't 
+     * get an incorrect token. For example, ::print is incorrect, we want to split those as :: and print.
+     * This function gets called several times to ensure we split the tokens up correctly.
      * @param token The current token that is being tested in the switch cases
      * @param tokens Arraylist of tokens that will append a current token.
      * @param filename the name of the file to tokenize; can be relative or absolute path
@@ -380,6 +400,10 @@ public class JottTokenizer {
      */
     private static ArrayList<Token> solvetokenconcat(String token, ArrayList<Token>tokens, String filename, int linenumber, Stack<Character> stack)
     {
+        /**
+         * We have a switch case that shows if a current token equals something. 
+         * This will allow us to add a current token instead of adding a character that does not belong with that tokne.
+         */
         switch(token)
         {
             case "=":
@@ -396,7 +420,7 @@ public class JottTokenizer {
             case "{":
                 LBrace lBrace = new LBrace(filename, linenumber);
                 tokens.add(lBrace);
-                stack.push('[');
+                stack.push('{');
                 break;
             case "}":
                 if(stack.isEmpty())
@@ -417,7 +441,7 @@ public class JottTokenizer {
             case "[":
                 LBracket lBracket = new LBracket(filename, linenumber);
                 tokens.add(lBracket);
-                stack.push('{');
+                stack.push('[');
                 break;
             case "]":
                 RBracket rBracket = new RBracket(filename, linenumber);
