@@ -17,6 +17,7 @@ public class JottTokenizer {
 		ArrayList<Token>tokens = new ArrayList<>();
         Stack<Character> stack = new Stack<>();
         System.out.println("About to enter reading, no print statement in the function after this one works");
+        //We will read the jott file
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
@@ -25,17 +26,18 @@ public class JottTokenizer {
             boolean quoteread = false;
 
             System.out.println(linenumber);
-            outerloop:
+            //This will go through ever line in the jott file.
             while((line = jotReader.readLine())!=null)
             {
                 System.out.println(linenumber);
-
+                //If there is # we skip that line moved to one that doesn't have a #.
                 if(line.contains("#"))
                 {
                     linenumber++;
                     continue;
                 }
                 String uniquetoken = "";
+                //This will for loop every character in the current line.
                 for(int i = 0; i < line.length(); i++)
                 {
 
@@ -345,7 +347,9 @@ public class JottTokenizer {
 
                     }
 
-
+                    //If i == line.length() - 1, we just continue due to getting the character early on so we can get the 
+                    //token.
+                    //Otherwise, we just add the character to the token.
                     if(i == line.length() - 1)
                     {
                         continue;
@@ -382,6 +386,10 @@ public class JottTokenizer {
      */
     private static ArrayList<Token> solvetokenconcat(String token, ArrayList<Token>tokens, String filename, int linenumber, Stack<Character> stack)
     {
+        /**
+         * We have a switch case that shows if a current token equals something. 
+         * This will allow us to add a current token instead of adding a character that does not belong with that tokne.
+         */
         switch(token)
         {
             case "=":
@@ -398,7 +406,7 @@ public class JottTokenizer {
             case "{":
                 LBrace lBrace = new LBrace(filename, linenumber);
                 tokens.add(lBrace);
-                stack.push('[');
+                stack.push('{');
                 break;
             case "}":
                 if(stack.isEmpty())
@@ -419,7 +427,7 @@ public class JottTokenizer {
             case "[":
                 LBracket lBracket = new LBracket(filename, linenumber);
                 tokens.add(lBracket);
-                stack.push('{');
+                stack.push('[');
                 break;
             case "]":
                 RBracket rBracket = new RBracket(filename, linenumber);
