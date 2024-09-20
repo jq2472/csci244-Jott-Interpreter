@@ -52,11 +52,14 @@ public class JottTokenizer {
                     }
                     if(uniquetoken.equals(".") && i == line.length()-1)
                     {
+                        if(i == line.length()-1)
+                        {
                         tokens.clear();
                         System.err.println("Invalid syntax");
                         System.err.println("Expecting a float");
                         System.err.println(filename+".jott:"+linenumber);
-                        break;
+                        return null;
+                        }
                     }
                     if(uniquetoken.equals("!"))
                     {
@@ -66,7 +69,7 @@ public class JottTokenizer {
                             System.err.println("Invalid syntax");
                             System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
                             System.err.println(filename+".jott:"+linenumber);
-                            break;
+                            return null;
                         }
                         else
                         {
@@ -81,7 +84,7 @@ public class JottTokenizer {
                                 System.err.println("Invalid syntax");
                                 System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
                                 System.err.println(filename+".jott:"+linenumber);
-                                break outerloop;
+                                return null;
                             }
                         }
                         
@@ -214,7 +217,7 @@ public class JottTokenizer {
                             System.err.println("Invalid syntax");
                             System.err.println("Incorrect syntax of braces");
                             System.err.println(filename+".jott:"+linenumber);
-                            break;
+                            return null;
                         }
                         else
                         {
