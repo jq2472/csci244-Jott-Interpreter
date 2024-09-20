@@ -5,6 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 public class Jott {
 
+    /**
+     * We are starting to run the tokenizer using a certain jott file. 
+     * We will print out the list of tokens based on its and its TokenType for confirmation that the tokenizer 
+     * ran and got all the appropriately tokens.
+     */
     public static void test_tokenizer(){
         System.out.println("About to try to parse try 3");
         String filepath = "tokenizerTestCases\\phase1Example.jott";

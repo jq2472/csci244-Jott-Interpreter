@@ -370,7 +370,9 @@ public class JottTokenizer {
 
 	}
     /**
-     * 
+     * solvetokenconcat is a method that is suppose to prevent any wrong concatenation from happening so we don't 
+     * get an incorrect token. For example, ::print is incorrect, we want to split those as :: and print.
+     * This function gets called several times to ensure we split the tokens up correctly.
      * @param token The current token that is being tested in the switch cases
      * @param tokens Arraylist of tokens that will append a current token.
      * @param filename the name of the file to tokenize; can be relative or absolute path
