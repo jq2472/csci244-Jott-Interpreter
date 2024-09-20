@@ -100,9 +100,13 @@ public class JottTokenizer {
                         continue;
                     }
 
-
+                    /**
+                     * Check if the current character is a space, or it is the last character. 
+                     */
                     if(line.charAt(i)==' ' || i == line.length()-1)
                     {
+                        //Check if the current uniquetoken is empty, if it is, it will if current character is single character or not.
+                        //If it is, then it will call in solvetokenconcat to prevent any incorrect token concatenation from happening.
                         if(uniquetoken.isEmpty())
                         {
                             if(singlecharboolean)
@@ -112,7 +116,8 @@ public class JottTokenizer {
                             }
                             continue;
                         }
-
+                        //if uniquetoken is "=" then it uniquetoken will go to Assign token class and be added the tokens list.
+                        // uniquetoken become empty.
                         if(uniquetoken.equals("=") )
                         {
                             Token assign = new Assign(filename, linenumber);
@@ -120,7 +125,8 @@ public class JottTokenizer {
                             uniquetoken = "";
                             continue;
                         }
-
+                        //If uniquetoken is one of the relation operators with an = sign, then it go to RelOp token class and be added to the tokens list.
+                        //uniquetoken become empty.
                         if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!="))
                         {
                             RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
@@ -130,7 +136,8 @@ public class JottTokenizer {
 
                         }
 
-
+                        //If it is > or <, then it will go to RelOp token class and be added to tokens list.
+                        // uniquetoken then becomes empty.
                         if(uniquetoken.equals(">") || uniquetoken.contains("<"))
                         {
                             RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
@@ -138,6 +145,13 @@ public class JottTokenizer {
                             uniquetoken = "";
                             continue;
                         }
+                        /**
+                         * Check if there is quotes in the uniquetoken, if quoteread is true, then if check if there is both quotes in the token, if it si 
+                         * quoteread will be false, and it uniquetoken will be added to the string and uniquetoken is empty.
+                         * Next if statement if quoteread is false then it will get the substring of string ahead of current character. If it doesn't contain 
+                         * a quote in the the end, then at that is a syntax error and the program will stop and print out syntax error statment.
+                         * If the token has both quotes, then it is string that added to String token class and added to list, uniquetoken is now empty.
+                         */
                         if(uniquetoken.contains("\""))
                         {
                             if (quoteread){
