@@ -1,5 +1,6 @@
 package grammar;
 
-public class operand {
+public interface operand {
+
     
 }
