@@ -13,23 +13,23 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-        System.out.println("Parsing started");
+        
 		ArrayList<Token>tokens = new ArrayList<>();
         Stack<Character> stack = new Stack<>();
-        System.out.println("About to enter reading, no print statement in the function after this one works");
+        
         //We will read the jott file
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
-            System.out.println(jotReader);
+            
             int linenumber = 1;
             boolean quoteread = false;
 
-            System.out.println(linenumber);
+            
             //This will go through ever line in the jott file.
             while((line = jotReader.readLine())!=null)
             {
-                System.out.println(linenumber);
+                
                 //If there is # we skip that line moved to one that doesn't have a #.
                 if(line.contains("#"))
                 {
