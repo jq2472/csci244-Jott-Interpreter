@@ -1,5 +1,5 @@
 package grammar;
 
-public class expr {
+public interface expr {
     
 }

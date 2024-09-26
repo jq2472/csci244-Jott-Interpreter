@@ -1,5 +1,5 @@
 package grammar;
 
-public class body_stmt {
+public interface body_stmt {
     
 }
