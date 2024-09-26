@@ -11,7 +11,7 @@ public class Jott {
      * ran and got all the appropriately tokens.
      */
     public static void test_tokenizer(){
-        System.out.println("About to try to parse try 3");
+        
         String filepath = "tokenizerTestCases\\phase1Example.jott";
         ArrayList<Token> t = JottTokenizer.tokenize(filepath);
         // print tokens
@@ -30,7 +30,7 @@ public class Jott {
      * @throws FileNotFoundException if the machine file is not found
      */
     public static void main(String[] args) throws FileNotFoundException {
-        System.out.print("Yeeee")
+        
 ;        // determine input source
 //        Scanner input = null;
 //        if (args.length == 0) {
