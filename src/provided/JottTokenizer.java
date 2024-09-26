@@ -93,7 +93,7 @@ public class JottTokenizer {
                         
                     }
                     if(uniquetoken.equals("::"))
-                    {//sees / as a funch header for some reason
+                    {
                         FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
                         tokens.add(fcHeader);
                         uniquetoken = "";
