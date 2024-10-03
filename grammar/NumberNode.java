@@ -27,7 +27,9 @@ public class NumberNode implements OperandNode {
         return newNumNode;
 
     }
-
+    /**
+     * @return the NumberNode instance to a string. We get the token out of NumberNode
+     */
     @Override
     public String convertToJott() {
         return "" + this.value.getToken();
