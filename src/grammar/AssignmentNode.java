@@ -1,7 +1,7 @@
 package grammar;
 import provided.JottTree;
 
-public class asmt {
+public class AssignmentNode {
 
     
 

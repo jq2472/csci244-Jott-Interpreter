@@ -49,11 +49,11 @@ public interface ExprNode extends JottTree {
             case NUMBER:
                 return NumberNode.parseOperandNode(tokens);
             case STRING:
-
+                
             case REL_OP:
-
+                
             case MATH_OP:
-
+                
             
             default:
                 throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
