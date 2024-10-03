@@ -2,7 +2,6 @@ package grammar;
 import java.util.ArrayList;
 import provided.*;
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
-
 /**
  * Represents an operand node in the Jott language, which can be expanded to:
  * < id >
