@@ -49,7 +49,7 @@ public interface ExprNode extends JottTree {
             case NUMBER:
                 return NumberNode.parseOperandNode(tokens);
             case STRING:
-
+                return StrLitNode.parseExprNode(tokens);
             case REL_OP:
 
             case MATH_OP:
