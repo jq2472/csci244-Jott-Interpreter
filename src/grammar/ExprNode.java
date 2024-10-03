@@ -1,30 +1,32 @@
 package grammar;
-import java.util.ArrayList;
+
 import provided.*;
+
+import java.util.ArrayList;
+
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 
 /**
- * Represents an operand node in the Jott language, which can be expanded to:
- * < id >
- * < num >
- * < func_call >
- * - < num >
- * Handles methods for parsing, converting to Jott, validating, and executing
- * each node's respective grammar rules.
+ * Represents an expression node in the Jott language, which can be expanded to:
+ * < operand > 
+ * < operand > < relop > < operand >
+ * < operand > < mathop > < operand > 
+ * < string_literal > 
+ * < bool >
  */
-public interface OperandNode extends JottTree  {
+public interface ExprNode extends JottTree {
 
-    public static final String ERROR_MESSAGE = "Expected: Operand Node";
-    
+    public static final String ERROR_MESSAGE = "Expected: Expression Node";
+
     /**
-     * Determines if the node is an IDNode, NumberNode, or FunctionCallNode
+     * Determines if the node is an OperandNode, RelopNode, MathopNode, StringNode, or BoolNode
      * and parses the node accordingly.
      * @param tokens
      * @return The proper Node type
      */
-    public static JottTree parseOperandNode(ArrayList<Token> tokens) {
+    public static JottTree parseExprNode(ArrayList<Token> tokens) {
         
-        checkIsNotEmpty(tokens);
+       checkIsNotEmpty(tokens);
 
         Token currentToken = tokens.get(0);
 
@@ -33,12 +35,25 @@ public interface OperandNode extends JottTree  {
             // might need to remove those additional checks in the future
             // why not just remove now? 
             // -> see < body_stmt > grammar rules doesn't call <operand> directly
+            // -> see < body_stmt > grammar rules doesn't call <operand> directly
             case ID_KEYWORD:
-                return IdNode.parseOperandNode(tokens);
+                // check if boolean
+                if (currentToken.getToken().equals("true") || currentToken.getToken().equals("false")) {
+                    // parse a boolean node
+
+                } else {
+                    return IdNode.parseOperandNode(tokens);
+                }
             case FC_HEADER:
                 return FunctionCallNode.parseOperandNode(tokens);
             case NUMBER:
                 return NumberNode.parseOperandNode(tokens);
+            case STRING:
+
+            case REL_OP:
+
+            case MATH_OP:
+
             
             default:
                 throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
@@ -53,14 +68,15 @@ public interface OperandNode extends JottTree  {
 
     /**
      * This will validate that the tree follows the semantic rules of Jott
-	 * Errors validating will be reported to System.err
+     * Errors validating will be reported to System.err
      * @return true if valid Jott code; false otherwise
      */
-    public boolean validateTree();
-	
-	/**
-	 * This will execute the Jott code represented by this JottTree node.
-	 */
-	public void execute();
+    public boolean validateTree();  
+    
+
+
+
+
+
 
 }
