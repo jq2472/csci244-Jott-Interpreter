@@ -32,7 +32,9 @@ public class IdNode implements OperandNode {
             return newIdNode;
         }
     }
-
+    /**
+     * @return idNode's name using getToken.
+     */
     @Override
     public String convertToJott() {
         return "" + this.idName.getToken();  
