@@ -53,6 +53,7 @@ public interface ExprNode extends JottTree {
             case REL_OP:
                 
             case MATH_OP:
+                return MathOp.parseExprNode(tokens);
                 
             
             default:
