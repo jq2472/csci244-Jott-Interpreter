@@ -4,19 +4,18 @@ import static grammar.Helper.checkTokenType;
 
 import java.util.ArrayList;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 
-public class AssignmentNode {
+public class AssignmentNode implements BodyStmt{
     private Token value;
 
     public AssignmentNode(Token value) {
         this.value = value;
     }
     
-    public static AssignmentNode AssignmentNode(ArrayList<Token>tokens){
+    public static AssignmentNode parseAssignmentNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ASSIGN);
         AssignmentNode asgNode = new AssignmentNode(tokens.get(0));

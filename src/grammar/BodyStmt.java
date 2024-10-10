@@ -39,7 +39,7 @@ public interface BodyStmt extends JottTree {
                     return null;//while_loop parser
                 }
             case ASSIGN:
-                return AssignmentNode.parseOperandNode(tokens);
+                return AssignmentNode.parseAssignmentNode(tokens);
             case FC_HEADER:
                 return null;//func_call
                 
