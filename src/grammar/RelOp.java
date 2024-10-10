@@ -13,7 +13,7 @@ public class RelOp implements ExprNode{
     
     public static RelOp parseRelOpNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
-        checkTokenType(tokens, TokenType.MATH_OP);
+        checkTokenType(tokens, TokenType.REL_OP);
         RelOp RelOpToken = new RelOp(tokens.get(0));
         tokens.remove(0);
         return RelOpToken;

@@ -1,6 +1,13 @@
 package grammar;
+import static grammar.Helper.checkIsNotEmpty;
+import static grammar.Helper.checkTokenType;
+
+import java.util.ArrayList;
+
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
+
 
 public class AssignmentNode {
     private Token value;
@@ -9,6 +16,26 @@ public class AssignmentNode {
         this.value = value;
     }
     
+    public static AssignmentNode AssignmentNode(ArrayList<Token>tokens){
+        checkIsNotEmpty(tokens);
+        checkTokenType(tokens, TokenType.ASSIGN);
+        AssignmentNode asgNode = new AssignmentNode(tokens.get(0));
+        return asgNode;
+
+    }
+
+    public String convertToJott() {
+        return "" + this.value.getToken();
+    }
+
+    public boolean validateTree() {//TODO
+        return true;
+    }
+
+    public void execute() { //TODO
+        System.out.println("Executing NumberNode");
+    }
+
 
     
 }
