@@ -41,7 +41,7 @@ public interface BodyStmt extends JottTree {
             case ASSIGN:
                 return AssignmentNode.parseAssignmentNode(tokens);
             case FC_HEADER:
-                return null;//func_call, already have this, create call
+                return FunctionCallNode.parseOperandNode(tokens);
                 
             
             default:
