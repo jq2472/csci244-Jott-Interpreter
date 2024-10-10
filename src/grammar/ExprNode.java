@@ -54,8 +54,6 @@ public interface ExprNode extends JottTree {
                 return RelOp.parseRelOpNode(tokens);
             case MATH_OP:
                 return MathOp.parseMathOpNode(tokens);
-            case ASSIGN:
-                return (JottTree) AssignmentNode.AssignmentNode(tokens);
                 
             
             default:
