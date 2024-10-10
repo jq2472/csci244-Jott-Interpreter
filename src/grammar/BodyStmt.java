@@ -21,9 +21,9 @@ public interface BodyStmt extends JottTree {
      * @param tokens
      * @return The proper Node type
      */
-    public static JottTree parseExprNode(ArrayList<Token> tokens) {
+    public static JottTree parseBodyStmt(ArrayList<Token> tokens) {
         
-       checkIsNotEmpty(tokens);
+        checkIsNotEmpty(tokens);
 
         Token currentToken = tokens.get(0);
 
@@ -41,7 +41,7 @@ public interface BodyStmt extends JottTree {
             case ASSIGN:
                 return AssignmentNode.parseAssignmentNode(tokens);
             case FC_HEADER:
-                return null;//func_call
+                return null;//func_call, already have this, create call
                 
             
             default:
