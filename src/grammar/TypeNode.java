@@ -1,43 +1,49 @@
 package grammar;
 import provided.*;
+import java.util.ArrayList;
 
+import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class TypeNode implements JottTree{
-    public string typenodetype;
+    private Token typenodetype;
 
-    private static String ERROR_MESSAGE = "Error Parsing Type Node"
+    private static String ERROR_MESSAGE = "Error Parsing Type Node";
 
-    public static parseTypeNode(ArrayList<Token> tokens){
-        if (tokens.empty()){throw new IllegalArgumentException(ERROR_MESSAGE + ", Got Empty List");}
-
-        Token examToken = tokens[0]
-        tokens.remove[0];
-
-        if (examToken.type != ID_KEYWORD){throw new IllegalArgumentException(ERROR_MESSAGE+", Got: " + examToken.getTokenType().toString)}
-
-       
-        if (currentToken.string.equals("Double")){
-            typenodetype = "Double";
-            return tokens;
+    public TypeNode(Token typeString)
+    {
+        typenodetype = typeString;
+    }
+    public static TypeNode parseTypeNode(ArrayList<Token> tokens){
+        checkIsNotEmpty(tokens);
+        checkTokenType(tokens, TokenType.ID_KEYWORD);
+        
+        TypeNode typenode = new TypeNode(tokens.get(0));
+        if (tokens.get(0).getToken().equals("Double")){
+            
+            tokens.remove(0);
+            
         }
-        if (currentToken.string.equals("String")){
-            typenodetype = "String";
-            return tokens;
+        else if (tokens.get(0).getToken().equals("String")){
+            
+            tokens.remove(0);
+            
         }
-        if (currentToken.string.equals("Boolean")){
-            typenodetype = "Boolean";
-            return tokens;
+        else if (tokens.get(0).getToken().equals("Boolean")){
+            
+            tokens.remove(0);
         }
-        if (currentToken.string.equals("Integer")){
-            typenodetype = "Integer";
-            return tokens;
+        else if (tokens.get(0).getToken().equals("Integer")){
+            
+            tokens.remove(0);
         }
         else{
-            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for this node");
+            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for  node");
         }
+        return typenode;
+        
     }
     @Override
     public String convertToJott() {
-        return "" + this.idName.typenodetype;  
+        return "" + this.typenodetype.getToken();  
     }
 
     @Override
