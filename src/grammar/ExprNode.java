@@ -40,6 +40,7 @@ public interface ExprNode extends JottTree {
                 // check if boolean
                 if (currentToken.getToken().equals("true") || currentToken.getToken().equals("false")) {
                     // parse a boolean node
+                    return BooleanNode.parseExprNode(tokens);
 
                 } else {
                     return IdNode.parseOperandNode(tokens);
