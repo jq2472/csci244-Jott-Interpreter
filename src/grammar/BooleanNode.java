@@ -26,7 +26,7 @@ public class BooleanNode implements ExprNode{
     @Override
     public void execute() {
          // needs to be implemented
-         System.out.println("Executing StrLitNode");
+         System.out.println("Executing BooleanNode");
     }
     
     @Override

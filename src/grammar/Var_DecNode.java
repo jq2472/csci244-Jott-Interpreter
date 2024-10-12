@@ -34,7 +34,7 @@ public class Var_DecNode implements JottTree{
     @Override
     public void execute() {
         // needs to be implemented
-        System.out.println("Type Node");
+        System.out.println("Var_DecNode");
     }
     
 
