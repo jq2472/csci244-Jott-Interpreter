@@ -4,13 +4,10 @@ import java.util.ArrayList;
 
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 
-public class BodyNode implements JottTree{
-    private ArrayList<JottTree> elements;
-    public BodyNode(ArrayList<JottTree>elements)
-    {
-        this.elements = elements;
-    }
-    public BodyNode parsebodynode(ArrayList<Token>tokens) throws Exception
+public interface BodyNode extends JottTree{
+    
+    
+    public static ArrayList<JottTree> parsebodynode(ArrayList<Token>tokens) throws Exception
     {
         checkIsNotEmpty(tokens);
         ArrayList<JottTree> bodyTree = new ArrayList<>();
@@ -27,27 +24,15 @@ public class BodyNode implements JottTree{
             throw new Exception("Expected return statement but none found.");
         }
         bodyTree.add(returnStmtTree);
-        return new BodyNode(bodyTree);
+        return bodyTree;
     
     }
     @Override
-    public String convertToJott() {
-        String finalstr = "";
-        for(JottTree element: this.elements)
-        {
-            finalstr += element.convertToJott();
-        }
-        return finalstr;
-    }
+    public String convertToJott();
 
+    
+    public boolean validateTree();
     @Override
-    public boolean validateTree() {
-        return true;
-    }
-
-    @Override
-    public void execute() {
-        System.out.println("Body Node");
-    }
+    public void execute();
     
 }
