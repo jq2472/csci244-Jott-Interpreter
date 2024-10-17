@@ -53,7 +53,7 @@ public class ParamsNode implements JottTree {
             string.append(params.get(i));
             string.append(", ");
         }
-        string.append(params.getLast());
+        string.append(params.get(params.size()-1));
         }
         return string.toString();
     }
