@@ -20,8 +20,9 @@ public interface OperandNode extends JottTree  {
      * and parses the node accordingly.
      * @param tokens
      * @return The proper Node type
+     * @throws Exception 
      */
-    public static JottTree parseOperandNode(ArrayList<Token> tokens) {
+    public static JottTree parseOperandNode(ArrayList<Token> tokens) throws Exception {
         
         checkIsNotEmpty(tokens);
 
