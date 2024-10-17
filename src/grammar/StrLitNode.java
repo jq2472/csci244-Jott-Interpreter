@@ -33,13 +33,13 @@ public class StrLitNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
-        // needs to be implemented
+        // needs to be implemented in phase 3
         return true;
     }
 
     @Override
     public void execute() {
-        // needs to be implemented
+        // needs to be implemented in phase 3
         System.out.println("Executing StrLitNode");
     }
 
