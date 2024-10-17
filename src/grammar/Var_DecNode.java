@@ -13,8 +13,14 @@ public class Var_DecNode implements JottTree{
     }
     public static Var_DecNode parseVar_DecNode(ArrayList<Token>tokens)
     {
-        TypeNode typeNode = TypeNode.parseTypeNode(tokens);
+        //        < var_dec > -> < type > < id >;
+        TypeNode typeNode = TypeNode.parseTypeNode(tokens); // will check empty, etc. there
         IdNode idNode = IdNode.parseOperandNode(tokens);
+        // parse semicolon
+        checkIsNotEmpty(tokens);
+        checkTokenType(tokens, TokenType.SEMICOLON);
+        tokens.remove(0);
+
         Var_DecNode var_DecNode = new Var_DecNode(typeNode, idNode);
         return var_DecNode;
         
@@ -22,7 +28,13 @@ public class Var_DecNode implements JottTree{
     }
     @Override
     public String convertToJott() {
-        return this.typeNode.convertToJott()+""+this.idNode.convertToJott();
+//        < var_dec > -> < type > < id >;
+        StringBuilder typeNodeStr = new StringBuilder();
+        typeNodeStr.append(this.typeNode.convertToJott());
+        typeNodeStr.append(this.idNode.convertToJott());
+        typeNodeStr.append(";");
+
+        return typeNodeStr.toString();
     }
 
     @Override

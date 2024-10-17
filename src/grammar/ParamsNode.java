@@ -5,6 +5,9 @@ import provided.*;
 import java.lang.StringBuilder;
 
 public class ParamsNode implements JottTree {
+    /**
+     * < params_t > -> ,< expr
+     */
     private ArrayList<JottTree> params;
     public ParamsNode(ArrayList<JottTree> parameters){
         this.params = parameters;

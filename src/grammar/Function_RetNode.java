@@ -17,7 +17,7 @@ public class Function_RetNode implements JottTree{
         this.voidtoken = voidToken;
     }
     
-    public Function_RetNode parsfunctionRetNode(ArrayList<Token>tokens)
+    public Function_RetNode parsefunctionRetNode(ArrayList<Token>tokens)
     {
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
