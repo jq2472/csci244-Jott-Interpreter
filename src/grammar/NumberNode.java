@@ -7,9 +7,14 @@ import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class NumberNode implements OperandNode {
 
     private Token value;
+    private boolean negative;
 
     public NumberNode(Token value) {
         this.value = value;
+        negative = false;
+    }
+    public void negative(){
+        negative = true;
     }
 
     /**
@@ -32,6 +37,9 @@ public class NumberNode implements OperandNode {
      */
     @Override
     public String convertToJott() {
+        if (negative) {
+            return "-" + this.value.getToken();
+        }
         return "" + this.value.getToken();
     }
 

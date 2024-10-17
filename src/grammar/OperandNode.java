@@ -26,6 +26,7 @@ public interface OperandNode extends JottTree  {
         checkIsNotEmpty(tokens);
 
         Token currentToken = tokens.get(0);
+        
 
         switch (currentToken.getTokenType()) {
             // note: each case still checks again for empty/valid token type
@@ -38,6 +39,20 @@ public interface OperandNode extends JottTree  {
                 return FunctionCallNode.parseOperandNode(tokens);
             case NUMBER:
                 return NumberNode.parseOperandNode(tokens);
+            case MATH_OP:
+                if(currentToken.equals("-")){
+                    try {
+                        tokens.remove(0);
+                        Token nextToken = tokens.get(0);
+                        if (nextToken.getTokenType().equals(TokenType.NUMBER)) {
+                            NumberNode j  = NumberNode.parseOperandNode(tokens);
+                            j.negative();
+                            return j;
+                        }
+                    } catch (Exception e) {
+                        throw new IllegalArgumentException("Error Parsing Math_Op in OperandNode, no number following");
+                    }
+                }
             
             default:
                 throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
