@@ -37,7 +37,7 @@ public class AssignmentNode implements BodyStmt{
     }
 
     public String convertToJott() {
-        return this.id1.convertToJott() + " " + value.getToken() + " " + this.expresnode.convertToJott();
+        return this.id1.convertToJott() + " " + value.getToken() + " " + this.expresnode.convertToJott() + ";";
     }
 
     public boolean validateTree() {//TODO
