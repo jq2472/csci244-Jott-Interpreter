@@ -1,16 +1,22 @@
 package grammar;
-import provided.*;
-
 import static grammar.Helper.checkIsNotEmpty;
-
 import java.util.ArrayList;
+import provided.*;
 public class IfStatementNode implements BodyStmt{
     private JottTree condition;
     private ArrayList<JottTree> body;
-    //private ArrayList<ElseIfNode> elsenodes 
-    public IfStatementNode(JottTree cond, ArrayList<JottTree> bodylist){
+    private ArrayList<JottTree> elsenodes;
+    private JottTree finalelsenode; 
+    public IfStatementNode(JottTree cond, ArrayList<JottTree> bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
         condition = cond;
         body = bodylist;
+        if (!elseiflist.isEmpty()){
+            elsenodes = elseiflist;
+        }
+        else {elsenodes = null;}
+        if (finalelse !=null){
+            finalelsenode = finalelse;
+        }
     }
     public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
@@ -31,8 +37,19 @@ public class IfStatementNode implements BodyStmt{
                             ArrayList<JottTree> body = BodyNode.parsebodynode(tokens);
                             currentToken = tokens.get(0);
                             if (currentToken.getTokenType().equals(TokenType.R_BRACE)) {
-                                //TODO: elseif options
-                                return new IfStatementNode(cond, body);
+                                tokens.remove(0);
+                                currentToken = tokens.get(0);
+                                ArrayList<JottTree> elseifs = new ArrayList<>();
+                                while (currentToken.getToken().equals("ElseIf")){
+                                    ElseIfNode j = ElseIfNode.parseElseIfNode(tokens);
+                                    elseifs.add(j);
+                                }
+                                currentToken = tokens.get(0);
+                                if (currentToken.equals("Else")){
+                                    JottTree finalelse = ElseNode.parseelsenode(tokens);
+                                    return new IfStatementNode(cond, body, elseifs, finalelse);
+                                }
+                                return new IfStatementNode(cond, body, elseifs, null);
                             }
                             else{throw new IllegalArgumentException("Error Parsing If statement, after body should be closing brace");}
                         }
@@ -65,7 +82,7 @@ public class IfStatementNode implements BodyStmt{
     @Override
     public String convertToJott() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToJott'");
+        throw new UnsupportedOperationException("Unimplemented method 'convertToJott' in ifstatementnode");
     }
 
     @Override
