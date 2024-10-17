@@ -34,7 +34,8 @@ public class Function_RetNode implements JottTree{
         }
         else 
         {
-            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for  node");
+            System.err.println("Syntax Error");
+            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for node\n"+currToken.getFilename()+":"+currToken.getLineNum());
         }
 
         
