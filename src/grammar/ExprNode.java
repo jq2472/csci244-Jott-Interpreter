@@ -29,7 +29,8 @@ public interface ExprNode extends JottTree {
        checkIsNotEmpty(tokens);
 
         Token currentToken = tokens.get(0);
-
+        Token nextToken = tokens.get(1);
+        try{
         switch (currentToken.getTokenType()) {
             // note: each case still checks again for empty/valid token type
             // might need to remove those additional checks in the future
@@ -47,20 +48,39 @@ public interface ExprNode extends JottTree {
                 }
             case FC_HEADER:
                 return FunctionCallNode.parseOperandNode(tokens);
-            case NUMBER:
-                return NumberNode.parseOperandNode(tokens);
             case STRING:
                 return StrLitNode.parseExprNode(tokens);
-            case REL_OP:
-                return RelOp.parseRelOpNode(tokens);
-            case MATH_OP:
-                return MathOp.parseMathOpNode(tokens);
-                
-            
             default:
-                throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
+                if (nextToken.getTokenType().equals(TokenType.MATH_OP)){
+                    return parsemultistepJottTree(tokens, nextToken.getTokenType());
+                }
+                else if (nextToken.getTokenType().equals(TokenType.REL_OP)){
+
+                }
+                return OperandNode.parseOperandNode(tokens);
+                
+            }
+        }          
+        catch (Exception e) {
+            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
         }
     }
+
+    private static JottTree parsemultistepJottTree(ArrayList<Token> tokens, TokenType j){
+        
+        try {
+            if (j.equals(TokenType.MATH_OP)){
+                return MathOpContainerNode.parseMathOpContainerNode(tokens);
+            }
+            else if (j.equals(TokenType.REL_OP)) {
+                return RelOpContainerNode.parseRelOpContainerNode(tokens);
+            }
+            else {throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");}
+        } catch (Exception e) {
+            throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");
+        }
+    }
+
     
     /**
      * Will output a string of this tree in Jott
@@ -74,6 +94,7 @@ public interface ExprNode extends JottTree {
      * @return true if valid Jott code; false otherwise
      */
     public boolean validateTree();  
+}
     
 
 
@@ -81,4 +102,4 @@ public interface ExprNode extends JottTree {
 
 
 
-}
+
