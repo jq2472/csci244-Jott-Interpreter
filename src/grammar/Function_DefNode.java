@@ -14,8 +14,6 @@ public class Function_DefNode implements JottTree{
     public Function_DefNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        
-
     }
     
     // @Override

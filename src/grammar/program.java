@@ -12,7 +12,7 @@ public class Program implements JottTree{
     public static void main(ArrayList<Token> tokens){
 
         while(checkIsNotEmpty(tokens)){
-            
+            Function_DefNode.(tokens);
         }
     }
 

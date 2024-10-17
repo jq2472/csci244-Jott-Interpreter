@@ -19,6 +19,6 @@ public class JottParser {
      */
     public static JottTree parse(ArrayList<Token> tokens){
       // return the root of the tree represented by those tokens
-		return null;
+		  return null;
     }
 }
