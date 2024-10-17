@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 
 
-public class Program implements JottTree{
+public class program implements JottTree{
 
     public static void main(ArrayList<Token> tokens){
 
