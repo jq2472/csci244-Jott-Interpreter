@@ -20,8 +20,9 @@ public interface BodyStmt extends JottTree {
      * and parses the node accordingly.
      * @param tokens
      * @return The proper Node type
+     * @throws Exception 
      */
-    public static JottTree parseBodyStmt(ArrayList<Token> tokens) {
+    public static JottTree parseBodyStmt(ArrayList<Token> tokens) throws Exception {
         
         checkIsNotEmpty(tokens);
 
@@ -36,7 +37,7 @@ public interface BodyStmt extends JottTree {
                     return null;//if_stmt.java parser
 
                 } else if (currentToken.getToken().equals("While")){
-                    return null;//while_loop parser
+                    return While_LoopNode.parsWhile_LoopNode(tokens);
                 }
             case ASSIGN:
                 return AssignmentNode.parseAssignmentNode(tokens);
