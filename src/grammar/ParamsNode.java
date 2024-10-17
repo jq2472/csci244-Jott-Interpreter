@@ -12,6 +12,10 @@ public class ParamsNode implements JottTree {
     public static ParamsNode parseParamsNode(ArrayList<Token>tokens) throws Exception
     {
         checkIsNotEmpty(tokens);
+        Token currToken = tokens.get(0);
+        if (currToken.getTokenType().equals(TokenType.R_BRACKET)){
+            return new ParamsNode(new ArrayList<JottTree>());
+        }
 
         ArrayList<JottTree> paramstouse = new ArrayList<>();
         try {
@@ -22,7 +26,7 @@ public class ParamsNode implements JottTree {
             throw new Exception("Params need to be made up of comma seperated Expressions");
         }
         while (true) {
-            Token currToken = tokens.get(0);
+            currToken = tokens.get(0);
             if (currToken.getTokenType() != TokenType.COMMA){
                 break;
             }
@@ -44,9 +48,12 @@ public class ParamsNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder string = new StringBuilder();
-        for (int i = 0; i < params.size(); i++) {
+        if (!params.isEmpty()){
+        for (int i = 0; i < params.size()-1; i++) {
             string.append(params.get(i));
             string.append(", ");
+        }
+        string.append(params.getLast());
         }
         return string.toString();
     }
