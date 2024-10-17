@@ -22,7 +22,8 @@ public class Return_StmtNode implements JottTree{
             JottTree exprTree = ExprNode.parseExprNode(tokens);
             currToken = tokens.get(0);
             if (currToken.getTokenType() != TokenType.SEMICOLON) {
-                throw new Exception("Expected ';' after return expression");
+                
+                throw new Exception("Syntax Error\nExpected ';' after return expression\n"+currToken.getFilename()+":"+currToken.getLineNum());
             }
             tokens.remove(0);
             return new Return_StmtNode(exprTree);
