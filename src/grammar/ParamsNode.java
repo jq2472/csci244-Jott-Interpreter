@@ -12,6 +12,7 @@ public class ParamsNode implements JottTree {
     public static ParamsNode parseParamsNode(ArrayList<Token>tokens) throws Exception
     {
         checkIsNotEmpty(tokens);
+
         ArrayList<JottTree> paramstouse = new ArrayList<>();
         try {
             JottTree j = ExprNode.parseExprNode(tokens);
@@ -27,6 +28,7 @@ public class ParamsNode implements JottTree {
             }
             else{
                 try {
+                    tokens.remove(0);
                     JottTree j = ExprNode.parseExprNode(tokens);
                     paramstouse.add(j);
                 }
@@ -42,12 +44,10 @@ public class ParamsNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder string = new StringBuilder();
-        string.append("[ ");
         for (int i = 0; i < params.size(); i++) {
             string.append(params.get(i));
             string.append(", ");
         }
-        string.append("]");
         return string.toString();
     }
     @Override
