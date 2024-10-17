@@ -13,11 +13,11 @@ public class FunctionCallNode implements OperandNode {
     // < id >
     private IdNode functionName;
     // [ < params > ]
-    private ArrayList<ExprNode> parameters;
+    private ParamsNode parameters;
 
     // The operand interface's parseOperandNode()
     // expects the proper node type to be returned
-    public FunctionCallNode(IdNode functionName, ArrayList<ExprNode> parameters) {
+    public FunctionCallNode(IdNode functionName, ParamsNode parameters) {
         this.functionName = functionName;
         this.parameters = parameters;
     }
@@ -27,8 +27,9 @@ public class FunctionCallNode implements OperandNode {
      * Parses a FunctionCallNode from tokens.
      * @param tokens
      * @return The parsed Token representing the function call
+     * @throws Exception 
      */
-    public static FunctionCallNode parseOperandNode(ArrayList<Token> tokens) {
+    public static FunctionCallNode parseOperandNode(ArrayList<Token> tokens) throws Exception {
 
         checkIsNotEmpty(tokens);
 
@@ -48,7 +49,7 @@ public class FunctionCallNode implements OperandNode {
 
         // parse parameters, if any
         // * getParameters(tokens) not implemented yet
-        ArrayList<ExprNode> parameters = getParameters(tokens);
+        ParamsNode parameters = ParamsNode.parseParamsNode(tokens);
 
         // now expect a right bracket ] if tokens is not empty
         checkTokenType(tokens, TokenType.R_BRACKET);
@@ -74,9 +75,7 @@ public class FunctionCallNode implements OperandNode {
         if (parameters == null) {
             functionNodeStr.append(" ");
         } else {
-            for (ExprNode parameter : parameters) {
-                functionNodeStr.append(parameter.convertToJott());
-            }
+            parameters.convertToJott();
         }
         functionNodeStr.append(" ]");
         return functionNodeStr.toString();
@@ -94,24 +93,6 @@ public class FunctionCallNode implements OperandNode {
         System.out.println("Executing FunctionCallNode");
     }
 
-    
-    /**
-     * Use ParamNode class that implements ExprNode to get parameters
-     * @param tokens
-     * @return ArrayList<ExprNode> parameters
-     */
-    public static ArrayList<ExprNode> getParameters(ArrayList<Token> tokens) {
-        // Collect the function parameters
-        while (checkIsNotEmpty(tokens) && tokens.get(0).getTokenType() != TokenType.R_BRACKET) {
-            // param node not implemented yet: < params > -> < expr > < params_t >⋆ | ε
-            // Token parameters = ParamNode.parseExprNode(tokens);  
-            // return array list of parameters;
-            ArrayList<ExprNode> parameters = new ArrayList<ExprNode>();
-            System.out.println("Collecting parameters");
-            parameters.add(null);
-        }
-        return null;
-    }
 
     
 }
