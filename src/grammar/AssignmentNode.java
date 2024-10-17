@@ -27,6 +27,9 @@ public class AssignmentNode implements BodyStmt{
             Token y = currToken;
             JottTree expressionNode = ExprNode.parseExprNode(tokens);
             AssignmentNode asgNode = new AssignmentNode(idnode, y, expressionNode);
+            currToken = tokens.get(0);
+            checkTokenType(tokens, TokenType.SEMICOLON);
+            tokens.remove(0);
             return asgNode;
         } catch (Exception e) {
             throw new IllegalArgumentException("Error Parsing Assignment Node");
