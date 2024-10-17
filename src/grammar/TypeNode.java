@@ -49,13 +49,13 @@ public class TypeNode implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // needs to be implemented
+        // needs to be implemented phase 3
         return true;
     }
 
     @Override
     public void execute() {
-        // needs to be implemented
+        // needs to be implemented phase 3
         System.out.println("Type Node");
     }
 }

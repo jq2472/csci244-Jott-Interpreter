@@ -11,11 +11,16 @@ public class Function_DefNode implements JottTree{
         this.IDNode = IDNode;
     }
 
-    public Function_DefNode(ArrayList<Token>tokens){
+    // make another constructor
+
+    public static JottTree ParseFunctionDefnode (ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        
+        Token thisToken = tokens.get(0);
+        if (thisToken.getToken().equals("func_def_params")){
 
+        }
+        return null;
     }
     
     // @Override
