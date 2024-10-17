@@ -36,7 +36,8 @@ public class TypeNode implements JottTree{
             tokens.remove(0);
         }
         else{
-            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for  node");
+            throw new IllegalArgumentException("Syntax Error\n"+ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for node\n"+tokens.get(0).getFilename()+":"+tokens.get(0).getLineNum());
+            
         }
         return typenode;
         

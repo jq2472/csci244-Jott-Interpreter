@@ -1,13 +1,21 @@
 package grammar;
 import provided.*;
 import java.util.ArrayList;
-
+import static grammar.Helper.*;
 
 public class Function_DefNode implements JottTree{
     
+    private IdNode IDNode;
 
-    public Function_DefNode (ArrayList<String>tokens){
+    public Function_DefNode (IdNode IDNode){
+        this.IDNode = IDNode;
+    }
+
+    public Function_DefNode(ArrayList<Token>tokens){
+        checkIsNotEmpty(tokens);
+        checkTokenType(tokens, TokenType.ID_KEYWORD);
         
+
     }
     
     // @Override
