@@ -1,30 +1,43 @@
 package grammar;
 import static grammar.Helper.checkIsNotEmpty;
 import static grammar.Helper.checkTokenType;
-
 import java.util.ArrayList;
-
-import provided.Token;
-import provided.TokenType;
+import provided.*;
 
 
 public class AssignmentNode implements BodyStmt{
+    private JottTree id1;
     private Token value;
+    private JottTree expresnode;
 
-    public AssignmentNode(Token value) {
+
+    public AssignmentNode(JottTree idnode, Token value, JottTree expression) {
+        this.id1 = idnode;
         this.value = value;
+        this.expresnode = expression;
     }
     
     public static AssignmentNode parseAssignmentNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
-        checkTokenType(tokens, TokenType.ASSIGN);
-        AssignmentNode asgNode = new AssignmentNode(tokens.get(0));
-        return asgNode;
-
+        try {
+            JottTree idnode = IdNode.parseOperandNode(tokens);
+            Token currToken = tokens.get(0);
+            checkTokenType(tokens, TokenType.ASSIGN);
+            tokens.remove(0);
+            Token y = currToken;
+            JottTree expressionNode = ExprNode.parseExprNode(tokens);
+            AssignmentNode asgNode = new AssignmentNode(idnode, y, expressionNode);
+            currToken = tokens.get(0);
+            checkTokenType(tokens, TokenType.SEMICOLON);
+            tokens.remove(0);
+            return asgNode;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error Parsing Assignment Node");
+        }
     }
 
     public String convertToJott() {
-        return "" + this.value.getToken();
+        return this.id1.convertToJott() + " " + value.getToken() + " " + this.expresnode.convertToJott() + ";";
     }
 
     public boolean validateTree() {//TODO
