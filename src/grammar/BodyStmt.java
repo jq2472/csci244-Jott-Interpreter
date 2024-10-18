@@ -67,6 +67,7 @@ public interface BodyStmt extends JottTree {
      */
     public String convertToJott();
 
+    public String toString();
     /**
      * This will validate that the tree follows the semantic rules of Jott
      * Errors validating will be reported to System.err

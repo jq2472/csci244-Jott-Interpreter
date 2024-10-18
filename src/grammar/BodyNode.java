@@ -64,6 +64,10 @@ public class BodyNode implements JottTree {
         return sb.toString();
     }
 
+    public String toString() {
+        return " " + this.convertToJott();
+    }
+
     /**
      * This will validate that the tree follows the semantic rules of Jott
      * Errors validating will be reported to System.err
