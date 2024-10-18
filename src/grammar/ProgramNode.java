@@ -16,8 +16,8 @@ public class ProgramNode implements JottTree{
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception{
         ArrayList<JottTree> j = new ArrayList<>();
         System.out.println(tokens);
-        System.out.println(tokens.get(0));
-        while(tokens.get(0).getToken().equals("Def")){
+        System.out.println(tokens.get(0).toString());
+        while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
             System.out.println("ProgramNodeEntered");
             JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
             System.out.println(newfuncdef);
@@ -40,6 +40,9 @@ public class ProgramNode implements JottTree{
         return toreturn;
     }
 
+    public String toString() {
+        return this.convertToJott();
+    }
     @Override
     public boolean validateTree() {
         // TODO Auto-generated method stub
