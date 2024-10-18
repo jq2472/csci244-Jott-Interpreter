@@ -45,7 +45,7 @@ public class While_LoopNode implements JottTree{
         whileloopNodeStr.append(this.exprNode.convertToJott());
         whileloopNodeStr.append("]");
         whileloopNodeStr.append("{");
-        whileloopNodeStr.append(bodyNode.convertToJott());
+        whileloopNodeStr.append(this.bodyNode.convertToJott());
         whileloopNodeStr.append("}");
         return whileloopNodeStr.toString();
 

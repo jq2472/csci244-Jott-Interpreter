@@ -51,12 +51,12 @@ public class ParamsNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder string = new StringBuilder();
-        if (!params.isEmpty()){
-        for (int i = 0; i < params.size()-1; i++) {
-            string.append(params.get(i));
+        if (!this.params.isEmpty()){
+        for (int i = 0; i < this.params.size()-1; i++) {
+            string.append(this.params.get(i));
             string.append(", ");
         }
-        string.append(params.get(params.size()-1));
+        string.append(this.params.get(this.params.size()-1));
         }
         return string.toString();
     }

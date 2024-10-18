@@ -41,7 +41,7 @@ public class ElseIfNode implements JottTree{
         {
             StringBuilder elseNodeStr = new StringBuilder();
             elseNodeStr.append("ElseIf");
-            elseNodeStr.append(bodyNode.convertToJott());
+            elseNodeStr.append(this.bodyNode.convertToJott());
             return elseNodeStr.toString();
         }
         else{

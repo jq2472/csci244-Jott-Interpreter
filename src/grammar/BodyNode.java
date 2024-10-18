@@ -53,13 +53,13 @@ public class BodyNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder sb = new StringBuilder();
-        for (JottTree stmt : bodystatementArrayList) {
+        for (JottTree stmt : this.bodystatementArrayList) {
             sb.append(stmt.convertToJott());
             sb.append("\n"); // can rmv
         }
         // convert the return statement if it exists.
         if (returnnode != null) {
-            sb.append(returnnode.convertToJott());
+            sb.append(this.returnnode.convertToJott());
         }
         return sb.toString();
     }
