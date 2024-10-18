@@ -81,8 +81,20 @@ public class IfStatementNode implements BodyStmt{
 
     @Override
     public String convertToJott() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToJott' in ifstatementnode");
+        String j  = "If" + "[" + this.condition.convertToJott() + "]" + "{";
+        for (JottTree bodylines : body) {
+            j = j+ bodylines.convertToJott();
+        }
+        j = j+"}";
+        if (elsenodes.size()>0) {   
+        for (JottTree elseifs : elsenodes){
+            j = j + elseifs.convertToJott();
+        }
+        }
+        if (finalelsenode!=null) {
+            j = j+finalelsenode.convertToJott();
+        }
+        return j;
     }
 
     @Override
