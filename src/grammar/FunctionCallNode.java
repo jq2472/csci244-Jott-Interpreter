@@ -67,17 +67,17 @@ public class FunctionCallNode implements OperandNode {
         StringBuilder functionNodeStr = new StringBuilder();
 
         // fc header
-        functionNodeStr.append(":: ");
+        functionNodeStr.append("::");
         // <id>
         functionNodeStr.append(this.functionName.convertToJott());
         // [params]
-        functionNodeStr.append(" [ ");
+        functionNodeStr.append("[");
         if (this.parameters == null) {
-            functionNodeStr.append(" ");
+            functionNodeStr.append("");
         } else {
             functionNodeStr.append(this.parameters.convertToJott());
         }
-        functionNodeStr.append(" ]");
+        functionNodeStr.append("]");
 
         return String.valueOf(functionNodeStr);
     }
