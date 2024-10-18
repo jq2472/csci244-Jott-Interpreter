@@ -10,6 +10,7 @@ import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
  * Represents an expression node in the Jott language, which can be expanded to:
  * < if_stmt > < while_loop > 
  * < asmt > < func_call >
+ *     ;
  */
 public interface BodyStmt extends JottTree {
 
@@ -22,34 +23,44 @@ public interface BodyStmt extends JottTree {
      * @return The proper Node type
      * @throws Exception 
      */
+    // < body_stmt > -> < if_stmt > | < while_loop > | < asmt > | < func_call > ;
     public static JottTree parseBodyStmt(ArrayList<Token> tokens) throws Exception {
-        
         checkIsNotEmpty(tokens);
-
-        Token currentToken = tokens.get(0);
-
+        Token currentToken = tokens.get(0); // Get the first token.
+        JottTree parsedStatement;
         switch (currentToken.getTokenType()) {
-            
             case ID_KEYWORD:
-                // check for if statments
-                if (currentToken.getToken().equals("If") || currentToken.getToken().equals("Elseif") 
-                    || currentToken.getToken().equals("Else")) {
-                    return IfStatementNode.parseIfStatementNode(tokens);
-
-                } else if (currentToken.getToken().equals("While")){
-                    return While_LoopNode.parsWhile_LoopNode(tokens);
+                // 'If', 'Elseif', 'Else' statements.
+                if (currentToken.getToken().equals("If") ||
+                        currentToken.getToken().equals("Elseif") ||
+                        currentToken.getToken().equals("Else")) {
+                    parsedStatement = IfStatementNode.parseIfStatementNode(tokens);
                 }
-            case ASSIGN:
-                return AssignmentNode.parseAssignmentNode(tokens);
+                // 'While' loops.
+                else if (currentToken.getToken().equals("While")) {
+                    parsedStatement = While_LoopNode.parsWhile_LoopNode(tokens);
+                }
+                // try to parse asmt <id >= < expr >;
+                else {
+                    parsedStatement = AssignmentNode.parseAssignmentNode(tokens);
+                }
+                break;
             case FC_HEADER:
-                return FunctionCallNode.parseOperandNode(tokens);
-                
-            
+                parsedStatement = FunctionCallNode.parseOperandNode(tokens);
+                break;
             default:
-                throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
+                throw new IllegalArgumentException(
+                        "Unexpected token type in body statement. Got: " + currentToken.getTokenType().toString()
+                );
         }
+        // After successfully parsing a statement, ensure there's a semicolon.
+        checkIsNotEmpty(tokens); // Ensure tokens are not empty for the semicolon check.
+        checkTokenType(tokens, TokenType.SEMICOLON); // Verify it's a semicolon.
+        tokens.remove(0); // Remove the semicolon.
+
+        return parsedStatement; // Return the parsed statement.
     }
-    
+
     /**
      * Will output a string of this tree in Jott
      * @return a string representing the Jott code of this tree

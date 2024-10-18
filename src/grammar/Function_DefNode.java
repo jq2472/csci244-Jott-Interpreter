@@ -31,9 +31,19 @@ public class Function_DefNode implements JottTree{
         return new Function_DefNode(idNode);
     }
         */
+
+    /***
+     * Def name[ varName:varType, ... ]:returnType{
+     * ... body ...
+     * Return ...;
+     * }
+     * @param tokens
+     * @return
+     * @throws Exception
+     */
     public static JottTree ParseFunctionDefnode (ArrayList<Token> tokens) throws Exception{
-        System.out.println("FuncDefNode Entered");
         checkIsNotEmpty(tokens);
+        // parses def
         Token curToken = tokens.get(0);
         if (curToken.getToken().equals("Def")){
             tokens.remove(0);
@@ -41,20 +51,32 @@ public class Function_DefNode implements JottTree{
         else{
             throw new IllegalArgumentException("Expected Def when parsing Func_DefNode");
         }
+        // function name
+        checkTokenType(tokens, TokenType.ID_KEYWORD);
         IdNode x = IdNode.parseOperandNode(tokens);
+
         checkTokenType(tokens, TokenType.L_BRACKET);
         tokens.remove(0);
+
+        // varName:varType, ...
         JottTree params = FunctionDefParamsNode.parseFunctionDefParamsNode(tokens);
+
         checkTokenType(tokens, TokenType.R_BRACKET);
         tokens.remove(0);
+
         checkTokenType(tokens, TokenType.COLON);
         tokens.remove(0);
+
+        // Def <id >[ func_def_params ]: < function_return >
         JottTree returntypecheck = Function_RetNode.parsefunctionRetNode(tokens);
         checkTokenType(tokens, TokenType.L_BRACE);
         tokens.remove(0);
+        // { < f_body >}
         JottTree f_bodynode = F_BodyNode.parseF_BodyNode(tokens);
+
         checkTokenType(tokens, TokenType.R_BRACE);
         tokens.remove(0);
+
         return new Function_DefNode(x , params, returntypecheck, f_bodynode);
     }
     

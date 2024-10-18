@@ -78,7 +78,8 @@ public class FunctionCallNode implements OperandNode {
             parameters.convertToJott();
         }
         functionNodeStr.append(" ]");
-        return functionNodeStr.toString();
+
+        return String.valueOf(functionNodeStr);
     }
 
     @Override

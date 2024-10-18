@@ -1,5 +1,7 @@
 package grammar;
 import static grammar.Helper.checkIsNotEmpty;
+import static grammar.Helper.checkTokenType;
+
 import java.lang.StringBuilder;
 import java.util.ArrayList;
 
@@ -16,12 +18,27 @@ public class F_BodyNode implements JottTree {
 
     public static F_BodyNode parseF_BodyNode(ArrayList<Token> tokens) throws Exception{
         checkIsNotEmpty(tokens);
-        System.out.println("Entered Parsing F_Body");
         ArrayList<JottTree> declarations = new ArrayList<>();
-        while (tokens.get(0).getToken().equals("Double")||tokens.get(0).getToken().equals("Integer")||tokens.get(0).getToken().equals("String")||tokens.get(0).getToken().equals("Boolean")) {
-            JottTree declarationtoadd = Var_DecNode.parseVar_DecNode(tokens);
-            declarations.add(declarationtoadd);
+
+        // the body will be any valid Jott code other than defining another function
+        if (tokens.get(0).getToken().equals("Def")) {
+            throw new IllegalArgumentException("Error: Cannot have nested functions");
         }
+        // < f_body > -> < var_dec >* < body >
+        // < var_dec > -> < type > < id >;
+        // there are any variable declarations, parse them
+        while (tokens.get(0).getToken().equals("Double") ||
+                tokens.get(0).getToken().equals("Integer") ||
+                tokens.get(0).getToken().equals("String") ||
+                tokens.get(0).getToken().equals("Boolean")) {
+            JottTree declarationToAdd = Var_DecNode.parseVar_DecNode(tokens);
+            declarations.add(declarationToAdd);
+        }
+        // there may be no variable declarations, so it will be an empty list
+        if (declarations.size() == 0){
+            declarations = new ArrayList<>();
+        }
+        // otherwise continue parsing the body node
         checkIsNotEmpty(tokens);
         JottTree bodytosave = BodyNode.parseBodyNode(tokens);
         return new F_BodyNode(declarations, bodytosave);
@@ -29,7 +46,6 @@ public class F_BodyNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder j = new StringBuilder();
-        // TODO Auto-generated method stub
         for (JottTree var_dec : var_decList) {
             j.append(var_dec.convertToJott());
         }
