@@ -12,8 +12,8 @@ public class F_BodyNode implements JottTree {
     private ArrayList<JottTree> var_decList;
     private JottTree body;
     public F_BodyNode(ArrayList<JottTree> declarations, JottTree bodynode){
-        var_decList = declarations;
-        body = bodynode;
+        this.var_decList = declarations;
+        this.body = bodynode;
     }
 
     public static F_BodyNode parseF_BodyNode(ArrayList<Token> tokens) throws Exception{
