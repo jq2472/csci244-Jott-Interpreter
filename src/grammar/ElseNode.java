@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class ElseNode implements JottTree{
-    private ArrayList<JottTree>bodyNode;
-    public ElseNode(ArrayList<JottTree>bodyNode)
+    private JottTree bodyNode;
+    public ElseNode(JottTree bodyNode)
     {
         this.bodyNode = bodyNode;
     }
@@ -14,12 +14,12 @@ public class ElseNode implements JottTree{
     {
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        ArrayList<JottTree> bodyTree = new ArrayList<>();
+        
         
         if(tokens.get(0).getToken().equals("Else"))
         {
             tokens.remove(0);
-            bodyTree = BodyNode.parsebodynode(tokens);
+            JottTree bodyTree = BodyNode.parseBodyNode(tokens);
             return new ElseNode(bodyTree);
         }
         else
@@ -33,9 +33,7 @@ public class ElseNode implements JottTree{
         {
             StringBuilder elseNodeStr = new StringBuilder();
             elseNodeStr.append("Else{");
-            for (JottTree jottTree : this.bodyNode) {
-                elseNodeStr.append(jottTree.convertToJott());
-            }
+            elseNodeStr.append(bodyNode.convertToJott());
             elseNodeStr.append("}");
             return elseNodeStr.toString();
         }

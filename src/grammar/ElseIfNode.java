@@ -5,10 +5,10 @@ import provided.*;
 
 public class ElseIfNode implements JottTree{
 
-    private ArrayList<JottTree>bodyNode;
+    private JottTree bodyNode;
     private JottTree exprNode;
 
-    public ElseIfNode(ArrayList<JottTree>bodyNode, JottTree exprNode){
+    public ElseIfNode(JottTree bodyNode, JottTree exprNode){
         this.bodyNode = bodyNode;
         this.exprNode = exprNode;
     }
@@ -16,7 +16,7 @@ public class ElseIfNode implements JottTree{
     public static ElseIfNode parseElseIfNode(ArrayList<Token> tokens) throws Exception{
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        ArrayList<JottTree>bodyTree = new ArrayList<>();
+        
 
         if(tokens.get(0).getToken().equals("ElseIf")){
             tokens.remove(0);
@@ -27,7 +27,7 @@ public class ElseIfNode implements JottTree{
             tokens.remove(0);
             checkTokenType(tokens, TokenType.L_BRACE);
             tokens.remove(0);
-            bodyTree = BodyNode.parsebodynode(tokens);
+            JottTree bodyTree = BodyNode.parseBodyNode(tokens);
             checkTokenType(tokens, TokenType.R_BRACE);
             return new ElseIfNode(bodyTree, condition);
         }else{
@@ -41,9 +41,7 @@ public class ElseIfNode implements JottTree{
         {
             StringBuilder elseNodeStr = new StringBuilder();
             elseNodeStr.append("ElseIf");
-            for (JottTree jottTree : this.bodyNode) {
-                elseNodeStr.append(jottTree.convertToJott());
-            }
+            elseNodeStr.append(bodyNode.convertToJott());
             return elseNodeStr.toString();
         }
         else{

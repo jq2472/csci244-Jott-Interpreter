@@ -6,9 +6,9 @@ import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class While_LoopNode implements JottTree{
 
     private JottTree exprNode;
-    private ArrayList<JottTree>bodyNode;
+    private JottTree bodyNode;
 
-    public While_LoopNode(JottTree exprNode, ArrayList<JottTree>bodyNode)
+    public While_LoopNode(JottTree exprNode, JottTree bodyNode)
     {
         this.exprNode = exprNode;
         this.bodyNode = bodyNode;
@@ -32,7 +32,7 @@ public class While_LoopNode implements JottTree{
         tokens.remove(0);
         checkTokenType(tokens, TokenType.L_BRACE);
         tokens.remove(0);
-        ArrayList<JottTree>bodyNode = BodyNode.parsebodynode(tokens);
+        JottTree bodyNode = BodyNode.parseBodyNode(tokens);
         checkTokenType(tokens, TokenType.R_BRACE);
         tokens.remove(0);
         return new While_LoopNode(exprNode, bodyNode);
@@ -45,9 +45,7 @@ public class While_LoopNode implements JottTree{
         whileloopNodeStr.append(this.exprNode.convertToJott());
         whileloopNodeStr.append("]");
         whileloopNodeStr.append("{");
-        for (JottTree jottTree : this.bodyNode) {
-            whileloopNodeStr.append(jottTree.convertToJott());
-        }
+        whileloopNodeStr.append(bodyNode.convertToJott());
         whileloopNodeStr.append("}");
         return whileloopNodeStr.toString();
 

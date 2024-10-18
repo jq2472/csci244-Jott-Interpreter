@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import provided.*;
 public class IfStatementNode implements BodyStmt{
     private JottTree condition;
-    private ArrayList<JottTree> body;
+    private JottTree body;
     private ArrayList<JottTree> elsenodes;
     private JottTree finalelsenode; 
-    public IfStatementNode(JottTree cond, ArrayList<JottTree> bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
+    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
         condition = cond;
         body = bodylist;
         if (!elseiflist.isEmpty()){
@@ -34,7 +34,7 @@ public class IfStatementNode implements BodyStmt{
                         currentToken = tokens.get(0);
                         if (currentToken.getTokenType().equals(TokenType.L_BRACE)){
                             tokens.remove(0);
-                            ArrayList<JottTree> body = BodyNode.parsebodynode(tokens);
+                            JottTree body = BodyNode.parseBodyNode(tokens);
                             currentToken = tokens.get(0);
                             if (currentToken.getTokenType().equals(TokenType.R_BRACE)) {
                                 tokens.remove(0);
@@ -82,9 +82,7 @@ public class IfStatementNode implements BodyStmt{
     @Override
     public String convertToJott() {
         String j  = "If" + "[" + this.condition.convertToJott() + "]" + "{";
-        for (JottTree bodylines : body) {
-            j = j+ bodylines.convertToJott();
-        }
+        j = j+ body.convertToJott();
         j = j+"}";
         if (elsenodes.size()>0) {   
         for (JottTree elseifs : elsenodes){

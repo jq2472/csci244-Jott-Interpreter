@@ -4,6 +4,54 @@ import java.util.ArrayList;
 
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 
+
+public class BodyNode implements JottTree{
+
+    private ArrayList<JottTree> bodystatementArrayList;
+    private JottTree returnnode;
+
+    public BodyNode(ArrayList<JottTree> bodystmts, JottTree returnstatement){
+        this.bodystatementArrayList = bodystmts;
+        this.returnnode = returnstatement;
+
+    }
+
+    public static BodyNode parseBodyNode(ArrayList<Token>tokens) throws Exception{
+        System.out.println("Entering BodyNode Parsing");
+        checkIsNotEmpty(tokens);
+        ArrayList<JottTree> bodystmts = new ArrayList<>();
+        while (!tokens.get(0).getTokenType().equals(TokenType.R_BRACE) && !tokens.get(0).getToken().equals("Return")) {
+            JottTree bodystmttoadd = BodyStmt.parseBodyStmt(tokens);
+            bodystmts.add(bodystmttoadd);
+        }
+        if (tokens.get(0).getToken().equals("Return")){
+            JottTree j = Return_StmtNode.parseReturn_StmtNode(tokens);
+            return new BodyNode(bodystmts, j);
+        }
+        return new BodyNode(bodystmts, null);
+
+    }
+
+    @Override
+    public String convertToJott() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'convertToJott'");
+    }
+
+    @Override
+    public boolean validateTree() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+    }
+
+    @Override
+    public void execute() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    }
+
+}
+/* 
 public interface BodyNode extends JottTree{
     
     
@@ -36,3 +84,4 @@ public interface BodyNode extends JottTree{
     public void execute();
     
 }
+*/

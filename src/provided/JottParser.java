@@ -9,6 +9,8 @@ package provided;
 
 import java.util.ArrayList;
 
+import grammar.ProgramNode;
+
 public class JottParser { // calls converttojott on programNode
 
     /**
@@ -34,6 +36,11 @@ public class JottParser { // calls converttojott on programNode
 
     private programNode root;
 
+    public static JottTree parse(ArrayList<Token> tokens) throws Exception{
+      ProgramNode rootnode = ProgramNode.parseProgramNode(tokens);
+      return rootnode;
+    }
+    /*
     public static JottParser parse(ArrayList<Token> tokens){
       // return the root of the tree represented by those tokens
       // funcdefnode is the one that calls its children
@@ -68,4 +75,5 @@ public class JottParser { // calls converttojott on programNode
       }
 
     }
+      */
 }
