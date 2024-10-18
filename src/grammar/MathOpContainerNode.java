@@ -6,9 +6,9 @@ public class MathOpContainerNode implements ExprNode{
     JottTree MidOp;
     JottTree Op2;
     public MathOpContainerNode(JottTree a, JottTree b, JottTree c){
-        Op1=a;
-        MidOp=b;
-        Op2=c;
+        this.Op1=a;
+        this.MidOp=b;
+        this.Op2=c;
     }
     public static JottTree parseMathOpContainerNode(ArrayList<Token> tokens){
         try{
@@ -31,7 +31,7 @@ public class MathOpContainerNode implements ExprNode{
     @Override
     public String convertToJott() {
         // TODO Auto-generated method stub
-        return Op1.convertToJott() + MidOp.convertToJott() + Op2.convertToJott();
+        return this.Op1.convertToJott() + this.MidOp.convertToJott() + this.Op2.convertToJott();
     }
 
     @Override

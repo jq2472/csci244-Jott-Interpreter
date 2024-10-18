@@ -46,10 +46,10 @@ public class F_BodyNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder j = new StringBuilder();
-        for (JottTree var_dec : var_decList) {
+        for (JottTree var_dec : this.var_decList) {
             j.append(var_dec.convertToJott());
         }
-        j.append(body.convertToJott());
+        j.append(this.body.convertToJott());
         return j.toString();
     }
 
