@@ -16,17 +16,16 @@ public class Function_DefNode implements JottTree{
     public static JottTree ParseFunctionDefnode (ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        Token thisToken = tokens.get(0);
-        if (thisToken.getToken().equals("func_def_params")){
-
-        }
-        return null;
+        tokens.remove(0);
+        checkTokenType(tokens, TokenType.ID_KEYWORD);
+        Token idToken = tokens.remove(0);
+        IdNode idNode = new IdNode(idToken);
+        return new Function_DefNode(idNode);
     }
     
     // @Override
     public String convertToJott(){
-        return null;
-
+        return "Def " + IDNode.convertToJott() + "();";
     }
 
     @Override
