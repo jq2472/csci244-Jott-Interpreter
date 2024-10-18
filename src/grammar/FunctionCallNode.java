@@ -69,13 +69,13 @@ public class FunctionCallNode implements OperandNode {
         // fc header
         functionNodeStr.append(":: ");
         // <id>
-        functionNodeStr.append(functionName.convertToJott());
+        functionNodeStr.append(this.functionName.convertToJott());
         // [params]
         functionNodeStr.append(" [ ");
-        if (parameters == null) {
+        if (this.parameters == null) {
             functionNodeStr.append(" ");
         } else {
-            parameters.convertToJott();
+            functionNodeStr.append(this.parameters.convertToJott());
         }
         functionNodeStr.append(" ]");
 

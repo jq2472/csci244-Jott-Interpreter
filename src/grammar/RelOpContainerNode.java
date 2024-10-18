@@ -6,9 +6,9 @@ public class RelOpContainerNode implements ExprNode{
     JottTree MidOp;
     JottTree Op2;
     public RelOpContainerNode(JottTree a, JottTree b, JottTree c){
-        Op1=a;
-        MidOp=b;
-        Op2=c;
+        this.Op1=a;
+        this.MidOp=b;
+        this.Op2=c;
     }
     public static JottTree parseRelOpContainerNode(ArrayList<Token> tokens){
         try{
@@ -30,7 +30,7 @@ public class RelOpContainerNode implements ExprNode{
 
     @Override
     public String convertToJott() {
-        return Op1.convertToJott() + MidOp.convertToJott() + Op2.convertToJott();
+        return this.Op1.convertToJott() + this.MidOp.convertToJott() + this.Op2.convertToJott();
     }
 
     @Override

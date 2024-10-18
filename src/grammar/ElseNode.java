@@ -33,7 +33,7 @@ public class ElseNode implements JottTree{
         {
             StringBuilder elseNodeStr = new StringBuilder();
             elseNodeStr.append("Else{");
-            elseNodeStr.append(bodyNode.convertToJott());
+            elseNodeStr.append(this.bodyNode.convertToJott());
             elseNodeStr.append("}");
             return elseNodeStr.toString();
         }

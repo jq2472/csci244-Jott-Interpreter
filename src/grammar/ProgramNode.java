@@ -35,7 +35,7 @@ public class ProgramNode implements JottTree{
     @Override
     public String convertToJott() {
         String toreturn = "";
-        for (JottTree funcdefnodes : funcdeflist) {
+        for (JottTree funcdefnodes : this.funcdeflist) {
             toreturn = toreturn+ funcdefnodes.convertToJott();
         }
         return toreturn;
