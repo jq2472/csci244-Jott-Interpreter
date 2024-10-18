@@ -34,7 +34,7 @@ public interface BodyStmt extends JottTree {
                 // check for if statments
                 if (currentToken.getToken().equals("If") || currentToken.getToken().equals("Elseif") 
                     || currentToken.getToken().equals("Else")) {
-                    return null;//if_stmt.java parser
+                    return IfStatementNode.parseIfStatementNode(tokens);
 
                 } else if (currentToken.getToken().equals("While")){
                     return While_LoopNode.parsWhile_LoopNode(tokens);

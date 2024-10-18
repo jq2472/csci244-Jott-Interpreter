@@ -85,9 +85,9 @@ public class IfStatementNode implements BodyStmt{
         j = j+ body.convertToJott();
         j = j+"}";
         if (elsenodes.size()>0) {   
-        for (JottTree elseifs : elsenodes){
-            j = j + elseifs.convertToJott();
-        }
+            for (JottTree elseifs : elsenodes){
+                j = j + elseifs.convertToJott();
+            }
         }
         if (finalelsenode!=null) {
             j = j+finalelsenode.convertToJott();
