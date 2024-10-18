@@ -82,15 +82,15 @@ public class IfStatementNode implements BodyStmt{
     @Override
     public String convertToJott() {
         String j  = "If" + "[" + this.condition.convertToJott() + "]" + "{";
-        j = j+ body.convertToJott();
+        j = j+ this.body.convertToJott();
         j = j+"}";
-        if (elsenodes.size()>0) {   
-            for (JottTree elseifs : elsenodes){
+        if (this.elsenodes.size()>0) {   
+            for (JottTree elseifs : this.elsenodes){
                 j = j + elseifs.convertToJott();
             }
         }
-        if (finalelsenode!=null) {
-            j = j+finalelsenode.convertToJott();
+        if (this.finalelsenode!=null) {
+            j = j+this.finalelsenode.convertToJott();
         }
         return j;
     }
