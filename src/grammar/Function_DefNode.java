@@ -52,6 +52,7 @@ public class Function_DefNode implements JottTree{
             throw new IllegalArgumentException("Expected Def when parsing Func_DefNode");
         }
         // function name
+        // checkTokenType takes in an ArrayList of tokens, but only checks the first token
         checkTokenType(tokens, TokenType.ID_KEYWORD);
         IdNode x = IdNode.parseOperandNode(tokens);
 
