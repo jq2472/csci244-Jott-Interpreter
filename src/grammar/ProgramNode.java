@@ -17,6 +17,7 @@ public class ProgramNode implements JottTree{
         ArrayList<JottTree> j = new ArrayList<>();
         System.out.println(tokens);
         System.out.println(tokens.get(0));
+        
         while(tokens.get(0).getToken().equals("Def")){
             System.out.println("ProgramNodeEntered");
             JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
