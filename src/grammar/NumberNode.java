@@ -11,10 +11,10 @@ public class NumberNode implements OperandNode {
 
     public NumberNode(Token value) {
         this.value = value;
-        negative = false;
+        this.negative = false;
     }
     public void negative(){
-        negative = true;
+        this.negative = true;
     }
 
     /**
@@ -37,7 +37,7 @@ public class NumberNode implements OperandNode {
      */
     @Override
     public String convertToJott() {
-        if (negative) {
+        if (this.negative) {
             return "-" + this.value.getToken();
         }
         return "" + this.value.getToken();
