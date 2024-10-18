@@ -67,7 +67,7 @@ public class FunctionCallNode implements OperandNode {
         StringBuilder functionNodeStr = new StringBuilder();
 
         // fc header
-        functionNodeStr.append(":: ");
+        functionNodeStr.append("::");
         // <id>
         functionNodeStr.append(this.functionName.convertToJott());
         // [params]
