@@ -10,7 +10,7 @@ public class TypeNode implements JottTree{
 
     public TypeNode(Token typeString)
     {
-        typenodetype = typeString;
+        this.typenodetype = typeString;
     }
     public static TypeNode parseTypeNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
