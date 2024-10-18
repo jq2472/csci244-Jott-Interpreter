@@ -8,14 +8,14 @@ public class IfStatementNode implements BodyStmt{
     private ArrayList<JottTree> elsenodes;
     private JottTree finalelsenode; 
     public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
-        condition = cond;
-        body = bodylist;
+        this.condition = cond;
+        this.body = bodylist;
         if (!elseiflist.isEmpty()){
-            elsenodes = elseiflist;
+            this.elsenodes = elseiflist;
         }
-        else {elsenodes = null;}
+        else {this.elsenodes = null;}
         if (finalelse !=null){
-            finalelsenode = finalelse;
+            this.finalelsenode = finalelse;
         }
     }
     public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens){
