@@ -1,3 +1,6 @@
-Def main[]:Void{::print[grammar.NumberNode@6b884d57]
-print [ "foo bar";
+#this is an example
+Def main[]:Void{
+    ::print[5];
+    #this is a comment
+    ::print[ "foo bar"];
 }
