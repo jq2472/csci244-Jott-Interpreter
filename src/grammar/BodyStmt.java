@@ -31,9 +31,10 @@ public interface BodyStmt extends JottTree {
         switch (currentToken.getTokenType()) {
             case ID_KEYWORD:
                 // 'If', 'Elseif', 'Else' statements.
-                if (currentToken.getToken().equals("If") ||
-                        currentToken.getToken().equals("Elseif") ||
-                        currentToken.getToken().equals("Else")) {
+                if (currentToken.getToken().equals("If") 
+                        || currentToken.getToken().equals("Elseif") 
+                        || currentToken.getToken().equals("Else")) 
+                        {
                     parsedStatement = IfStatementNode.parseIfStatementNode(tokens);
                 }
                 // 'While' loops.
