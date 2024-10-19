@@ -14,6 +14,9 @@ public class ProgramNode implements JottTree{
         this.funcdeflist = funcnodes;
     }
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception{
+        if (tokens.isEmpty()) {
+            throw new IllegalArgumentException("Tokens list is empty.");
+        }
         ArrayList<JottTree> j = new ArrayList<>();
         System.out.println(tokens);
         System.out.println(tokens.get(0).toString());

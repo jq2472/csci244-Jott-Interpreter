@@ -44,7 +44,9 @@ public class Function_DefNode implements JottTree{
     public static JottTree ParseFunctionDefnode (ArrayList<Token> tokens) throws Exception{
         checkIsNotEmpty(tokens);
         // parses def
+        System.out.println("Current tokens: " + tokens); 
         Token curToken = tokens.get(0);
+        
         if (curToken.getToken().equals("Def")){
             tokens.remove(0);
         }
@@ -55,13 +57,16 @@ public class Function_DefNode implements JottTree{
         // checkTokenType takes in an ArrayList of tokens, but only checks the first token
         checkTokenType(tokens, TokenType.ID_KEYWORD);
         IdNode x = IdNode.parseOperandNode(tokens);
+        System.out.println("Function Name: " + x);
 
         checkTokenType(tokens, TokenType.L_BRACKET);
         tokens.remove(0);
 
         // varName:varType, ...
         JottTree params = FunctionDefParamsNode.parseFunctionDefParamsNode(tokens);
-
+        if (tokens.isEmpty()) {
+            throw new IllegalArgumentException("Expected right bracket after function parameters");
+        }
         checkTokenType(tokens, TokenType.R_BRACKET);
         tokens.remove(0);
 
@@ -70,11 +75,17 @@ public class Function_DefNode implements JottTree{
 
         // Def <id >[ func_def_params ]: < function_return >
         JottTree returntypecheck = Function_RetNode.parsefunctionRetNode(tokens);
+        if (tokens.isEmpty()) {
+            throw new IllegalArgumentException("Expected left brace after return type");
+        }
         checkTokenType(tokens, TokenType.L_BRACE);
         tokens.remove(0);
         // { < f_body >}
         JottTree f_bodynode = F_BodyNode.parseF_BodyNode(tokens);
-
+        if (tokens.isEmpty()) {
+            throw new IllegalArgumentException("Expected right brace after function body");
+        }
+    
         checkTokenType(tokens, TokenType.R_BRACE);
         tokens.remove(0);
 
