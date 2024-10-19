@@ -1,0 +1,3 @@
+Def main[]:Void{::print[grammar.NumberNode@133314b]
+::print[grammar.StrLitNode@b1bc7ed]
+}
