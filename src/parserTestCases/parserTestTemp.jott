@@ -1,2 +1,3 @@
-Def main[]:Void{:: print [  ]
+Def main[]:Void{::print[grammar.NumberNode@77459877]
+print [ "foo bar";
 }
