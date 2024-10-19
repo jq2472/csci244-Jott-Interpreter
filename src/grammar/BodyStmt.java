@@ -47,6 +47,9 @@ public interface BodyStmt extends JottTree {
                 break;
             case FC_HEADER:
                 parsedStatement = FunctionCallNode.parseOperandNode(tokens);
+                checkIsNotEmpty(tokens);
+                checkTokenType(tokens, TokenType.SEMICOLON);
+                tokens.remove(0);
                 break;
             default:
                 throw new IllegalArgumentException(
