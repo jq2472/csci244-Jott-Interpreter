@@ -27,7 +27,7 @@ public class Helper {
     public static void checkTokenType(ArrayList<Token> tokens, TokenType expectedType) {
         checkIsNotEmpty(tokens);
         if (tokens.get(0).getTokenType() != expectedType) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + "expected " + expectedType + " but got " + tokens.get(0).getTokenType());
+            System.err.println("Syntax Error\n" +ERROR_MESSAGE + "expected " + expectedType + " but got " + tokens.get(0).getTokenType() + "\n" +tokens.get(0).getFilename() + ":" +tokens.get(0).getLineNum());
         }
     }
 
