@@ -19,20 +19,28 @@ public class ProgramNode implements JottTree{
         }
         ArrayList<JottTree> j = new ArrayList<>();
         System.out.println(tokens);
-        System.out.println(tokens.get(0).toString());
+        System.out.println("tokens at index 0 :" + tokens.get(0).toString());
         System.out.println("before going into the while loop in parseprogramnode");
         while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
-            System.out.println("ProgramNodeEnteredsssss");
+            System.out.println("ProgramNodeEntered");
             JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
             System.out.println(newfuncdef);
-            j.add(newfuncdef);
+
+            if (newfuncdef != null) {
+                j.add(newfuncdef);
+            } else {
+                throw new IllegalArgumentException("Failed to parse function definition.");
+            }
+            
         }
-        if (tokens.isEmpty()) {
-            return new ProgramNode(j);
-        }
-        else{
-            throw new IllegalArgumentException("Error parsing Program Node");
-        }
+        return new ProgramNode(j);
+        // if (tokens.isEmpty()) {
+        //     return new ProgramNode(j);
+        // }
+        // else{
+        //     throw new IllegalArgumentException("Error parsing Program Node");
+        // }
+        
     }
 
     @Override
