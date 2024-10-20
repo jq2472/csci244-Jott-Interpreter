@@ -31,6 +31,10 @@ public class StrLitNode implements ExprNode {
         return "" + this.str.getToken();
     }
 
+    public String toString(){
+        return convertToJott();
+    }
+
     @Override
     public boolean validateTree() {
         // needs to be implemented in phase 3

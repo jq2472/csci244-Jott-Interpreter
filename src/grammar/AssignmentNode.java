@@ -40,6 +40,10 @@ public class AssignmentNode implements BodyStmt{
         return this.id1.convertToJott() + " " + this.value.getToken() + " " + this.expresnode.convertToJott() + ";";
     }
 
+    public String toString(){
+        return convertToJott();
+    }
+
     public boolean validateTree() {//TODO
         return true;
     }

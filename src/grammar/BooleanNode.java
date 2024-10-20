@@ -23,6 +23,11 @@ public class BooleanNode implements ExprNode{
     public String convertToJott() {
         return ""+this.booleantoken.getToken();
     }
+
+    public String toString(){
+        return convertToJott();
+    }
+    
     @Override
     public void execute() {
          // needs to be implemented
