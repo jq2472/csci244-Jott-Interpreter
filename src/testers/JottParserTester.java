@@ -36,7 +36,7 @@ public class JottParserTester {
     private void createTestCases(){
         this.testCases = new ArrayList<>();
         testCases.add(new TestCase("provided writeup example1", "providedExample1.jott", false ));
-        /*testCases.add(new TestCase("provided writeup example2 (error)", "providedExample2.jott", true ));
+        testCases.add(new TestCase("provided writeup example2 (error)", "providedExample2.jott", true ));
         testCases.add(new TestCase("provided writeup example3 (error)", "providedExample3.jott", true ));
         testCases.add(new TestCase("provided writeup example4 (error)", "providedExample4.jott", true ));
         testCases.add(new TestCase("provided writeup example5 (error)", "providedExample5.jott", true ));
@@ -65,7 +65,7 @@ public class JottParserTester {
         //testCases.add(new TestCase("lone minus (error)", "loneMinus.jott", true ));
         testCases.add(new TestCase("else without if (error)", "elseNoIf.jott", true ));
         testCases.add(new TestCase("missing closing } (error)", "missingClosing.jott", true ));
-        testCases.add(new TestCase("valid if with return", "validIfReturn.jott", false));*/
+        testCases.add(new TestCase("valid if with return", "validIfReturn.jott", false));
     }
 
     private boolean parserTest(TestCase test, String orginalJottCode){
