@@ -37,7 +37,7 @@ public interface OperandNode extends JottTree  {
             case ID_KEYWORD:
                 return IdNode.parseOperandNode(tokens);
             case FC_HEADER:
-                return FunctionCallNode.parseOperandNode(tokens);
+                return FunctionCallNode.parseFuncCallNode(tokens);
             case NUMBER:
                 return NumberNode.parseOperandNode(tokens);
             case MATH_OP:

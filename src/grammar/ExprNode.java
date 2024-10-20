@@ -47,7 +47,7 @@ public interface ExprNode extends JottTree {
                     return IdNode.parseOperandNode(tokens);
                 }
             case FC_HEADER:
-                return FunctionCallNode.parseOperandNode(tokens);
+                return FunctionCallNode.parseFuncCallNode(tokens);
             case STRING:
                 return StrLitNode.parseExprNode(tokens);
             default:

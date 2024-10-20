@@ -29,7 +29,7 @@ public class FunctionCallNode implements OperandNode {
      * @return The parsed Token representing the function call
      * @throws Exception 
      */
-    public static FunctionCallNode parseOperandNode(ArrayList<Token> tokens) throws Exception {
+    public static FunctionCallNode parseFuncCallNode(ArrayList<Token> tokens) throws Exception {
 
         checkIsNotEmpty(tokens);
 
