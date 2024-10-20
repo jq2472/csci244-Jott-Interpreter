@@ -40,6 +40,10 @@ public class IdNode implements OperandNode {
         return "" + this.idName.getToken();  
     }
 
+    public String toString(){
+        return convertToJott();
+    }
+
     @Override
     public boolean validateTree() {
         // needs to be implemented

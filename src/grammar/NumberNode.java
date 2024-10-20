@@ -43,6 +43,10 @@ public class NumberNode implements OperandNode {
         return "" + this.value.getToken();
     }
 
+    public String toString(){
+        return convertToJott();
+    }
+
     @Override
     public boolean validateTree() {
         // needs to be implemented
