@@ -15,20 +15,24 @@ public class TypeNode implements JottTree{
     }
     public static TypeNode parseTypeNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
-        
-        String tokenValue = tokens.get(0).getToken();
+        Token currentToken = tokens.get(0);
+        String tokenValue = currentToken.getToken();
 
         if (tokenValue.equals("Double") || tokenValue.equals("String") ||
         tokenValue.equals("Boolean") || tokenValue.equals("Integer")) {
         
         // Remove the token from the list
-        Token typeToken = tokens.remove(0);
-        return new TypeNode(typeToken);
+        tokens.remove(0);
+        return new TypeNode(currentToken);
+        // Token typeToken = tokens.remove(0);
+        // return new TypeNode(typeToken);
     } else {
+        System.out.println("ID KEYWORD: " + TokenType.ID_KEYWORD);
         throw new IllegalArgumentException("Syntax Error\n" + ERROR_MESSAGE +
             ", Got ID_KEYWORD, but not one of the expected types: " +
             "Double, String, Boolean, Integer\n" + 
             tokens.get(0).getFilename() + ":" + tokens.get(0).getLineNum());
+            
     }
 
         // checkTokenType(tokens, TokenType.ID_KEYWORD);
