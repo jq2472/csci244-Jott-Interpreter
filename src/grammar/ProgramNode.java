@@ -19,7 +19,7 @@ public class ProgramNode implements JottTree{
         }
         ArrayList<JottTree> j = new ArrayList<>();
         System.out.println(tokens);
-        System.out.println("tokens at index 0 :" + tokens.get(0).toString());
+        // System.out.println("tokens at index 0 :" + tokens.get(0).toString());
         System.out.println("before going into the while loop in parseprogramnode");
         while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
             System.out.println("ProgramNodeEntered");

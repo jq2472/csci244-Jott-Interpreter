@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class TypeNode implements JottTree{
+    
     private Token typenodetype;
 
     private static String ERROR_MESSAGE = "Error Parsing Type Node";
@@ -14,32 +15,49 @@ public class TypeNode implements JottTree{
     }
     public static TypeNode parseTypeNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
-        checkTokenType(tokens, TokenType.ID_KEYWORD);
         
-        TypeNode typenode = new TypeNode(tokens.get(0));
-        if (tokens.get(0).getToken().equals("Double")){
+        String tokenValue = tokens.get(0).getToken();
+
+        if (tokenValue.equals("Double") || tokenValue.equals("String") ||
+        tokenValue.equals("Boolean") || tokenValue.equals("Integer")) {
+        
+        // Remove the token from the list
+        Token typeToken = tokens.remove(0);
+        return new TypeNode(typeToken);
+    } else {
+        throw new IllegalArgumentException("Syntax Error\n" + ERROR_MESSAGE +
+            ", Got ID_KEYWORD, but not one of the expected types: " +
+            "Double, String, Boolean, Integer\n" + 
+            tokens.get(0).getFilename() + ":" + tokens.get(0).getLineNum());
+    }
+
+        // checkTokenType(tokens, TokenType.ID_KEYWORD);
+
+        // TypeNode typenode = new TypeNode(tokens.get(0));
+        // if (tokens.get(0).getToken().equals("Double")){
             
-            tokens.remove(0);
+        //     tokens.remove(0);
             
-        }
-        else if (tokens.get(0).getToken().equals("String")){
+        // }
+        // else if (tokens.get(0).getToken().equals("String")){
             
-            tokens.remove(0);
+        //     tokens.remove(0);
             
-        }
-        else if (tokens.get(0).getToken().equals("Boolean")){
+        // }
+        // else if (tokens.get(0).getToken().equals("Boolean")){
             
-            tokens.remove(0);
-        }
-        else if (tokens.get(0).getToken().equals("Integer")){
+        //     tokens.remove(0);
+        // }
+        // else if (tokens.get(0).getToken().equals("Integer")){
             
-            tokens.remove(0);
-        }
-        else{
-            throw new IllegalArgumentException("Syntax Error\n"+ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for node\n"+tokens.get(0).getFilename()+":"+tokens.get(0).getLineNum());
+        //     tokens.remove(0);
+        // }
+        // else{
+        //     throw new IllegalArgumentException("Syntax Error\n"+ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for node\n"+tokens.get(0).getFilename()+":"+tokens.get(0).getLineNum());
             
-        }
-        return typenode;
+        // }
+        
+        // return typenode;
         
     }
     @Override
