@@ -29,6 +29,7 @@ public class ElseIfNode implements JottTree{
             tokens.remove(0);
             JottTree bodyTree = BodyNode.parseBodyNode(tokens);
             checkTokenType(tokens, TokenType.R_BRACE);
+            tokens.remove(0);
             return new ElseIfNode(bodyTree, condition);
         }else{
             throw new IllegalArgumentException("Error Parsing ElseIf node, expected ElseIf");
