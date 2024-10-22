@@ -39,7 +39,7 @@ public interface ExprNode extends JottTree {
             // -> see < body_stmt > grammar rules doesn't call <operand> directly
             case ID_KEYWORD:
                 // check if boolean
-                if (currentToken.getToken().equals("true") || currentToken.getToken().equals("false")) {
+                if (currentToken.getToken().equals("True") || currentToken.getToken().equals("False")) {
                     // parse a boolean node
                     return BooleanNode.parseExprNode(tokens);
 
