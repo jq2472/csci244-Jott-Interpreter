@@ -1,9 +1,8 @@
 package grammar;
 
-import provided.*;
+import static grammar.Helper.*;
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 public class Return_StmtNode implements JottTree{
 
     private JottTree jottTreeexpr;
@@ -39,7 +38,7 @@ public class Return_StmtNode implements JottTree{
             StringBuilder returnStmtNodeStr = new StringBuilder();
             returnStmtNodeStr.append("Return");
             returnStmtNodeStr.append(this.jottTreeexpr.convertToJott());
-            returnStmtNodeStr.append(";");
+            returnStmtNodeStr.append(" ;");
             return returnStmtNodeStr.toString();
         }
         else{

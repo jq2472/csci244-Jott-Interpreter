@@ -27,6 +27,7 @@ public class FunctionDefParamsNode implements JottTree {
     public static FunctionDefParamsNode parseFunctionDefParamsNode(ArrayList<Token> tokens) throws Exception {
         checkIsNotEmpty(tokens); // will error if true
         ArrayList<ParameterNode> parameters = new ArrayList<>();
+        
         // can have no parameters i.e. Def main[]:Void
         if (tokens.get(0).getTokenType().equals(TokenType.R_BRACKET)){
             // return empty array
@@ -34,6 +35,7 @@ public class FunctionDefParamsNode implements JottTree {
         } else {
         do {
             parameters.add(parseSingleParam(tokens));
+            
             // if a comma is present, pop it to continue parsing
             if (!tokens.isEmpty() && tokens.get(0).getToken().equals(",")) {
                 tokens.remove(0); // Remove comma
@@ -49,14 +51,14 @@ public class FunctionDefParamsNode implements JottTree {
      * @return A parsed ParameterNode.
      */
     private static ParameterNode parseSingleParam(ArrayList<Token> tokens) throws Exception {
-//        < id >
+        // < id >
         checkTokenType(tokens, TokenType.ID_KEYWORD);
         IdNode paramName = IdNode.parseIdNode(tokens);
         tokens.remove(0); // Remove the ID keyword
-//        :
+        // :
         checkTokenType(tokens, TokenType.COLON);
         tokens.remove(0); // Remove the colon
-//         < type >.
+        // < type >.
         checkIsNotEmpty(tokens);
         
         TypeNode type = TypeNode.parseTypeNode(tokens);
