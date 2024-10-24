@@ -19,26 +19,29 @@ public class Function_RetNode implements JottTree{
     
     public static Function_RetNode parsefunctionRetNode(ArrayList<Token>tokens)
     {
-        checkIsNotEmpty(tokens);
-        checkTokenType(tokens, TokenType.ID_KEYWORD);
-        Token currToken = tokens.get(0);
-        if(currToken.getToken().equals("Void"))
-        {
-            tokens.remove(0);
-            return new Function_RetNode(currToken);
+        try {
+            checkIsNotEmpty(tokens);
+            checkTokenType(tokens, TokenType.ID_KEYWORD);
+            
+            Token currToken = tokens.get(0);
+            if (currToken.getToken().equals("Void")) {
+                tokens.remove(0);
+                return new Function_RetNode(currToken);
+            } else if (currToken.getToken().equals("Double") || currToken.getToken().equals("String") 
+                    || currToken.getToken().equals("Integer") || currToken.getToken().equals("Boolean")) {
+                return new Function_RetNode(TypeNode.parseTypeNode(tokens));
+            } else {
+                System.err.println("Syntax Error");
+                throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for node\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+            }
+        } catch (IllegalArgumentException iae) {
+            System.err.println("Illegal Argument: " + iae.getMessage());
+            throw iae;  // Re-throw the exception after logging
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            throw e;  // Re-throw the exception after logging
         }
-        else if(currToken.getToken().equals("Double") || currToken.getToken().equals("String") 
-        || currToken.getToken().equals("Integer") || currToken.getToken().equals("Boolean"))
-        {
-            return new Function_RetNode(TypeNode.parseTypeNode(tokens));
-        }
-        else 
-        {
-            System.err.println("Syntax Error");
-            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got ID_KEYWORD, but not one of the Keywords for node\n"+currToken.getFilename()+":"+currToken.getLineNum());
-        }
-
-        
+    
     }
     @Override
     public String convertToJott() {
