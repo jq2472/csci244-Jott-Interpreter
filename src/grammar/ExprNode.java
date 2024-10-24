@@ -1,10 +1,8 @@
 package grammar;
 
-import provided.*;
-
+import static grammar.Helper.*;
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 /**
  * Represents an expression node in the Jott language, which can be expanded to:
@@ -79,7 +77,7 @@ public interface ExprNode extends JottTree {
 
                 t = tokens.get(0);
 
-                if(!t.getTokenType().equals(TokenType.MATH_OP)){
+                if(!t.getTokenType().equals(TokenType.MATH_OP)||!t.getToken().equals(TokenType.REL_OP)){
                     return left;
                 }
 
