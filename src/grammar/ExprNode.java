@@ -77,7 +77,7 @@ public interface ExprNode extends JottTree {
 
                 t = tokens.get(0);
 
-                if(!t.getTokenType().equals(TokenType.MATH_OP)||!t.getToken().equals(TokenType.REL_OP)){
+                if(!t.getTokenType().equals(TokenType.MATH_OP)&&!t.getTokenType().equals(TokenType.REL_OP)){
                     return left;
                 }
 
@@ -93,20 +93,20 @@ public interface ExprNode extends JottTree {
         }
     }
 
-    private static JottTree parsemultistepJottTree(ArrayList<Token> tokens, TokenType j){
+    // private static JottTree parsemultistepJottTree(ArrayList<Token> tokens, TokenType j){
         
-        try {
-            if (j.equals(TokenType.MATH_OP)){
-                return MathOpContainerNode.parseMathOpContainerNode(tokens);
-            }
-            else if (j.equals(TokenType.REL_OP)) {
-                return RelOpContainerNode.parseRelOpContainerNode(tokens);
-            }
-            else {throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");}
-        } catch (Exception e) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");
-        }
-    }
+    //     try {
+    //         if (j.equals(TokenType.MATH_OP)){
+    //             return MathOpContainerNode.parseMathOpContainerNode(tokens);
+    //         }
+    //         else if (j.equals(TokenType.REL_OP)) {
+    //             return RelOpContainerNode.parseRelOpContainerNode(tokens);
+    //         }
+    //         else {throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");}
+    //     } catch (Exception e) {
+    //         throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");
+    //     }
+    // }
 
     
     /**
