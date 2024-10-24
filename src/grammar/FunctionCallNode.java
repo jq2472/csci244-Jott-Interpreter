@@ -1,8 +1,8 @@
 package grammar;
 
+import static grammar.Helper.*;
 import java.util.ArrayList;
-import provided.*;
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 /**
  * Represents a function call node in the Jott language, which can be expanded to:
@@ -41,7 +41,7 @@ public class FunctionCallNode implements OperandNode {
         tokens.remove(0);
 
         // expect an ID_KEYWORD < id >
-        IdNode functionName = IdNode.parseOperandNode(tokens);
+        IdNode functionName = IdNode.parseIdNode(tokens);
 
         // expect Lbracket [ 
         checkTokenType(tokens, TokenType.L_BRACKET);

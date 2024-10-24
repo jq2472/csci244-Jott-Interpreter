@@ -1,7 +1,7 @@
 package grammar;
+import static grammar.Helper.*;
 import java.util.ArrayList;
-import provided.*;
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class IdNode implements OperandNode {
 
@@ -18,7 +18,7 @@ public class IdNode implements OperandNode {
      * @param tokens
      * @return
      */
-    public static IdNode parseOperandNode(ArrayList<Token> tokens){
+    public static IdNode parseIdNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
         if (!Character.isLowerCase(tokens.get(0).getToken().charAt(0))){ 
