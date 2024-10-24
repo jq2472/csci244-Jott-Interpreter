@@ -18,12 +18,18 @@ public class While_LoopNode implements JottTree{
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
         
-        if(tokens.get(0).getToken().equals("While"))
-        {
-            tokens.remove(0);
+        try{
+            if(tokens.get(0).getToken().equals("While"))
+            {
+                tokens.remove(0);
+            }
+            else{
+                throw new IllegalArgumentException("While keyword not in there. Illegal Argument.");
+            }
         }
-        else{
-            throw new IllegalArgumentException("While keyword not in there. Illegal Argument.");
+        catch(IllegalArgumentException iae)
+        {
+            System.out.println(iae.getMessage());
         }
         checkTokenType(tokens, TokenType.L_BRACKET);
         tokens.remove(0);

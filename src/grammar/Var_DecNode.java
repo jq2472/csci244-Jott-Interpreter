@@ -30,6 +30,7 @@ public class Var_DecNode implements JottTree{
 //        < var_dec > -> < type > < id >;
         StringBuilder typeNodeStr = new StringBuilder();
         typeNodeStr.append(this.typeNode.convertToJott());
+        typeNodeStr.append(" ");
         typeNodeStr.append(this.idNode.convertToJott());
         typeNodeStr.append(";");
 

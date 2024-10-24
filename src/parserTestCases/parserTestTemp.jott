@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 Def main[]:Void{::print[5];
 ::print["foo bar"];
+=======
+Def main[]:Integer{Doublex;x = 5.0;
+>>>>>>> main
 }

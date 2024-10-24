@@ -18,19 +18,6 @@ public class Function_DefNode implements JottTree{
 
     }
 
-    // make another constructor
-    /* 
-    public static JottTree ParseFunctionDefnode (ArrayList<Token>tokens){
-        System.out.println("FuncDefNode Entered");
-        checkIsNotEmpty(tokens);
-        checkTokenType(tokens, TokenType.ID_KEYWORD);
-        tokens.remove(0);
-        checkTokenType(tokens, TokenType.ID_KEYWORD);
-        Token idToken = tokens.remove(0);
-        IdNode idNode = new IdNode(idToken);
-        return new Function_DefNode(idNode);
-    }
-        */
 
     /***
      * Def name[ varName:varType, ... ]:returnType{
@@ -44,7 +31,7 @@ public class Function_DefNode implements JottTree{
     public static JottTree ParseFunctionDefnode (ArrayList<Token> tokens) throws Exception{
         checkIsNotEmpty(tokens);
         // parses def
-        // System.out.println("Current tokens: " + tokens); 
+        
         Token curToken = tokens.get(0);
         
         if (curToken.getToken().equals("Def")){
