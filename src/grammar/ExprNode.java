@@ -83,13 +83,11 @@ public interface ExprNode extends JottTree {
                     return left;
                 }
 
-                Token op = t;
+                Token operator = t;
                 tokens.remove(0);
-                
-
                 JottTree right = OperandNode.parseOperandNode(tokens);
 
-                return null;
+                return BinaryOpNode(left, operator, right);
             }
         }          
         catch (Exception e) {

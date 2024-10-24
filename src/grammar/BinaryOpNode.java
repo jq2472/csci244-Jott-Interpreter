@@ -9,10 +9,10 @@ import static grammar.Helper.checkTokenType;
 public class BinaryOpNode implements JottTree {
 
     private JottTree left;
-    private JottTree operator; // RelopNode or MathopNode
+    private Token operator; // RelopNode or MathopNode
     private JottTree right;
 
-    public BinaryOpNode(JottTree left, JottTree operator, JottTree right) {
+    public BinaryOpNode(JottTree left, Token operator, JottTree right) {
         this.left = left;
         this.operator = operator;
         this.right = right;
@@ -21,7 +21,7 @@ public class BinaryOpNode implements JottTree {
     @Override
     public String convertToJott() {
         // Return the binary operation as a string, e.g., "left + right" or "left == right"
-        return left.convertToJott() + " " + operator.convertToJott() + " " + right.convertToJott();
+        return left.convertToJott() + " " + operator.toString() + " " + right.convertToJott();
     }
 
     @Override
