@@ -61,13 +61,15 @@ public interface ExprNode extends JottTree {
                     
             //     }
 
+            Token t = tokens.get(0);
+
             //String Literal Node
-            if(tokens.get(0).getTokenType().equals(TokenType.STRING)){
+            if(t.getTokenType().equals(TokenType.STRING)){
                 return StrLitNode.parseStrLitNode(tokens);
             }
 
             //Boolean Node
-            else if(tokens.get(0).getToken().equals("True") || tokens.get(0).getToken().equals("False")){
+            else if(t.getTokenType() == TokenType.ID_KEYWORD && (t.getToken().equals("True") || t.getToken().equals("False"))){
                 return BooleanNode.parseBoolNode(tokens);
             }
 
@@ -75,9 +77,15 @@ public interface ExprNode extends JottTree {
             else{
                 JottTree left = OperandNode.parseOperandNode(tokens);
 
-                if(!tokens.get(0).getTokenType().equals(TokenType.MATH_OP)){
+                t = tokens.get(0);
+
+                if(!t.getTokenType().equals(TokenType.MATH_OP)){
                     return left;
                 }
+
+                Token op = t;
+                tokens.remove(0);
+                
 
                 JottTree right = OperandNode.parseOperandNode(tokens);
 
