@@ -18,8 +18,7 @@ public class ProgramNode implements JottTree{
             throw new IllegalArgumentException("Tokens list is empty.");
         }
         ArrayList<JottTree> j = new ArrayList<>();
-        // System.out.println(tokens);
-        // System.out.println("tokens at index 0 :" + tokens.get(0).toString());
+        
         System.out.println("before going into the while loop in parseprogramnode");
         while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
             System.out.println("ProgramNodeEntered");
@@ -33,14 +32,7 @@ public class ProgramNode implements JottTree{
             }
             
         }
-        return new ProgramNode(j);
-        // if (tokens.isEmpty()) {
-        //     return new ProgramNode(j);
-        // }
-        // else{
-        //     throw new IllegalArgumentException("Error parsing Program Node");
-        // }
-        
+        return new ProgramNode(j);        
     }
 
     @Override

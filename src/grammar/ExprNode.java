@@ -26,38 +26,8 @@ public interface ExprNode extends JottTree {
         
        checkIsNotEmpty(tokens);
 
-        // Token currentToken = tokens.get(0);
-        // Token nextToken = tokens.get(1);
         try{
-            // switch (currentToken.getTokenType()) {
-            //     // note: each case still checks again for empty/valid token type
-            //     // might need to remove those additional checks in the future
-            //     // why not just remove now? 
-            //     // -> see < body_stmt > grammar rules doesn't call <operand> directly
-            //     // -> see < body_stmt > grammar rules doesn't call <operand> directly
-            //     case ID_KEYWORD:
-            //         // check if boolean
-            //         if (currentToken.getToken().equals("True") || currentToken.getToken().equals("False")) {
-            //             // parse a boolean node
-            //             return BooleanNode.parseExprNode(tokens);
-
-            //         } else {
-            //             return IdNode.parseOperandNode(tokens);
-            //         }
-            //     case FC_HEADER:
-            //         return FunctionCallNode.parseFuncCallNode(tokens);
-            //     case STRING:
-            //         return StrLitNode.parseExprNode(tokens);
-            //     default:
-            //         if (nextToken.getTokenType().equals(TokenType.MATH_OP)){
-            //             return parsemultistepJottTree(tokens, nextToken.getTokenType());
-            //         }
-            //         else if (nextToken.getTokenType().equals(TokenType.REL_OP)){
-
-            //         }
-            //         return OperandNode.parseOperandNode(tokens);
-                    
-            //     }
+           
 
             Token t = tokens.get(0);
 
@@ -92,41 +62,4 @@ public interface ExprNode extends JottTree {
             throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + tokens.get(0).getTokenType().toString());
         }
     }
-
-    // private static JottTree parsemultistepJottTree(ArrayList<Token> tokens, TokenType j){
-        
-    //     try {
-    //         if (j.equals(TokenType.MATH_OP)){
-    //             return MathOpContainerNode.parseMathOpContainerNode(tokens);
-    //         }
-    //         else if (j.equals(TokenType.REL_OP)) {
-    //             return RelOpContainerNode.parseRelOpContainerNode(tokens);
-    //         }
-    //         else {throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");}
-    //     } catch (Exception e) {
-    //         throw new IllegalArgumentException(ERROR_MESSAGE + ", error in parsing a math or relop expression");
-    //     }
-    // }
-
-    
-    /**
-     * Will output a string of this tree in Jott
-     * @return a string representing the Jott code of this tree
-     */
-    public String convertToJott();
-
-    /**
-     * This will validate that the tree follows the semantic rules of Jott
-     * Errors validating will be reported to System.err
-     * @return true if valid Jott code; false otherwise
-     */
-    public boolean validateTree();  
 }
-    
-
-
-
-
-
-
-
