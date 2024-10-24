@@ -1,2 +1,2 @@
-Def main[]:Void{::print["Hello World"];
+Def main[]:Integer{Doublex;x = 5.0;
 }

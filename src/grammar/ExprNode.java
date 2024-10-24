@@ -87,7 +87,7 @@ public interface ExprNode extends JottTree {
                 tokens.remove(0);
                 JottTree right = OperandNode.parseOperandNode(tokens);
 
-                return BinaryOpNode(left, operator, right);
+                return new BinaryOpNode(left, operator, right);
             }
         }          
         catch (Exception e) {

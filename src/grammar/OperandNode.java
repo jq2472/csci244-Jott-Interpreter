@@ -46,7 +46,7 @@ public interface OperandNode extends JottTree  {
                         tokens.remove(0);
                         Token nextToken = tokens.get(0);
                         if (nextToken.getTokenType().equals(TokenType.NUMBER)) {
-                            NumberNode j  = NumberNode.parseNumberNode(tokens);
+                            NumberNode j  =  NumberNode.parseNumberNode(tokens);
                             j.negative();
                             return j;
                         }
