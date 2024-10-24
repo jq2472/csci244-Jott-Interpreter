@@ -14,25 +14,30 @@ public class ElseIfNode implements JottTree{
     }
 
     public static ElseIfNode parseElseIfNode(ArrayList<Token> tokens) throws Exception{
-        checkIsNotEmpty(tokens);
-        checkTokenType(tokens, TokenType.ID_KEYWORD);
-        
-
-        if(tokens.get(0).getToken().equals("ElseIf")){
-            tokens.remove(0);
-            checkTokenType(tokens, TokenType.L_BRACKET);
-            tokens.remove(0);
-            JottTree condition = ExprNode.parseExprNode(tokens);
-            checkTokenType(tokens, TokenType.R_BRACKET);
-            tokens.remove(0);
-            checkTokenType(tokens, TokenType.L_BRACE);
-            tokens.remove(0);
-            JottTree bodyTree = BodyNode.parseBodyNode(tokens);
-            checkTokenType(tokens, TokenType.R_BRACE);
-            tokens.remove(0);
-            return new ElseIfNode(bodyTree, condition);
-        }else{
-            throw new IllegalArgumentException("Error Parsing ElseIf node, expected ElseIf");
+        try {
+            checkIsNotEmpty(tokens);
+            checkTokenType(tokens, TokenType.ID_KEYWORD);
+            
+            if (tokens.get(0).getToken().equals("ElseIf")) {
+                tokens.remove(0);
+                checkTokenType(tokens, TokenType.L_BRACKET);
+                tokens.remove(0);
+                JottTree condition = ExprNode.parseExprNode(tokens);
+                checkTokenType(tokens, TokenType.R_BRACKET);
+                tokens.remove(0);
+                checkTokenType(tokens, TokenType.L_BRACE);
+                tokens.remove(0);
+                JottTree bodyTree = BodyNode.parseBodyNode(tokens);
+                checkTokenType(tokens, TokenType.R_BRACE);
+                tokens.remove(0);
+                return new ElseIfNode(bodyTree, condition);
+            } else {
+                throw new IllegalArgumentException("Error Parsing ElseIf node, expected ElseIf");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // Handle or rethrow the exception as necessary
+            return null;
         }
     }
 
