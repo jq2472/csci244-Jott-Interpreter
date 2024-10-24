@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Jott",
+            "request": "launch",
+            "mainClass": "Jott",
+            "projectName": "csci244-Jott-Interpreter_beae52eb"
+        },
+        {
+            "type": "java",
+            "name": "JottParserTester",
+            "request": "launch",
+            "mainClass": "testers.JottParserTester",
+            "projectName": "csci244-Jott-Interpreter_beae52eb",
+            "cwd":"${src}"
+        },
+        {
+            "type": "java",
+            "name": "JottTokenizerTester",
+            "request": "launch",
+            "mainClass": "testers.JottTokenizerTester",
+            "projectName": "csci244-Jott-Interpreter_beae52eb"
+        }
+    ]
+}

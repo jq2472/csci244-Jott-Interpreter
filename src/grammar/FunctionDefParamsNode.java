@@ -40,6 +40,7 @@ public class FunctionDefParamsNode implements JottTree {
             if (!tokens.isEmpty() && tokens.get(0).getToken().equals(",")) {
                 tokens.remove(0); // Remove comma
             }
+            else{ break; }
         } while (!tokens.isEmpty() && tokens.get(0).getTokenType() == TokenType.ID_KEYWORD);
         return new FunctionDefParamsNode(parameters);
         }
