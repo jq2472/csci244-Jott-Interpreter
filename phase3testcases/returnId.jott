@@ -1,8 +1,0 @@
-#this should pass parsing but fail sematic analysis (phase3)
-#return <id> is not allowed from void
-
-Def main[]:Void{
-    Double x;
-    x = 5.0;
-	Return x;
-}

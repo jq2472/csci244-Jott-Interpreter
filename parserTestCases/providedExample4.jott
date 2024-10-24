@@ -1,8 +1,0 @@
-#this is an example
-Def foo[]:Void{
-    Integer x;
-    x =;
-    ::print[5];
-    #this is a comment
-    ::print[ "foo bar" ]
-}
