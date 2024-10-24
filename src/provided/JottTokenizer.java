@@ -6,30 +6,30 @@ import java.util.Stack;
 import tokens.*;
 
 public class JottTokenizer {
-	/**
+    /**
      * Takes in a filename and tokenizes that file into Tokens
      * based on the rules of the Jott Language
      * @param filename the name of the file to tokenize; can be relative or absolute path
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-        
-		ArrayList<Token>tokens = new ArrayList<>();
+
+        ArrayList<Token>tokens = new ArrayList<>();
         Stack<Character> stack = new Stack<>();
-        
+
         //We will read the jott file
         try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
         {
             String line;
-            
+
             int linenumber = 1;
             boolean quoteread = false;
 
-            
+
             //This will go through ever line in the jott file.
             while((line = jotReader.readLine())!=null)
             {
-                
+
                 //If there is # we skip that line moved to one that doesn't have a #.
                 if(line.contains("#"))
                 {
@@ -57,11 +57,11 @@ public class JottTokenizer {
                     {
                         if(i == line.length()-1)
                         {
-                        tokens.clear();
-                        System.err.println("Invalid syntax");
-                        System.err.println("Expecting a float");
-                        System.err.println(filename+".jott:"+linenumber);
-                        return null;
+                            tokens.clear();
+                            System.err.println("Invalid syntax");
+                            System.err.println("Expecting a float");
+                            System.err.println(filename+".jott:"+linenumber);
+                            return null;
                         }
                     }
                     if(uniquetoken.equals("!"))
@@ -90,7 +90,7 @@ public class JottTokenizer {
                                 return null;
                             }
                         }
-                        
+
                     }
                     if(uniquetoken.equals("::"))
                     {
@@ -101,7 +101,7 @@ public class JottTokenizer {
                     }
 
                     /**
-                     * Check if the current character is a space, or it is the last character. 
+                     * Check if the current character is a space, or it is the last character.
                      */
                     if(line.charAt(i)==' ' || i == line.length()-1)
                     {
@@ -146,9 +146,9 @@ public class JottTokenizer {
                             continue;
                         }
                         /**
-                         * Check if there is quotes in the uniquetoken, if quoteread is true, then if check if there is both quotes in the token, if it si 
+                         * Check if there is quotes in the uniquetoken, if quoteread is true, then if check if there is both quotes in the token, if it si
                          * quoteread will be false, and it uniquetoken will be added to the string and uniquetoken is empty.
-                         * Next if statement if quoteread is false then it will get the substring of string ahead of current character. If it doesn't contain 
+                         * Next if statement if quoteread is false then it will get the substring of string ahead of current character. If it doesn't contain
                          * a quote in the the end, then at that is a syntax error and the program will stop and print out syntax error statment.
                          * If the token has both quotes, then it is string that added to String token class and added to list, uniquetoken is now empty.
                          */
@@ -174,7 +174,7 @@ public class JottTokenizer {
                                     return null;
                                 }
                                 quoteread=true;
-                                
+
                             }
                             if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
                             {
@@ -326,42 +326,24 @@ public class JottTokenizer {
                         uniquetoken = "";
                         continue;
                     }
-                    if(line.charAt(i)==':')
-                    {
-                        if(line.charAt(i+1)==':')
-                        {
-                            uniquetoken += String.valueOf(line.charAt(i));
-                            continue;
-                        }
-                        else
-                        {
-                            uniquetoken += String.valueOf(line.charAt(i));
+                    if(line.charAt(i) == ':') {
+                        if(!uniquetoken.isEmpty()) {
                             solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                            continue;
-                            
+                            uniquetoken = "";  // Clear uniquetoken after processing
                         }
-                        // if(!(uniquetoken.isEmpty()))
-                        // {
-                        //     if(uniquetoken.contains(":"))
-                        //     {
-                        //         uniquetoken+=String.valueOf(line.charAt(i));
-                        //     }
-                        //     solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                        //     uniquetoken = "";
-                        // }
 
-                        // else
-                        // {
-                        //     Colon colon = new Colon(filename, linenumber);
-                        //     tokens.add(colon);
-                        //     uniquetoken = "";
-                        //     continue;
-                        // }
-
+                        if(i + 1 < line.length() && line.charAt(i+1) == ':') {
+                            uniquetoken = "::";
+                            i++;
+                        } else {
+                            uniquetoken = ":";
+                        }
+                        solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                        uniquetoken = "";  // Clear the token after processing
+                        continue;
                     }
 
-                    //If i == line.length() - 1, we just continue due to getting the character early on so we can get the 
+                    //If i == line.length() - 1, we just continue due to getting the character early on so we can get the
                     //token.
                     //Otherwise, we just add the character to the token.
                     if(i == line.length() - 1)
@@ -386,7 +368,7 @@ public class JottTokenizer {
         }
         return tokens;
 
-	}
+    }
     /**
      * solvetokenconcat is a method that is suppose to prevent any wrong concatenation from happening so we don't 
      * get an incorrect token. For example, ::print is incorrect, we want to split those as :: and print.
