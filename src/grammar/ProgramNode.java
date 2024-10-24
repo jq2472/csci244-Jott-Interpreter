@@ -14,26 +14,35 @@ public class ProgramNode implements JottTree{
         this.funcdeflist = funcnodes;
     }
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception{
-        if (tokens.isEmpty()) {
-            throw new IllegalArgumentException("Tokens list is empty.");
-        }
-        ArrayList<JottTree> j = new ArrayList<>();
-        // System.out.println(tokens);
-        // System.out.println("tokens at index 0 :" + tokens.get(0).toString());
-        System.out.println("before going into the while loop in parseprogramnode");
-        while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
-            System.out.println("ProgramNodeEntered");
-            JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
-            System.out.println(newfuncdef);
+        try{
 
-            if (newfuncdef != null) {
-                j.add(newfuncdef);
-            } else {
-                throw new IllegalArgumentException("Failed to parse function definition.");
+            if (tokens.isEmpty()) {
+                throw new IllegalArgumentException("Tokens list is empty.");
             }
+            ArrayList<JottTree> j = new ArrayList<>();
+            // System.out.println(tokens);
+            // System.out.println("tokens at index 0 :" + tokens.get(0).toString());
+            System.out.println("before going into the while loop in parseprogramnode");
+            while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
+                System.out.println("ProgramNodeEntered");
+                JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
+                System.out.println(newfuncdef);
+
+                if (newfuncdef != null) {
+                    j.add(newfuncdef);
+                } else {
+                    throw new IllegalArgumentException("Failed to parse function definition.");
+                }
             
+            }
+            return new ProgramNode(j);
+        }catch (IllegalArgumentException e){
+            System.err.println("Error: IllegalArgumentException " + e.getMessage());
+            throw e; 
+        } catch (Exception e){
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            throw e;
         }
-        return new ProgramNode(j);
         // if (tokens.isEmpty()) {
         //     return new ProgramNode(j);
         // }
@@ -41,6 +50,7 @@ public class ProgramNode implements JottTree{
         //     throw new IllegalArgumentException("Error parsing Program Node");
         // }
         
+        // return new ProgramNode(j);        
     }
 
     @Override
