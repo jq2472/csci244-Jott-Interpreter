@@ -47,7 +47,7 @@ public interface ExprNode extends JottTree {
 
                 t = tokens.get(0);
 
-                if(!t.getTokenType().equals(TokenType.MATH_OP)&&!t.getTokenType().equals(TokenType.REL_OP)){
+                if(!t.getTokenType().equals(TokenType.MATH_OP)||!t.getTokenType().equals(TokenType.REL_OP)){
                     return left;
                 }
 
