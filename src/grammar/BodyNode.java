@@ -1,8 +1,7 @@
 package grammar;
-import provided.*;
+import static grammar.Helper.*;
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 
 public class BodyNode implements JottTree {
@@ -24,31 +23,42 @@ public class BodyNode implements JottTree {
      * @throws Exception If parsing fails
      */
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
-        checkIsNotEmpty(tokens); // Ensure tokens are not empty at the start.
+        
+        try{
+            checkIsNotEmpty(tokens); // Ensure tokens are not empty at the start.
 
-        ArrayList<JottTree> bodystmts = new ArrayList<>();
+            ArrayList<JottTree> bodystmts = new ArrayList<>();
 
-        // Parse all body statements until 'Return' or 'R_BRACE' is found.
-        while (!tokens.isEmpty() &&
-                !tokens.get(0).getTokenType().equals(TokenType.R_BRACE) &&
-                !tokens.get(0).getToken().equals("Return")) {
-            JottTree bodystmt = BodyStmt.parseBodyStmt(tokens); // Parse each body statement
-            bodystmts.add(bodystmt); // Add to the list
+            // Parse all body statements until 'Return' or 'R_BRACE' is found.
+            while (!tokens.isEmpty() &&
+                    !tokens.get(0).getTokenType().equals(TokenType.R_BRACE) &&
+                    !tokens.get(0).getToken().equals("Return")) {
+                JottTree bodystmt = BodyStmt.parseBodyStmt(tokens); // Parse each body statement
+                bodystmts.add(bodystmt); // Add to the list
+            }
+
+            JottTree returnStmt = null; // Default to no return statement.
+
+            if (tokens.isEmpty() || tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
+                System.out.println("FOUND RBRACE!!! ");
+            }
+
+            // Check if the next token is a 'Return' statement.
+            
+            if (!tokens.isEmpty() && tokens.get(0).getToken().equals("Return")) {
+                returnStmt = Return_StmtNode.parseReturn_StmtNode(tokens); // Parse return statement
+            }
+
+            // Return the parsed BodyNode.
+            return new BodyNode(bodystmts, returnStmt);
+        
+        } catch (IllegalArgumentException e){
+            System.err.println("IllegalArgumentException in BodyNode: " + e.getMessage());
+            throw e;
+        } catch (Exception e){
+            System.err.println("An unexpected error occured in BodyNode" + e.getMessage());
+            throw e;
         }
-
-        JottTree returnStmt = null; // Default to no return statement.
-
-        if (tokens.isEmpty() || tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
-            System.out.println("FOUND RBRACE!!! ");
-        }
-
-        // Check if the next token is a 'Return' statement.
-        if (!tokens.isEmpty() && tokens.get(0).getToken().equals("Return")) {
-            returnStmt = Return_StmtNode.parseReturn_StmtNode(tokens); // Parse return statement
-        }
-
-        // Return the parsed BodyNode.
-        return new BodyNode(bodystmts, returnStmt);
     }
 
     /**
@@ -60,7 +70,6 @@ public class BodyNode implements JottTree {
         StringBuilder sb = new StringBuilder();
         for (JottTree stmt : this.bodystatementArrayList) {
             sb.append(stmt.convertToJott());
-            sb.append("\n"); // can rmv
         }
         // convert the return statement if it exists.
         if (returnnode != null) {
