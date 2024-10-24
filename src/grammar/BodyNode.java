@@ -24,32 +24,42 @@ public class BodyNode implements JottTree {
      * @throws Exception If parsing fails
      */
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
-        checkIsNotEmpty(tokens); // Ensure tokens are not empty at the start.
-
-        ArrayList<JottTree> bodystmts = new ArrayList<>();
-
-        // Parse all body statements until 'Return' or 'R_BRACE' is found.
-        while (!tokens.isEmpty() &&
-                !tokens.get(0).getTokenType().equals(TokenType.R_BRACE) &&
-                !tokens.get(0).getToken().equals("Return")) {
-            JottTree bodystmt = BodyStmt.parseBodyStmt(tokens); // Parse each body statement
-            bodystmts.add(bodystmt); // Add to the list
-        }
-
-        JottTree returnStmt = null; // Default to no return statement.
-
-        if (tokens.isEmpty() || tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
-            System.out.println("FOUND RBRACE!!! ");
-        }
-
-        // Check if the next token is a 'Return' statement.
         
-        if (!tokens.isEmpty() && tokens.get(0).getToken().equals("Return")) {
-            returnStmt = Return_StmtNode.parseReturn_StmtNode(tokens); // Parse return statement
-        }
+        try{
+            checkIsNotEmpty(tokens); // Ensure tokens are not empty at the start.
 
-        // Return the parsed BodyNode.
-        return new BodyNode(bodystmts, returnStmt);
+            ArrayList<JottTree> bodystmts = new ArrayList<>();
+
+            // Parse all body statements until 'Return' or 'R_BRACE' is found.
+            while (!tokens.isEmpty() &&
+                    !tokens.get(0).getTokenType().equals(TokenType.R_BRACE) &&
+                    !tokens.get(0).getToken().equals("Return")) {
+                JottTree bodystmt = BodyStmt.parseBodyStmt(tokens); // Parse each body statement
+                bodystmts.add(bodystmt); // Add to the list
+            }
+
+            JottTree returnStmt = null; // Default to no return statement.
+
+            if (tokens.isEmpty() || tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
+                System.out.println("FOUND RBRACE!!! ");
+            }
+
+            // Check if the next token is a 'Return' statement.
+            
+            if (!tokens.isEmpty() && tokens.get(0).getToken().equals("Return")) {
+                returnStmt = Return_StmtNode.parseReturn_StmtNode(tokens); // Parse return statement
+            }
+
+            // Return the parsed BodyNode.
+            return new BodyNode(bodystmts, returnStmt);
+        
+        } catch (IllegalArgumentException e){
+            System.err.println("IllegalArgumentException in BodyNode: " + e.getMessage());
+            throw e;
+        } catch (Exception e){
+            System.err.println("An unexpected error occured in BodyNode" + e.getMessage());
+            throw e;
+        }
     }
 
     /**
