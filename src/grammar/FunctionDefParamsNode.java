@@ -58,6 +58,7 @@ public class FunctionDefParamsNode implements JottTree {
         tokens.remove(0); // Remove the colon
 //         < type >.
         checkIsNotEmpty(tokens);
+        
         TypeNode type = TypeNode.parseTypeNode(tokens);
 
         return new ParameterNode(paramName, type);
