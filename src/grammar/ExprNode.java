@@ -70,8 +70,18 @@ public interface ExprNode extends JottTree {
             else if(tokens.get(0).getToken().equals("True") || tokens.get(0).getToken().equals("False")){
                 return BooleanNode.parseBoolNode(tokens);
             }
+
+            //Operand or Binary op
             else{
-                
+                JottTree left = OperandNode.parseOperandNode(tokens);
+
+                if(!tokens.get(0).getTokenType().equals(TokenType.MATH_OP)){
+                    return left;
+                }
+
+                JottTree right = OperandNode.parseOperandNode(tokens);
+
+                return null;
             }
         }          
         catch (Exception e) {
