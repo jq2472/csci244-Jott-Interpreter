@@ -1,10 +1,7 @@
 package grammar;
 
-import provided.*;
-
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*;
 
 
 public class ProgramNode implements JottTree{
@@ -20,13 +17,10 @@ public class ProgramNode implements JottTree{
                 throw new IllegalArgumentException("Tokens list is empty.");
             }
             ArrayList<JottTree> j = new ArrayList<>();
-            // System.out.println(tokens);
-            // System.out.println("tokens at index 0 :" + tokens.get(0).toString());
-            System.out.println("before going into the while loop in parseprogramnode");
             while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
-                System.out.println("ProgramNodeEntered");
+                
                 JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
-                System.out.println(newfuncdef);
+
 
                 if (newfuncdef != null) {
                     j.add(newfuncdef);
