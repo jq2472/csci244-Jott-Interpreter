@@ -326,39 +326,21 @@ public class JottTokenizer {
                         uniquetoken = "";
                         continue;
                     }
-                    if(line.charAt(i)==':')
-                    {
-                        if(line.charAt(i+1)==':')
-                        {
-                            uniquetoken += String.valueOf(line.charAt(i));
-                            continue;
-                        }
-                        else
-                        {
-                            uniquetoken += String.valueOf(line.charAt(i));
+                    if(line.charAt(i) == ':') {
+                        if(!uniquetoken.isEmpty()) {
                             solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                            continue;
-                            
+                            uniquetoken = "";  // Clear uniquetoken after processing
                         }
-                        // if(!(uniquetoken.isEmpty()))
-                        // {
-                        //     if(uniquetoken.contains(":"))
-                        //     {
-                        //         uniquetoken+=String.valueOf(line.charAt(i));
-                        //     }
-                        //     solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                        //     uniquetoken = "";
-                        // }
 
-                        // else
-                        // {
-                        //     Colon colon = new Colon(filename, linenumber);
-                        //     tokens.add(colon);
-                        //     uniquetoken = "";
-                        //     continue;
-                        // }
-
+                        if(i + 1 < line.length() && line.charAt(i+1) == ':') {
+                            uniquetoken = "::";
+                            i++;
+                        } else {
+                            uniquetoken = ":";
+                        }
+                        solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
+                        uniquetoken = "";  // Clear the token after processing
+                        continue;
                     }
 
                     //If i == line.length() - 1, we just continue due to getting the character early on so we can get the 

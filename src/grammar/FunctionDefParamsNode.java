@@ -54,8 +54,7 @@ public class FunctionDefParamsNode implements JottTree {
     private static ParameterNode parseSingleParam(ArrayList<Token> tokens) throws Exception {
         // < id >
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        IdNode paramName = IdNode.parseIdNode(tokens);
-        tokens.remove(0); // Remove the ID keyword
+        IdNode paramName = IdNode.parseIdNode(tokens); // IDnode removes itself
         // :
         checkTokenType(tokens, TokenType.COLON);
         tokens.remove(0); // Remove the colon
