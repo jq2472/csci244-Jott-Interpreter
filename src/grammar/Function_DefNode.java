@@ -44,7 +44,7 @@ public class Function_DefNode implements JottTree{
     public static JottTree ParseFunctionDefnode (ArrayList<Token> tokens) throws Exception{
         checkIsNotEmpty(tokens);
         // parses def
-        System.out.println("Current tokens: " + tokens); 
+        // System.out.println("Current tokens: " + tokens); 
         Token curToken = tokens.get(0);
         
         if (curToken.getToken().equals("Def")){

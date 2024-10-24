@@ -31,9 +31,11 @@ public interface BodyStmt extends JottTree {
         switch (currentToken.getTokenType()) {
             case ID_KEYWORD:
                 // 'If', 'Elseif', 'Else' statements.
+                System.out.println("case ID_KEYWORD");
                 if (currentToken.getToken().equals("If") 
                         || currentToken.getToken().equals("Elseif") 
-                        || currentToken.getToken().equals("Else")) 
+                        || currentToken.getToken().equals("Else")
+                        ) 
                         {
                     parsedStatement = IfStatementNode.parseIfStatementNode(tokens);
                 }
@@ -43,6 +45,7 @@ public interface BodyStmt extends JottTree {
                 }
                 // try to parse asmt <id >= < expr >;
                 else {
+                    // throw new IllegalArgumentException("Unexpected token: " + currentToken.getToken());
                     parsedStatement = AssignmentNode.parseAssignmentNode(tokens);
                 }
                 break;

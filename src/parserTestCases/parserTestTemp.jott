@@ -1,11 +1,2 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-Def main[]:Void{::print[grammar.NumberNode@77459877]
-=======
-Def main[]:Void{::print[5];
->>>>>>> alex_dev
-print [ "foo bar";
-=======
 Def main[]:Void{::print["Hello World"];
->>>>>>> alex_dev
 }
