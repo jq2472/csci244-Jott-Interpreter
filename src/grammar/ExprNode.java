@@ -28,41 +28,54 @@ public interface ExprNode extends JottTree {
         
        checkIsNotEmpty(tokens);
 
-        Token currentToken = tokens.get(0);
-        Token nextToken = tokens.get(1);
+        // Token currentToken = tokens.get(0);
+        // Token nextToken = tokens.get(1);
         try{
-        switch (currentToken.getTokenType()) {
-            // note: each case still checks again for empty/valid token type
-            // might need to remove those additional checks in the future
-            // why not just remove now? 
-            // -> see < body_stmt > grammar rules doesn't call <operand> directly
-            // -> see < body_stmt > grammar rules doesn't call <operand> directly
-            case ID_KEYWORD:
-                // check if boolean
-                if (currentToken.getToken().equals("True") || currentToken.getToken().equals("False")) {
-                    // parse a boolean node
-                    return BooleanNode.parseExprNode(tokens);
+            // switch (currentToken.getTokenType()) {
+            //     // note: each case still checks again for empty/valid token type
+            //     // might need to remove those additional checks in the future
+            //     // why not just remove now? 
+            //     // -> see < body_stmt > grammar rules doesn't call <operand> directly
+            //     // -> see < body_stmt > grammar rules doesn't call <operand> directly
+            //     case ID_KEYWORD:
+            //         // check if boolean
+            //         if (currentToken.getToken().equals("True") || currentToken.getToken().equals("False")) {
+            //             // parse a boolean node
+            //             return BooleanNode.parseExprNode(tokens);
 
-                } else {
-                    return IdNode.parseOperandNode(tokens);
-                }
-            case FC_HEADER:
-                return FunctionCallNode.parseFuncCallNode(tokens);
-            case STRING:
-                return StrLitNode.parseExprNode(tokens);
-            default:
-                if (nextToken.getTokenType().equals(TokenType.MATH_OP)){
-                    return parsemultistepJottTree(tokens, nextToken.getTokenType());
-                }
-                else if (nextToken.getTokenType().equals(TokenType.REL_OP)){
+            //         } else {
+            //             return IdNode.parseOperandNode(tokens);
+            //         }
+            //     case FC_HEADER:
+            //         return FunctionCallNode.parseFuncCallNode(tokens);
+            //     case STRING:
+            //         return StrLitNode.parseExprNode(tokens);
+            //     default:
+            //         if (nextToken.getTokenType().equals(TokenType.MATH_OP)){
+            //             return parsemultistepJottTree(tokens, nextToken.getTokenType());
+            //         }
+            //         else if (nextToken.getTokenType().equals(TokenType.REL_OP)){
 
-                }
-                return OperandNode.parseOperandNode(tokens);
+            //         }
+            //         return OperandNode.parseOperandNode(tokens);
+                    
+            //     }
+
+            //String Literal Node
+            if(tokens.get(0).getTokenType().equals(TokenType.STRING)){
+                return StrLitNode.parseStrLitNode(tokens);
+            }
+
+            //Boolean Node
+            else if(tokens.get(0).getToken().equals("True") || tokens.get(0).getToken().equals("False")){
+                return BooleanNode.parseBoolNode(tokens);
+            }
+            else{
                 
             }
         }          
         catch (Exception e) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + currentToken.getTokenType().toString());
+            throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + tokens.get(0).getTokenType().toString());
         }
     }
 

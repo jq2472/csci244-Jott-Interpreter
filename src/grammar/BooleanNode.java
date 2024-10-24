@@ -10,7 +10,7 @@ public class BooleanNode implements ExprNode{
     {
         this.booleantoken = boolToken;
     }
-    public static BooleanNode parseExprNode(ArrayList<Token> tokens) {
+    public static BooleanNode parseBoolNode(ArrayList<Token> tokens) {
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.ID_KEYWORD);
 

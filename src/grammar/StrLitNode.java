@@ -14,7 +14,7 @@ public class StrLitNode implements ExprNode {
         this.str = token;
     }
 
-    public static StrLitNode parseExprNode(ArrayList<Token> tokens) {
+    public static StrLitNode parseStrLitNode(ArrayList<Token> tokens) {
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.STRING);
 
