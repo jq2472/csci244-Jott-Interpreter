@@ -1,2 +1,1 @@
-Def main[]:Integer{Doublex;x = 5.0;
-}
+Def main[]:Integer{Double x;x = 5.0;}
