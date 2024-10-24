@@ -1,8 +1,7 @@
 package grammar;
-import provided.*;
+import static grammar.Helper.*;
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 
 public class BodyNode implements JottTree {
@@ -61,7 +60,6 @@ public class BodyNode implements JottTree {
         StringBuilder sb = new StringBuilder();
         for (JottTree stmt : this.bodystatementArrayList) {
             sb.append(stmt.convertToJott());
-            sb.append("\n"); // can rmv
         }
         // convert the return statement if it exists.
         if (returnnode != null) {
