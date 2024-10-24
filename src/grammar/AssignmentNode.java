@@ -20,7 +20,7 @@ public class AssignmentNode implements BodyStmt{
     public static AssignmentNode parseAssignmentNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         try {
-            JottTree idnode = IdNode.parseOperandNode(tokens);
+            JottTree idnode = IdNode.parseIdNode(tokens);
             Token currToken = tokens.get(0);
             checkTokenType(tokens, TokenType.ASSIGN);
             tokens.remove(0);

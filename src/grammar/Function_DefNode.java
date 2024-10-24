@@ -1,7 +1,7 @@
 package grammar;
-import provided.*;
-import java.util.ArrayList;
 import static grammar.Helper.*;
+import java.util.ArrayList;
+import provided.*;
 
 public class Function_DefNode implements JottTree{
     
@@ -56,7 +56,7 @@ public class Function_DefNode implements JottTree{
         // function name
         // checkTokenType takes in an ArrayList of tokens, but only checks the first token
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        IdNode x = IdNode.parseOperandNode(tokens);
+        IdNode x = IdNode.parseIdNode(tokens);
         System.out.println("Function Name: " + x);
 
         checkTokenType(tokens, TokenType.L_BRACKET);

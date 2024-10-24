@@ -1,8 +1,8 @@
 package grammar;
 
+import static grammar.Helper.*;
 import java.util.ArrayList;
-import provided.*;
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class NumberNode implements OperandNode {
 
@@ -22,7 +22,7 @@ public class NumberNode implements OperandNode {
      * @param tokens
      * @return The parsed Token representing the number
      */
-    public static NumberNode parseOperandNode(ArrayList<Token> tokens) {
+    public static NumberNode parseNumberNode(ArrayList<Token> tokens) {
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.NUMBER);
 

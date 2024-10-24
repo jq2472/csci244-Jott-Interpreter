@@ -1,8 +1,7 @@
 package grammar;
-import provided.*;
+import static grammar.Helper.*;
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 public class Var_DecNode implements JottTree{
     private TypeNode typeNode;
     private IdNode idNode;
@@ -15,7 +14,7 @@ public class Var_DecNode implements JottTree{
     {
         //        < var_dec > -> < type > < id >;
         TypeNode typeNode = TypeNode.parseTypeNode(tokens); // will check empty, etc. there
-        IdNode idNode = IdNode.parseOperandNode(tokens);
+        IdNode idNode = IdNode.parseIdNode(tokens);
         // parse semicolon
         checkIsNotEmpty(tokens);
         checkTokenType(tokens, TokenType.SEMICOLON);
