@@ -37,8 +37,13 @@ public class JottParser { // calls converttojott on programNode
     private programNode root;
 
     public static JottTree parse(ArrayList<Token> tokens) throws Exception{
-      ProgramNode rootnode = ProgramNode.parseProgramNode(tokens); 
-      return rootnode;
+      try{
+        ProgramNode rootnode = ProgramNode.parseProgramNode(tokens); 
+        return rootnode;
+      }
+      catch (Exception e) {
+        return null;
+      }
     }
 
 

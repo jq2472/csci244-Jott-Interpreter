@@ -1,8 +1,8 @@
 package grammar;
 
+import static grammar.Helper.*;
 import java.util.ArrayList;
 import provided.*;
-import static grammar.Helper.*;
 
 /**
  * represents the function definition parameters in the Jott language.
@@ -51,7 +51,7 @@ public class FunctionDefParamsNode implements JottTree {
     private static ParameterNode parseSingleParam(ArrayList<Token> tokens) throws Exception {
 //        < id >
         checkTokenType(tokens, TokenType.ID_KEYWORD);
-        IdNode paramName = IdNode.parseOperandNode(tokens);
+        IdNode paramName = IdNode.parseIdNode(tokens);
         tokens.remove(0); // Remove the ID keyword
 //        :
         checkTokenType(tokens, TokenType.COLON);

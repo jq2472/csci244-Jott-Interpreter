@@ -1,4 +1,0 @@
-#this will fail phase 2
-#You cannot have stmts outside a function
-
-::print[5];

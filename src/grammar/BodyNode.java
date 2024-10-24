@@ -36,8 +36,14 @@ public class BodyNode implements JottTree {
             bodystmts.add(bodystmt); // Add to the list
         }
 
-        // Check if the next token is a 'Return' statement.
         JottTree returnStmt = null; // Default to no return statement.
+
+        if (tokens.isEmpty() || tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
+            System.out.println("FOUND RBRACE!!! ");
+        }
+
+        // Check if the next token is a 'Return' statement.
+        
         if (!tokens.isEmpty() && tokens.get(0).getToken().equals("Return")) {
             returnStmt = Return_StmtNode.parseReturn_StmtNode(tokens); // Parse return statement
         }

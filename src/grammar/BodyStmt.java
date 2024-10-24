@@ -1,10 +1,8 @@
 package grammar;
 
-import provided.*;
-
+import static grammar.Helper.*;
 import java.util.ArrayList;
-
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 /**
  * Represents an expression node in the Jott language, which can be expanded to:
@@ -31,9 +29,11 @@ public interface BodyStmt extends JottTree {
         switch (currentToken.getTokenType()) {
             case ID_KEYWORD:
                 // 'If', 'Elseif', 'Else' statements.
+                System.out.println("case ID_KEYWORD");
                 if (currentToken.getToken().equals("If") 
                         || currentToken.getToken().equals("Elseif") 
-                        || currentToken.getToken().equals("Else")) 
+                        || currentToken.getToken().equals("Else")
+                        ) 
                         {
                     parsedStatement = IfStatementNode.parseIfStatementNode(tokens);
                 }
@@ -43,14 +43,18 @@ public interface BodyStmt extends JottTree {
                 }
                 // try to parse asmt <id >= < expr >;
                 else {
+                    // throw new IllegalArgumentException("Unexpected token: " + currentToken.getToken());
                     parsedStatement = AssignmentNode.parseAssignmentNode(tokens);
+                    checkIsNotEmpty(tokens);
+                    checkTokenType(tokens, TokenType.SEMICOLON);
+                    tokens.remove(0);
                 }
                 break;
             case FC_HEADER:
                 parsedStatement = FunctionCallNode.parseFuncCallNode(tokens);
-                // checkIsNotEmpty(tokens);
-                // checkTokenType(tokens, TokenType.SEMICOLON);
-                // tokens.remove(0);
+                checkIsNotEmpty(tokens);
+                checkTokenType(tokens, TokenType.SEMICOLON);
+                tokens.remove(0);
                 break;
             default:
                 throw new IllegalArgumentException(
@@ -58,9 +62,9 @@ public interface BodyStmt extends JottTree {
                 );
         }
         // After successfully parsing a statement, ensure there's a semicolon.
-        checkIsNotEmpty(tokens); // Ensure tokens are not empty for the semicolon check.
-        checkTokenType(tokens, TokenType.SEMICOLON); // Verify it's a semicolon.
-        tokens.remove(0); // Remove the semicolon.
+        //checkIsNotEmpty(tokens); // Ensure tokens are not empty for the semicolon check.
+        //checkTokenType(tokens, TokenType.SEMICOLON); // Verify it's a semicolon.
+        //tokens.remove(0); // Remove the semicolon.
 
         return parsedStatement; // Return the parsed statement.
     }

@@ -20,16 +20,16 @@ public class AssignmentNode implements BodyStmt{
     public static AssignmentNode parseAssignmentNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         try {
-            JottTree idnode = IdNode.parseOperandNode(tokens);
+            JottTree idnode = IdNode.parseIdNode(tokens);
             Token currToken = tokens.get(0);
             checkTokenType(tokens, TokenType.ASSIGN);
             tokens.remove(0);
             Token y = currToken;
             JottTree expressionNode = ExprNode.parseExprNode(tokens);
             AssignmentNode asgNode = new AssignmentNode(idnode, y, expressionNode);
-            currToken = tokens.get(0);
-            checkTokenType(tokens, TokenType.SEMICOLON);
-            tokens.remove(0);
+            //currToken = tokens.get(0);
+            //checkTokenType(tokens, TokenType.SEMICOLON);
+            //tokens.remove(0);
             return asgNode;
         } catch (Exception e) {
             throw new IllegalArgumentException("Error Parsing Assignment Node");

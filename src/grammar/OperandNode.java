@@ -1,7 +1,7 @@
 package grammar;
+import static grammar.Helper.*;
 import java.util.ArrayList;
-import provided.*;
-import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
+import provided.*; // checkTokenType(), checkIsNotEmpty()
 /**
  * Represents an operand node in the Jott language, which can be expanded to:
  * < id >
@@ -35,18 +35,18 @@ public interface OperandNode extends JottTree  {
             // why not just remove now? 
             // -> see < body_stmt > grammar rules doesn't call <operand> directly
             case ID_KEYWORD:
-                return IdNode.parseOperandNode(tokens);
+                return IdNode.parseIdNode(tokens);
             case FC_HEADER:
                 return FunctionCallNode.parseFuncCallNode(tokens);
             case NUMBER:
-                return NumberNode.parseOperandNode(tokens);
+                return NumberNode.parseNumberNode(tokens);
             case MATH_OP:
                 if(currentToken.equals("-")){
                     try {
                         tokens.remove(0);
                         Token nextToken = tokens.get(0);
                         if (nextToken.getTokenType().equals(TokenType.NUMBER)) {
-                            NumberNode j  = NumberNode.parseOperandNode(tokens);
+                            NumberNode j  = NumberNode.parseNumberNode(tokens);
                             j.negative();
                             return j;
                         }
