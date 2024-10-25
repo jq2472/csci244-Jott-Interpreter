@@ -28,9 +28,9 @@ public class AssignmentNode implements BodyStmt{
 
             checkIsNotEmpty(tokens);
             // errors if assignment ends abruptly x =;
-            Token nextToken = tokens.get(0);
+            currToken = tokens.get(0);
 
-            if (nextToken.getTokenType().equals(TokenType.SEMICOLON)) {
+            if (currToken.getTokenType().equals(TokenType.SEMICOLON)) {
                 throw new IllegalArgumentException("Error: Expected Expression Node, got Semicolon.");
             }
             // else parse expression

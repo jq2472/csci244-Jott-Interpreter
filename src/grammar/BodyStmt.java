@@ -46,8 +46,6 @@ public interface BodyStmt extends JottTree {
                     // throw new IllegalArgumentException("Unexpected token: " + currentToken.getToken());
                     parsedStatement = AssignmentNode.parseAssignmentNode(tokens);
                     checkIsNotEmpty(tokens);
-                    checkTokenType(tokens, TokenType.SEMICOLON);
-                    tokens.remove(0);
                 }
                 break;
             case FC_HEADER:

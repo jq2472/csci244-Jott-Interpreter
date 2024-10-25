@@ -43,11 +43,17 @@ public interface ExprNode extends JottTree {
 
             //Operand or Binary op
             else{
+                // < operand >
+                // < operand > < relop > < operand > |
+                //  < operand > < mathop > < operand >
+                // so assume parsing operand if not string/bool anyways
                 JottTree left = OperandNode.parseOperandNode(tokens);
 
                 t = tokens.get(0);
 
-                if(!(t.getTokenType().equals(TokenType.MATH_OP)||t.getTokenType().equals(TokenType.REL_OP))){
+                // just the <expr> on its own
+                if(!(t.getTokenType().equals(TokenType.MATH_OP)
+                        || t.getTokenType().equals(TokenType.REL_OP))){
                     return left;
                 }
 
