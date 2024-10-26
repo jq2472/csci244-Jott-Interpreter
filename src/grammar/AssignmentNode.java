@@ -16,18 +16,33 @@ public class AssignmentNode implements BodyStmt{
         this.value = value;
         this.expresnode = expression;
     }
-    
+
     public static AssignmentNode parseAssignmentNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         try {
             JottTree idnode = IdNode.parseIdNode(tokens);
             Token currToken = tokens.get(0);
+
             checkTokenType(tokens, TokenType.ASSIGN);
             tokens.remove(0);
-            Token y = currToken;
+
+            checkIsNotEmpty(tokens);
+            // errors if assignment ends abruptly x =;
+            currToken = tokens.get(0);
+
+            if (currToken.getTokenType().equals(TokenType.SEMICOLON)) {
+                throw new IllegalArgumentException("Error: Expected Expression Node, got Semicolon.");
+            }
+            // else parse expression
             JottTree expressionNode = ExprNode.parseExprNode(tokens);
-            AssignmentNode asgNode = new AssignmentNode(idnode, y, expressionNode);
+
+            // needs semicolon at the end of the assignment
+            checkTokenType(tokens, TokenType.SEMICOLON);
+            tokens.remove(0);
+
+            AssignmentNode asgNode = new AssignmentNode(idnode, currToken, expressionNode);
             return asgNode;
+
         } catch (Exception e) {
             throw new IllegalArgumentException("Error Parsing Assignment Node");
         }
@@ -47,5 +62,5 @@ public class AssignmentNode implements BodyStmt{
 
     public void execute() { //TODO
         System.out.println("Executing NumberNode");
-    }   
+    }
 }

@@ -1,1 +1,1 @@
-Def main[]:Integer{Double x;x = 5.0;}
+Def main[]:Void{Integer x;x :: ::foo[5];;::print[x];}
