@@ -12,13 +12,15 @@ public class ProgramNode implements JottTree{
     }
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception{
         try{
-
+            if (!tokens.isEmpty() && !tokens.get(0).getToken().equals("Def")){
+                throw new Exception("You cannot have statements outside a function");
+            }
             if (tokens.isEmpty()) {
                 throw new IllegalArgumentException("Tokens list is empty.");
             }
             ArrayList<JottTree> j = new ArrayList<>();
             while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
-                
+
                 JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
 
 
@@ -27,15 +29,15 @@ public class ProgramNode implements JottTree{
                 } else {
                     throw new IllegalArgumentException("Failed to parse function definition.");
                 }
-            
+
             }
             return new ProgramNode(j);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e){
             System.err.println("Error: IllegalArgumentException " + e.getMessage());
-            throw e; 
+            return null;
         } catch (Exception e){
             System.err.println("An unexpected error occurred: " + e.getMessage());
-            throw e;
+            return null;
         }
         // if (tokens.isEmpty()) {
         //     return new ProgramNode(j);
