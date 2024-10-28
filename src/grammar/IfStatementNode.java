@@ -45,9 +45,13 @@ public class IfStatementNode implements BodyStmt{
             JottTree body = BodyNode.parseBodyNode(tokens);
             currentToken = tokens.get(0);
             if (currentToken.getTokenType().equals(TokenType.R_BRACE)) {
+                tokens.remove(0);
+            }
+            else
+            {
                 throw new IllegalArgumentException("Error Parsing If statement, after body should be closing brace");
             }
-            tokens.remove(0);
+            
             currentToken = tokens.get(0);
             ArrayList<JottTree> elseifs = new ArrayList<>();
             while (currentToken.getToken().equals("ElseIf")){
@@ -55,7 +59,7 @@ public class IfStatementNode implements BodyStmt{
                 elseifs.add(j);
             }
             currentToken = tokens.get(0);
-            if (currentToken.equals("Else")){
+            if (currentToken.getToken().equals("Else")){
                 JottTree finalelse = ElseNode.parseelsenode(tokens);
                 return new IfStatementNode(cond, body, elseifs, finalelse);
             }
