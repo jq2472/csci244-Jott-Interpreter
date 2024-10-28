@@ -25,7 +25,7 @@ public interface BodyStmt extends JottTree {
     public static JottTree parseBodyStmt(ArrayList<Token> tokens) throws Exception {
         checkIsNotEmpty(tokens);
         Token currentToken = tokens.get(0); // Get the first token.
-        JottTree parsedStatement;
+        //JottTree parsedStatement;
         switch (currentToken.getTokenType()) {
             case ID_KEYWORD:
                 // 'If', 'Elseif', 'Else' statements.
@@ -35,25 +35,31 @@ public interface BodyStmt extends JottTree {
                         || currentToken.getToken().equals("Else")
                         ) 
                         {
-                    parsedStatement = IfStatementNode.parseIfStatementNode(tokens);
+                    IfStatementNode parsedStatement = IfStatementNode.parseIfStatementNode(tokens);
+                    return parsedStatement;
                 }
                 // 'While' loops.
                 else if (currentToken.getToken().equals("While")) {
-                    parsedStatement = While_LoopNode.parsWhile_LoopNode(tokens);
+                    While_LoopNode parsedStatement = While_LoopNode.parsWhile_LoopNode(tokens);
+                    return parsedStatement;
                 }
                 // try to parse asmt <id >= < expr >;
                 else {
                     // throw new IllegalArgumentException("Unexpected token: " + currentToken.getToken());
-                    parsedStatement = AssignmentNode.parseAssignmentNode(tokens);
+                    AssignmentNode parsedStatement = AssignmentNode.parseAssignmentNode(tokens);
                     checkIsNotEmpty(tokens);
+                    return parsedStatement;
                 }
-                break;
+                
+//                break;
             case FC_HEADER:
-                parsedStatement = FunctionCallNode.parseFuncCallNode(tokens);
+                FunctionCallNode parsedStatement = FunctionCallNode.parseFuncCallNode(tokens);
+                parsedStatement.setbodystmttrue();
                 checkIsNotEmpty(tokens);
                 checkTokenType(tokens, TokenType.SEMICOLON);
                 tokens.remove(0);
-                break;
+                return parsedStatement;
+                //break;
             default:
                 throw new IllegalArgumentException(
                         "Unexpected token type in body statement. Got: " + currentToken.getTokenType().toString()
@@ -62,9 +68,7 @@ public interface BodyStmt extends JottTree {
         // After successfully parsing a statement, ensure there's a semicolon.
         //checkIsNotEmpty(tokens); // Ensure tokens are not empty for the semicolon check.
         //checkTokenType(tokens, TokenType.SEMICOLON); // Verify it's a semicolon.
-        //tokens.remove(0); // Remove the semicolon.
-
-        return parsedStatement; // Return the parsed statement.
+        //tokens.remove(0); // Remove the semicolon. // Return the parsed statement.
     }
 
     /**

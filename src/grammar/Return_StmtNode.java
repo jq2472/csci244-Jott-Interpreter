@@ -36,9 +36,9 @@ public class Return_StmtNode implements JottTree{
         if(this.jottTreeexpr != null)
         {
             StringBuilder returnStmtNodeStr = new StringBuilder();
-            returnStmtNodeStr.append("Return");
+            returnStmtNodeStr.append("Return ");
             returnStmtNodeStr.append(this.jottTreeexpr.convertToJott());
-            returnStmtNodeStr.append(" ;");
+            returnStmtNodeStr.append(" ; ");
             return returnStmtNodeStr.toString();
         }
         else{
