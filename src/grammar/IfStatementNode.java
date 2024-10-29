@@ -6,18 +6,26 @@ public class IfStatementNode implements BodyStmt{
     private JottTree condition;
     private JottTree body;
     private ArrayList<JottTree> elsenodes;
-    private JottTree finalelsenode; 
-    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
+    private JottTree finalelsenode;
+
+//    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
+//        this.condition = cond;
+//        this.body = bodylist;
+//        if (!elseiflist.isEmpty()){
+//            this.elsenodes = elseiflist;
+//        }
+//        else {this.elsenodes = null;}
+//        if (finalelse !=null){
+//            this.finalelsenode = finalelse;
+//        }
+//    }
+    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse) {
         this.condition = cond;
         this.body = bodylist;
-        if (!elseiflist.isEmpty()){
-            this.elsenodes = elseiflist;
-        }
-        else {this.elsenodes = null;}
-        if (finalelse !=null){
-            this.finalelsenode = finalelse;
-        }
+        this.elsenodes = (elseiflist != null) ? elseiflist : new ArrayList<>(); // Ensure elsenodes is always initialized
+        this.finalelsenode = finalelse;
     }
+
     public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
         try {

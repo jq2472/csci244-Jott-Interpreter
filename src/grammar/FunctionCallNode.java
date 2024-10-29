@@ -68,24 +68,19 @@ public class FunctionCallNode implements OperandNode {
     public String convertToJott() {
         StringBuilder functionNodeStr = new StringBuilder();
 
-        // fc header
         functionNodeStr.append("::");
-        // <id>
         functionNodeStr.append(this.functionName.convertToJott());
-        // [params]
         functionNodeStr.append("[");
-        if (this.parameters == null) {
-            functionNodeStr.append("");
-        } else {
+        if (this.parameters != null) {
             functionNodeStr.append(this.parameters.convertToJott());
         }
         functionNodeStr.append("]");
         if (isbodystmt) {
             functionNodeStr.append(" ;");
         }
-
-        return String.valueOf(functionNodeStr);
+        return functionNodeStr.toString();
     }
+
     public void setbodystmttrue(){
         this.isbodystmt = true;
     }
