@@ -44,7 +44,6 @@ public class Function_DefNode implements JottTree{
                 // function name
                 checkTokenType(tokens, TokenType.ID_KEYWORD);
                 IdNode x = IdNode.parseIdNode(tokens);
-                System.out.println("Function Name: " + x);
                 
                 checkTokenType(tokens, TokenType.L_BRACKET);
                 tokens.remove(0);
@@ -72,13 +71,11 @@ public class Function_DefNode implements JottTree{
         
                 // { < f_body >}
                 JottTree f_bodynode = F_BodyNode.parseF_BodyNode(tokens);
-                if (tokens.isEmpty()) {
+                if (tokens.isEmpty() || tokens.get(0).getTokenType() != TokenType.R_BRACE) {
                     throw new IllegalArgumentException("Expected right brace after function body");
                 }
-                
                 checkTokenType(tokens, TokenType.R_BRACE);
                 tokens.remove(0);
-                
                 return new Function_DefNode(x, params, returntypecheck, f_bodynode);
         
             } catch (Exception e) {

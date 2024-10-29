@@ -1,11 +1,313 @@
 package provided;
-import java.io.BufferedReader;
-import java.io.FileReader;
+
+/**
+ * This class is responsible for tokenizing Jott code.
+ *
+ * @author
+ **/
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Stack;
-import tokens.*;
+import java.util.Scanner;
+import java.io.File;
 
 public class JottTokenizer {
+	// fields used during tokenizing
+	private final String filename;
+	private int lineNum;
+	private Scanner scan;
+	private String nextLine;
+	private int lineLength;
+	private int charIndex;
+	private boolean isTokenizeError;
+
+
+	/**
+	 * Constructor method of JottTokenizer class
+	 * */
+	JottTokenizer(String filename) {
+		this.filename = filename;
+		this.lineNum = 0;
+		File file = new File(filename);
+		try {
+			this.scan = new Scanner(file);
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		this.nextLine = "";
+		this.lineLength = 0;
+		this.charIndex = 0;
+		this.isTokenizeError = false;
+	}
+
+
+	/**
+	 * Helper method for simplifying Token creation
+	 * @param token String input representing the token
+	 * @param tt TokenType of token
+	 * @return Token
+	 */
+	private Token createToken(String token, TokenType tt) {
+		return new Token(token, this.filename, this.lineNum, tt);
+	}
+
+
+	/**
+	 * Helper method for sending a syntax error encountered during tokenization to the console
+	 * @param errToken String "token" causing the syntax error
+	 */
+	private void printErrToken(String expected, String errToken) {
+		System.err.printf("Syntax Error:\n\tExpected %s, got \"%s\"\n\t%s:%d\n\n",expected, errToken, this.filename, this.lineNum);
+		this.isTokenizeError = true;
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '='
+	 * Assumes that the '=' character was already encountered during tokenization before method call
+	 * @return Either '=' ASSIGN or '==' REL_OP Token
+	 */
+	private Token getEqualsSignToken() {
+		int j = charIndex + 1;
+		if (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (lookAhead == '=') {
+				charIndex++;
+				return createToken("==", TokenType.REL_OP);
+			}
+		}
+		return createToken("=", TokenType.ASSIGN);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '<' or '>'
+	 * Assumes that the '<' or '>' character was already encountered during tokenization before method call
+	 * @param angleBracket Either '<' or '>' depending on which character was encountered to create the token
+	 * @return '<', '>', '<=', or '>=' REL_OP Token
+	 */
+	private Token getAngleBracketToken(String angleBracket) {
+		int j = charIndex + 1;
+		if (j < lineLength) {
+			char lookAhead = nextLine.charAt(charIndex + 1);
+			if (lookAhead == '=') {
+				charIndex++;
+				return createToken(angleBracket + "=", TokenType.REL_OP);
+			}
+		}
+		return createToken(angleBracket, TokenType.REL_OP);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with a digit
+	 * Assumes that the first digit character was already encountered during tokenization before method call
+	 * @param firstNumber String representation of the first digit character found to start off the token
+	 * @return NUMBER Token in format of X X* {. | none} X* where X is a digit
+	 */
+	private Token getNumberToken(String firstNumber) {
+		StringBuilder newTok = new StringBuilder(firstNumber);
+		int j = charIndex + 1;
+		if (j >= lineLength)
+		{
+			return createToken(newTok.toString(), TokenType.NUMBER);
+		}
+		char lookAhead = nextLine.charAt(j);
+		while (isDigit(lookAhead)) {
+			newTok.append(lookAhead);
+			j++;
+			if (j >= lineLength)
+			{
+				break;
+			}
+			lookAhead = nextLine.charAt(j);
+		}
+		if (lookAhead == '.') {
+			newTok.append(".");
+			j++;
+			if (j < lineLength)
+			{
+				lookAhead = nextLine.charAt(j);
+			}
+			while (isDigit(lookAhead)) {
+				newTok.append(lookAhead);
+				j++;
+				if (j >= lineLength)
+				{
+					break;
+				}
+				lookAhead = nextLine.charAt(j);
+			}
+		}
+		charIndex += newTok.length() - 1;
+		return createToken(newTok.toString(), TokenType.NUMBER);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '.'
+	 * Assumes that the '.' character was already encountered during tokenization before method call
+	 * @return Null if token is invalid else NUMBER token in format . X X* where X is a digit
+	 */
+	private Token getPeriodToken() {
+		int j = charIndex + 1;
+		char lookAhead;
+		if (j >= lineLength || !isDigit(lookAhead = nextLine.charAt(j)))
+		{
+			printErrToken("Valid Number", ".");
+			return null;
+		}
+		StringBuilder newTok = new StringBuilder(".");
+		while (isDigit(lookAhead)) {
+			newTok.append(lookAhead);
+			j++;
+			if (j >= lineLength)
+			{
+				break;
+			}
+			lookAhead = nextLine.charAt(j);
+		}
+		charIndex += newTok.length()-1;
+		return createToken(newTok.toString(), TokenType.NUMBER);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '!'
+	 * Assumes that the '!' character was already encountered during tokenization before method call
+	 * @return NULL if token is invalid else '!=' REL_OP Token
+	 */
+	private Token getExclamationToken() {
+		int j = charIndex + 1;
+		if (j >= lineLength || nextLine.charAt(j) != '=')
+		{
+			printErrToken("\"!=\"", "!");
+			return null;
+		}
+		charIndex++;
+		return createToken("!=", TokenType.REL_OP);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with a letter
+	 * Assumes that the letter character was already encountered during tokenization before method call
+	 * @param firstLetter String representation of the first letter character found to start off the token
+	 * @return ID_KEYWORD Token with a string of letters and digits, beginning with a letter
+	 */
+	private Token getIdKeywordToken(String firstLetter) {
+		String newTok = firstLetter;
+		int j = charIndex + 1;
+		while (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (isLetter(lookAhead) || isDigit(lookAhead)) {
+				newTok += lookAhead;
+				j++;
+			}
+			else {
+				break;
+			}
+		}
+		charIndex += newTok.length()-1;
+		return createToken(newTok, TokenType.ID_KEYWORD);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '"'
+	 * Assumes that the '"' character was already encountered during tokenization before method call
+	 * @return Null if token is invalid else a STRING token with a string of letters, digits, and ' ' beginning and
+	 *         ending with '"' characters
+	 */
+	private Token getStringToken() {
+		StringBuilder newTok = new StringBuilder("\"");
+		int j = charIndex + 1;
+		while (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (lookAhead == '"') {
+				newTok.append("\"");
+				charIndex += newTok.length()-1;
+				return createToken(newTok.toString(), TokenType.STRING);
+			}
+			else if (!isLetter(lookAhead) && !isDigit(lookAhead) && lookAhead != ' ') {
+				break;
+			}
+			newTok.append(lookAhead);
+			j++;
+		}
+		printErrToken("Valid String",newTok.toString());
+		return null;
+	}
+
+    private Token getColonorFCToken()
+    {
+        int j = charIndex + 1;
+		if (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (lookAhead == ':') {
+				charIndex++;
+				return createToken("::", TokenType.FC_HEADER);
+			}
+            else{
+                return createToken(":", TokenType.COLON);
+            }
+		}
+		return createToken(":", TokenType.COLON);
+    }
+	/**
+	 * Method for tokenizing entire file for the Tokenizer and adding tokens to list
+	 * @return Null if a syntax error was found during tokenization else an ArrayList of valid tokens
+	 */
+	private ArrayList<Token> getTokens() {
+		ArrayList<Token> outList = new ArrayList<>();
+		while (scan.hasNextLine() && !isTokenizeError) {
+			this.nextLine = scan.nextLine();
+			this.lineNum++;
+			this.lineLength = nextLine.length();
+			for (charIndex = 0; charIndex < lineLength && !isTokenizeError; charIndex++) {
+				char nextChar = nextLine.charAt(charIndex);
+				Token newToken = null;
+				if (nextChar == '#')
+				{
+					break;
+				}
+				else if (isDigit(nextChar)) {
+					newToken = getNumberToken("" + nextChar);
+				}
+				else if (isLetter(nextChar)) {
+					newToken = getIdKeywordToken("" + nextChar);
+				}
+				else {
+					switch (nextChar) {
+						case ',' -> newToken = createToken(",", TokenType.COMMA);
+						case ']' -> newToken = createToken("]", TokenType.R_BRACKET);
+						case '[' -> newToken = createToken("[", TokenType.L_BRACKET);
+						case '{' -> newToken = createToken("{", TokenType.L_BRACE);
+						case '}' -> newToken = createToken("}", TokenType.R_BRACE);
+						case '=' -> newToken = getEqualsSignToken();
+						case '>', '<' -> newToken = getAngleBracketToken("" + nextChar);
+						case '/', '+', '-', '*' -> newToken = createToken("" + nextChar, TokenType.MATH_OP);
+						case ';' -> newToken = createToken(";", TokenType.SEMICOLON);
+						case '.' -> newToken = getPeriodToken();
+						case ':' -> newToken = getColonorFCToken();
+						case '!' -> newToken = getExclamationToken();
+						case '"' -> newToken = getStringToken();
+					}
+				}
+
+				if (newToken != null) {
+					outList.add(newToken);
+				}
+			}
+		}
+		this.scan.close();
+		if (this.isTokenizeError) {
+			return null;
+		}
+		return outList;
+	}
+
 	/**
      * Takes in a filename and tokenizes that file into Tokens
      * based on the rules of the Jott Language
@@ -13,466 +315,35 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-        
-		ArrayList<Token>tokens = new ArrayList<>();
-        Stack<Character> stack = new Stack<>();
-        
-        //We will read the jott file
-        try(BufferedReader jotReader = new BufferedReader(new FileReader(filename)))
-        {
-            String line;
-            
-            int linenumber = 1;
-            boolean quoteread = false;
-
-            
-            //This will go through ever line in the jott file.
-            while((line = jotReader.readLine())!=null)
-            {
-                
-                //If there is # we skip that line moved to one that doesn't have a #.
-                if(line.contains("#"))
-                {
-                    linenumber++;
-                    continue;
-                }
-                String uniquetoken = "";
-                //This will for loop every character in the current line.
-                for(int i = 0; i < line.length(); i++)
-                {
-
-                    boolean singlecharboolean = line.charAt(i) == ',' || line.charAt(i)=='[' ||line.charAt(i)==']'||line.charAt(i)=='{' || line.charAt(i)=='}'|| line.charAt(i)==';'|| line.charAt(i)==':'||line.charAt(i)=='=';
-
-                    if(i == line.length()-1 && !(singlecharboolean))
-                    {
-                        uniquetoken += String.valueOf(line.charAt(i));
-                    }
-                    if(line.charAt(i)=='=' && i == line.length() -1)
-                    {
-                        uniquetoken +=String.valueOf(line.charAt(i));
-                        solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                        continue;
-                    }
-                    if(uniquetoken.equals("."))
-                    {
-                        if(i == line.length()-1)
-                        {
-                        tokens.clear();
-                        System.err.println("Invalid syntax");
-                        System.err.println("Expecting a float");
-                        System.err.println(filename+".jott:"+linenumber);
-                        return null;
-                        }
-                    }
-                    if(uniquetoken.equals("!"))
-                    {
-                        if(i == line.length()-1)
-                        {
-                            tokens.clear();
-                            System.err.println("Invalid syntax");
-                            System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
-                            System.err.println(filename+".jott:"+linenumber);
-                            return null;
-                        }
-                        else
-                        {
-                            if(line.charAt(i+1)=='=')
-                            {
-                                uniquetoken += String.valueOf(line.charAt(i));
-                                continue;
-                            }
-                            else
-                            {
-                                tokens.clear();
-                                System.err.println("Invalid syntax");
-                                System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
-                                System.err.println(filename+".jott:"+linenumber);
-                                return null;
-                            }
-                        }
-                        
-                    }
-                    if(uniquetoken.equals("::"))
-                    {
-                        FcHeader fcHeader = new FcHeader(uniquetoken, filename, linenumber);
-                        tokens.add(fcHeader);
-                        uniquetoken = "";
-                        continue;
-                    }
-
-                    /**
-                     * Check if the current character is a space, or it is the last character. 
-                     */
-                    if(line.charAt(i)==' ' || i == line.length()-1)
-                    {
-                        //Check if the current uniquetoken is empty, if it is, it will if current character is single character or not.
-                        //If it is, then it will call in solvetokenconcat to prevent any incorrect token concatenation from happening.
-                        if(uniquetoken.isEmpty())
-                        {
-                            if(singlecharboolean)
-                            {
-                                solvetokenconcat(String.valueOf(line.charAt(i)), tokens, filename, linenumber, stack);
-
-                            }
-                            continue;
-                        }
-                        //if uniquetoken is "=" then it uniquetoken will go to Assign token class and be added the tokens list.
-                        // uniquetoken become empty.
-                        if(uniquetoken.equals("=") )
-                        {
-                            Token assign = new Assign(filename, linenumber);
-                            tokens.add(assign);
-                            uniquetoken = "";
-                            continue;
-                        }
-                        //If uniquetoken is one of the relation operators with an = sign, then it go to RelOp token class and be added to the tokens list.
-                        //uniquetoken become empty.
-                        if(uniquetoken.equals("==") || uniquetoken.equals(">=") || uniquetoken.equals("<=") || uniquetoken.equals("!="))
-                        {
-                            RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
-                            tokens.add(relOp);
-                            uniquetoken = "";
-                            continue;
-
-                        }
-
-                        //If it is > or <, then it will go to RelOp token class and be added to tokens list.
-                        // uniquetoken then becomes empty.
-                        if(uniquetoken.equals(">") || uniquetoken.contains("<"))
-                        {
-                            RelOp relOp = new RelOp(uniquetoken, filename, linenumber);
-                            tokens.add(relOp);
-                            uniquetoken = "";
-                            continue;
-                        }
-                        /**
-                         * Check if there is quotes in the uniquetoken, if quoteread is true, then if check if there is both quotes in the token, if it si 
-                         * quoteread will be false, and it uniquetoken will be added to the string and uniquetoken is empty.
-                         * Next if statement if quoteread is false then it will get the substring of string ahead of current character. If it doesn't contain 
-                         * a quote in the the end, then at that is a syntax error and the program will stop and print out syntax error statment.
-                         * If the token has both quotes, then it is string that added to String token class and added to list, uniquetoken is now empty.
-                         */
-                        if(uniquetoken.contains("\""))
-                        {
-                            if (quoteread){
-                                if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
-                                {
-                                    quoteread = false;
-                                    StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
-                                    tokens.add(stringToken);
-                                    uniquetoken = "";
-                                    continue;
-                                }
-                            }
-                            if (!quoteread){
-                                String substring = line.substring(i+1);
-                                if (!substring.contains("\"")){
-                                    tokens.clear();
-                                    System.out.println("Invalid Syntax");
-                                    System.out.println("opened quotes \" must be closed on the same line");
-                                    System.err.println(filename+".jott:"+linenumber);
-                                    return null;
-                                }
-                                quoteread=true;
-                                
-                            }
-                            if(uniquetoken.charAt(0)=='\"' && uniquetoken.charAt(uniquetoken.length()-1)=='\"')
-                            {
-                                quoteread = true;
-                                StringToken stringToken = new StringToken(uniquetoken, filename, linenumber);
-                                tokens.add(stringToken);
-                                uniquetoken = "";
-                                continue;
-                            }
-
-                        }
-                        if(Character.isLetter(uniquetoken.charAt(0)))
-                        {
-                            IdKeyword idKeyword = new IdKeyword(uniquetoken, filename, linenumber);
-                            tokens.add(idKeyword);
-                            uniquetoken = "";
-                            if(i == line.length() -1 && !(Character.isLetter(line.charAt(i))))
-                            {
-                                solvetokenconcat(String.valueOf(line.charAt(i)), tokens, filename, linenumber, stack);
-                            }
-                            continue;
-                        }
-
-                        if(uniquetoken.equals("."))
-                        {
-                            System.err.println("Incorrect syntax for number");
-                        }
-                        if(uniquetoken.contains(".") || Character.isDigit(uniquetoken.charAt(0)))
-                        {
-                            if(Character.isDigit(uniquetoken.charAt(0)) || uniquetoken.charAt(0)=='.' || i == line.length()-1)
-                            {
-                                NumberToken numbertoken = new NumberToken(uniquetoken, filename, linenumber);
-                                tokens.add(numbertoken);
-                                uniquetoken = "";
-                                continue;
-                            }
-                        }
-
-                    }
-                    if(line.charAt(i)=='+'||line.charAt(i)=='-' || line.charAt(i)=='/' || line.charAt(i)=='*')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                            if(i == line.length() - 1)
-                            {
-                                continue;
-                            }
-
-                        }
-                        MathOp mathop = new MathOp(String.valueOf(line.charAt(i)), filename, linenumber);
-                        tokens.add(mathop);
-                        uniquetoken = "";
-                        continue;
-                    }
-                    if(line.charAt(i) == '{')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-                        LBrace lBrace = new LBrace(filename, linenumber);
-                        tokens.add(lBrace);
-                        stack.push(line.charAt(i));
-                        uniquetoken = "";
-                        continue;
-                    }
-                    if(line.charAt(i)== '}')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-                        if(stack.isEmpty())
-                        {
-                            tokens.clear();
-                            System.err.println("Invalid syntax");
-                            System.err.println("Incorrect syntax of braces");
-                            System.err.println(filename+".jott:"+linenumber);
-                            return null;
-                        }
-                        else
-                        {
-                            RBrace rBrace = new RBrace(filename, linenumber);
-                            tokens.add(rBrace);
-                            stack.pop();
-                            uniquetoken = "";
-                            continue;
-                        }
-                    }
-                    if(line.charAt(i)=='[')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-
-                        LBracket lBracket = new LBracket(filename, linenumber);
-                        tokens.add(lBracket);
-                        stack.push(line.charAt(i));
-                        uniquetoken = "";
-                        continue;
-                    }
-                    if(line.charAt(i)==']')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-                        if(stack.isEmpty())
-                        {
-                            System.err.println("Incorrect syntax of braces");
-                        }
-                        else
-                        {
-                            RBracket rBracket = new RBracket(filename, linenumber);
-                            tokens.add(rBracket);
-                            stack.pop();
-                            uniquetoken = "";
-                            continue;
-                        }
-                    }
-                    if(line.charAt(i)==';')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-                        Semicolon semicolon = new Semicolon(filename, linenumber);
-                        tokens.add(semicolon);
-                        uniquetoken = "";
-                        continue;
-                    }
-                    if(line.charAt(i) == ',')
-                    {
-                        if(!(uniquetoken.isEmpty()))
-                        {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";
-                        }
-                        Comma comma = new Comma(filename, linenumber);
-                        tokens.add(comma);
-                        uniquetoken = "";
-                        continue;
-                    }
-                    if(line.charAt(i) == ':') {
-                        if(!uniquetoken.isEmpty()) {
-                            solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                            uniquetoken = "";  // Clear uniquetoken after processing
-                        }
-
-                        if(i + 1 < line.length() && line.charAt(i+1) == ':') {
-                            uniquetoken = "::";
-                            i++;
-                        } else {
-                            uniquetoken = ":";
-                        }
-                        solvetokenconcat(uniquetoken, tokens, filename, linenumber, stack);
-                        uniquetoken = "";  // Clear the token after processing
-                        continue;
-                    }
-
-                    //If i == line.length() - 1, we just continue due to getting the character early on so we can get the 
-                    //token.
-                    //Otherwise, we just add the character to the token.
-                    if(i == line.length() - 1)
-                    {
-                        continue;
-                    }
-                    else{
-                        uniquetoken += String.valueOf(line.charAt(i));
-                    }
-
-
-
-                }
-
-                linenumber++;
-
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return tokens;
-
+		JottTokenizer tokenizer = new JottTokenizer(filename);
+		return tokenizer.getTokens();
 	}
-    /**
-     * solvetokenconcat is a method that is suppose to prevent any wrong concatenation from happening so we don't 
-     * get an incorrect token. For example, ::print is incorrect, we want to split those as :: and print.
-     * This function gets called several times to ensure we split the tokens up correctly.
-     * @param token The current token that is being tested in the switch cases
-     * @param tokens Arraylist of tokens that will append a current token.
-     * @param filename the name of the file to tokenize; can be relative or absolute path
-     * @param linenumber The current linenumber that loop is on.
-     * @param stack Used to test for any braces, brackets.
-     * @return The arraylist of tokens so they can used further in the program.
-     */
-    private static ArrayList<Token> solvetokenconcat(String token, ArrayList<Token>tokens, String filename, int linenumber, Stack<Character> stack)
-    {
-        /**
-         * We have a switch case that shows if a current token equals something. 
-         * This will allow us to add a current token instead of adding a character that does not belong with that tokne.
-         */
-        switch(token)
-        {
-            case "=":
-                Assign assign = new Assign(filename, linenumber);
-                tokens.add(assign);
-                break;
-            case "+":
-            case "-":
-            case "/":
-            case "*":
-                MathOp mathOp = new MathOp(token, filename, linenumber);
-                tokens.add(mathOp);
-                break;
-            case "{":
-                LBrace lBrace = new LBrace(filename, linenumber);
-                tokens.add(lBrace);
-                stack.push('{');
-                break;
-            case "}":
-                if(stack.isEmpty())
-                {
-                    tokens.clear();
-                    System.err.println("Invalid syntax");
-                    System.err.println("Incorrect syntax of braces");
-                    System.err.println(filename+".jott:"+linenumber);
-
-                }
-                else
-                {
-                    RBrace rBrace = new RBrace(filename, linenumber);
-                    tokens.add(rBrace);
-                    stack.pop();
-                }
-                break;
-            case "[":
-                LBracket lBracket = new LBracket(filename, linenumber);
-                tokens.add(lBracket);
-                stack.push('[');
-                break;
-            case "]":
-                RBracket rBracket = new RBracket(filename, linenumber);
-                tokens.add(rBracket);
-                stack.pop();
-                break;
-            case ";":
-                Semicolon semicolon = new Semicolon(filename, linenumber);
-                tokens.add(semicolon);
-                break;
-            case ",":
-                Comma comma = new Comma(filename, linenumber);
-                tokens.add(comma);
-                break;
-            case ":":
-                Colon colon = new Colon(filename, linenumber);
-                tokens.add(colon);
-                break;
-            case "::":
-                FcHeader fcHeader = new FcHeader(token, filename, linenumber);
-                tokens.add(fcHeader);
-                break;
-            default:
-                if(Character.isLetter(token.charAt(0)))
-                {
-                    IdKeyword idKeyword = new IdKeyword(token, filename, linenumber);
-                    tokens.add(idKeyword);
-                }
-                else if(token.contains(".") || Character.isDigit(token.charAt(0)))
-                {
-                    NumberToken numberToken = new NumberToken(token, filename, linenumber);
-                    tokens.add(numberToken);
-                }
-                else if (token.startsWith("\"") && token.endsWith("\"")) {
-                    StringToken stringToken = new StringToken(token, filename, linenumber);
-                    tokens.add(stringToken);
-                }
-                else if(token.equals("==") || token.equals(">=") || token.equals("<=") || token.equals("!="))
-                {
-                    RelOp relOp = new RelOp(token, filename, linenumber);
-                    tokens.add(relOp);
-                }
-                else{
-                    System.err.println("Unknown token:" + token);
-                }
-
-        }
 
 
-        return tokens;
-    }
+	/**
+	 * Helper method for determining whether a character is a digit
+	 * @return TRUE if character is a digit else FALSE
+	 */
+	private static boolean isDigit(char c) {
+		return switch (c) {
+			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> true;
+			default -> false;
+		};
+	}
+
+
+	/**
+	 * Helper method for determining whether a character is a letter
+	 * @return TRUE if character is a letter else FALSE
+	 */
+	private static boolean isLetter(char c) {
+		return switch (c) {
+			case 'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f' -> true;
+			case 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l' -> true;
+			case 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r' -> true;
+			case 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x' -> true;
+			case 'Y', 'y', 'Z', 'z' -> true;
+			default -> false;
+		};
+	}
 }

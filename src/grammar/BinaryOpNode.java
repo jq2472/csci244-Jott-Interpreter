@@ -21,7 +21,7 @@ public class BinaryOpNode implements JottTree {
     @Override
     public String convertToJott() {
         // Return the binary operation as a string, e.g., "left + right" or "left == right"
-        return left.convertToJott() + " " + operator.toString() + " " + right.convertToJott();
+        return left.convertToJott() + " " + operator.getToken() + " " + right.convertToJott();
     }
 
     @Override

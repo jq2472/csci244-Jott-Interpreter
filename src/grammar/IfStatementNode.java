@@ -6,18 +6,26 @@ public class IfStatementNode implements BodyStmt{
     private JottTree condition;
     private JottTree body;
     private ArrayList<JottTree> elsenodes;
-    private JottTree finalelsenode; 
-    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
+    private JottTree finalelsenode;
+
+//    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
+//        this.condition = cond;
+//        this.body = bodylist;
+//        if (!elseiflist.isEmpty()){
+//            this.elsenodes = elseiflist;
+//        }
+//        else {this.elsenodes = null;}
+//        if (finalelse !=null){
+//            this.finalelsenode = finalelse;
+//        }
+//    }
+    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse) {
         this.condition = cond;
         this.body = bodylist;
-        if (!elseiflist.isEmpty()){
-            this.elsenodes = elseiflist;
-        }
-        else {this.elsenodes = null;}
-        if (finalelse !=null){
-            this.finalelsenode = finalelse;
-        }
+        this.elsenodes = (elseiflist != null) ? elseiflist : new ArrayList<>(); // Ensure elsenodes is always initialized
+        this.finalelsenode = finalelse;
     }
+
     public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens){
         checkIsNotEmpty(tokens);
         try {
@@ -45,9 +53,13 @@ public class IfStatementNode implements BodyStmt{
             JottTree body = BodyNode.parseBodyNode(tokens);
             currentToken = tokens.get(0);
             if (currentToken.getTokenType().equals(TokenType.R_BRACE)) {
+                tokens.remove(0);
+            }
+            else
+            {
                 throw new IllegalArgumentException("Error Parsing If statement, after body should be closing brace");
             }
-            tokens.remove(0);
+            
             currentToken = tokens.get(0);
             ArrayList<JottTree> elseifs = new ArrayList<>();
             while (currentToken.getToken().equals("ElseIf")){
@@ -55,7 +67,7 @@ public class IfStatementNode implements BodyStmt{
                 elseifs.add(j);
             }
             currentToken = tokens.get(0);
-            if (currentToken.equals("Else")){
+            if (currentToken.getToken().equals("Else")){
                 JottTree finalelse = ElseNode.parseelsenode(tokens);
                 return new IfStatementNode(cond, body, elseifs, finalelse);
             }

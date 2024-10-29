@@ -14,12 +14,14 @@ public class FunctionCallNode implements OperandNode {
     private IdNode functionName;
     // [ < params > ]
     private ParamsNode parameters;
+    private boolean isbodystmt;
 
     // The operand interface's parseOperandNode()
     // expects the proper node type to be returned
     public FunctionCallNode(IdNode functionName, ParamsNode parameters) {
         this.functionName = functionName;
         this.parameters = parameters;
+        this.isbodystmt = false;
     }
     
 
@@ -66,20 +68,21 @@ public class FunctionCallNode implements OperandNode {
     public String convertToJott() {
         StringBuilder functionNodeStr = new StringBuilder();
 
-        // fc header
         functionNodeStr.append("::");
-        // <id>
         functionNodeStr.append(this.functionName.convertToJott());
-        // [params]
         functionNodeStr.append("[");
-        if (this.parameters == null) {
-            functionNodeStr.append("");
-        } else {
+        if (this.parameters != null) {
             functionNodeStr.append(this.parameters.convertToJott());
         }
-        functionNodeStr.append("];");
+        functionNodeStr.append("]");
+        if (isbodystmt) {
+            functionNodeStr.append(" ;");
+        }
+        return functionNodeStr.toString();
+    }
 
-        return String.valueOf(functionNodeStr);
+    public void setbodystmttrue(){
+        this.isbodystmt = true;
     }
 
     @Override

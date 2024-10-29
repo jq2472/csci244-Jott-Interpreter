@@ -49,7 +49,7 @@ public class AssignmentNode implements BodyStmt{
     }
 
     public String convertToJott() {
-        return this.id1.convertToJott() + " " + this.value.getToken() + " " + this.expresnode.convertToJott() + ";";
+        return this.id1.convertToJott() + " " + "=" + " " + this.expresnode.convertToJott() + ";";
     }
 
     public String toString(){
