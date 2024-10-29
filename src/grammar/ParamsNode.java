@@ -12,78 +12,42 @@ public class ParamsNode implements JottTree {
     public ParamsNode(ArrayList<JottTree> parameters){
         this.params = parameters;
     }
-//    public static ParamsNode parseParamsNode(ArrayList<Token>tokens) throws Exception
-//    {
-//        checkIsNotEmpty(tokens);
-//        Token currToken = tokens.get(0);
-//        if (currToken.getTokenType().equals(TokenType.R_BRACKET)){
-//            return new ParamsNode(new ArrayList<JottTree>());
-//        }
-//
-//        ArrayList<JottTree> paramstouse = new ArrayList<>();
-//        try {
-//            JottTree j = ExprNode.parseExprNode(tokens);
-//            paramstouse.add(j);
-//        }
-//        catch(Exception e){
-//            throw new Exception("Params need to be made up of comma seperated Expressions");
-//        }
-//        while (true) {
-//            currToken = tokens.get(0);
-//            if (currToken.getTokenType() != TokenType.COMMA){
-//                break;
-//            }
-//            else{
-//                try {
-//                    tokens.remove(0);
-//                    JottTree j = ExprNode.parseExprNode(tokens);
-//                    paramstouse.add(j);
-//                }
-//                catch(Exception e){
-//                    throw new Exception("Params need to be made up of comma seperated Expressions");
-//            }
-//        }
-//        }
-//        ParamsNode paramNode = new ParamsNode(paramstouse);
-//        return paramNode;
-        
-//    }
-public static ParamsNode parseParamsNode(ArrayList<Token> tokens) throws Exception {
-    checkIsNotEmpty(tokens);
-    Token currToken = tokens.get(0);
+    public static ParamsNode parseParamsNode(ArrayList<Token> tokens) throws Exception {
+        checkIsNotEmpty(tokens);
+        Token currToken = tokens.get(0);
 
-    // Return empty ParamsNode if the next token is a closing bracket
-    if (currToken.getTokenType().equals(TokenType.R_BRACKET)) {
-        return new ParamsNode(new ArrayList<JottTree>());
-    }
-
-    ArrayList<JottTree> paramstouse = new ArrayList<>();
-
-    // Try to parse the first expression
-    try {
-        JottTree j = ExprNode.parseExprNode(tokens);
-        paramstouse.add(j);
-    } catch (Exception e) {
-        throw new Exception("Params need to be made up of comma-separated Expressions");
-    }
-
-    // Continue parsing for additional parameters
-    while (true) {
-        currToken = tokens.get(0);
-        if (currToken.getTokenType() != TokenType.COMMA) {
-            break;
+        // return empty ParamsNode if the next token is a closing bracket
+        if (currToken.getTokenType().equals(TokenType.R_BRACKET)) {
+            return new ParamsNode(new ArrayList<JottTree>());
         }
-        tokens.remove(0); // Remove the comma
+
+        ArrayList<JottTree> paramstouse = new ArrayList<>();
+
+        // try to parse the first expression
         try {
             JottTree j = ExprNode.parseExprNode(tokens);
             paramstouse.add(j);
         } catch (Exception e) {
             throw new Exception("Params need to be made up of comma-separated Expressions");
         }
-    }
 
-    return new ParamsNode(paramstouse);
-}
+        // contineu parsing for additional parameters
+        while (true) {
+            currToken = tokens.get(0);
+            if (currToken.getTokenType() != TokenType.COMMA) {
+                break;
+            }
+            tokens.remove(0); // Remove the comma
+            try {
+                JottTree j = ExprNode.parseExprNode(tokens);
+                paramstouse.add(j);
+            } catch (Exception e) {
+                throw new Exception("Params need to be made up of comma-separated Expressions");
+            }
+        }
+
+        return new ParamsNode(paramstouse);
+    }
 
     @Override
     public String convertToJott() {

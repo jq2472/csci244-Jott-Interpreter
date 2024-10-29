@@ -44,7 +44,6 @@ public class Function_DefNode implements JottTree{
                 // function name
                 checkTokenType(tokens, TokenType.ID_KEYWORD);
                 IdNode x = IdNode.parseIdNode(tokens);
-                System.out.println("Function Name: " + x);
                 
                 checkTokenType(tokens, TokenType.L_BRACKET);
                 tokens.remove(0);
