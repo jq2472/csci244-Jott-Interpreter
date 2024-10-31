@@ -2,6 +2,8 @@ package grammar;
 
 import static grammar.Helper.*;
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 /**
@@ -86,9 +88,11 @@ public class FunctionCallNode implements OperandNode {
     }
 
     @Override
-    public boolean validateTree() {
-        // needs to be implemented
+    public boolean validateTree(SymbolTable symbolTable) {
+        // ::foo[ y ]; // invalid if foo is expecting a non-integer
+        //::foo[]; // invalid if foo expects params
         return true;
+
     }
 
     @Override
