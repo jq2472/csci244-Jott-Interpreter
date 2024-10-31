@@ -10,6 +10,7 @@ package provided;
 import java.util.ArrayList;
 
 import grammar.ProgramNode;
+import interpreter.SymbolTable;
 
 public class JottParser { // calls converttojott on programNode
 

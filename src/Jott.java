@@ -53,13 +53,14 @@ public class Jott {
      * @throws FileNotFoundException if the machine file is not found
      */
     public static void main(String[] args) {
-        String path = "parserTestCases/";
+//        String path = "parserTestCases/";
         try {
             if (args.length != 1) {
                 System.out.println("Usage: java Jott [filename.jott]");
                 System.exit(1);
             }
-            String filePath = path + args[0];
+//            String filePath = path + args[0];
+            String filePath = args[0];
 
             // read and display original Jott code
             String originalJottCode = new String(
@@ -83,7 +84,8 @@ public class Jott {
             }
 
             // validate tree
-            if (!parsedTokens.validateTree()) {
+            SymbolTable symbolTable = new SymbolTable();
+            if (!parsedTokens.validateTree(symbolTable)) {
                 System.err.println("The Jott code has semantic errors.");
                 return;
             }
