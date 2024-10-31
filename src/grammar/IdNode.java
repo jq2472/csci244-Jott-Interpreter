@@ -50,7 +50,7 @@ public class IdNode implements OperandNode {
     }
 
     @Override
-    public boolean validateTree(SymbolTable symbolTable) {
+    public boolean validateTree() {
         // needs to be implemented
         return true;
     }
