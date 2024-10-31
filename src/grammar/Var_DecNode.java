@@ -1,5 +1,7 @@
 package grammar;
 import static grammar.Helper.*;
+import static interpreter.SymbolTable.symbolTable;
+
 import java.util.ArrayList;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 import interpreter.*; // symboltable
@@ -51,8 +53,7 @@ public class Var_DecNode implements JottTree{
     }
 
     @Override
-    public boolean validateTree(SymbolTable symbolTable) {
-
+    public boolean validateTree() {
         Token varName = this.idNode.getIdName(); // doesn't return a string.
         // keeping as Token bc the object has the name, line number, type etc.
 

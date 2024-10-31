@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import static interpreter.SymbolTable.symbolTable;
+
 public class Jott {
     /***
      * From Jott tester file
@@ -84,7 +87,7 @@ public class Jott {
             }
 
             // validate tree
-            SymbolTable symbolTable = new SymbolTable();
+            symbolTable = new SymbolTable();
             if (!parsedTokens.validateTree(symbolTable)) {
                 System.err.println("The Jott code has semantic errors.");
             }

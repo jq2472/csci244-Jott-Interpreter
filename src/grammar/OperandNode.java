@@ -73,7 +73,7 @@ public interface OperandNode extends JottTree  {
 	 * Errors validating will be reported to System.err
      * @return true if valid Jott code; false otherwise
      */
-    public boolean validateTree(SymbolTable symbolTable);
+    public boolean validateTree();
 	
 	/**
 	 * This will execute the Jott code represented by this JottTree node.
