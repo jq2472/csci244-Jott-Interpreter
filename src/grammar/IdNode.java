@@ -51,8 +51,7 @@ public class IdNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
-        // needs to be implemented
-        return true;
+        return SymbolTable.symbolTable.has(idName);
     }
 
     @Override
