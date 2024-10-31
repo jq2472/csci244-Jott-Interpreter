@@ -2,6 +2,8 @@ package grammar;
 import provided.*;
 import java.util.ArrayList;
 
+import interpreter.SymbolTable;
+
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class TypeNode implements JottTree{
     
@@ -49,7 +51,7 @@ public class TypeNode implements JottTree{
     @Override
     public boolean validateTree() {
         // needs to be implemented phase 3
-        return true;
+        return SymbolTable.symbolTable.has(typenodetype);
     }
 
     @Override
