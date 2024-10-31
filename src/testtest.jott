@@ -1,0 +1,5 @@
+Def main[]:Integer{
+    Integer x;
+    x = 5;
+	Return x;
+}
