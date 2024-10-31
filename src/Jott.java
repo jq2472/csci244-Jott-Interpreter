@@ -46,6 +46,8 @@ public class Jott {
      * The main method.  Machine instructions can either be specified from standard input
      * (no command line), or from a file (only argument on command line).  From
      * here the machine assembles the instructions and then executes them.
+     * javac Jott.java
+     * java Jott funcNotDefined.jott
      *
      * @param args command line argument (optional)
      * @throws FileNotFoundException if the machine file is not found
@@ -58,17 +60,19 @@ public class Jott {
                 System.exit(1);
             }
             String filePath = path + args[0];
+
             // read and display original Jott code
             String originalJottCode = new String(
                     Files.readAllBytes(Paths.get(filePath)));
             System.out.println("Original Jott Code:\n" + originalJottCode + "\n");
+
             // run tokenizer, get tokens
             ArrayList<Token> tokens = JottTokenizer.tokenize(filePath);
             if (tokens == null) {
                 System.err.println("Expected a list of tokens, but got null");
                 return;
             }
-//            System.out.println("Tokens: " + tokenListString(tokens));
+
             // run parser, get Jotttree
             ArrayList<Token> cpyTokens = new ArrayList<>(tokens);
             JottTree parsedTokens = JottParser.parse(cpyTokens);
@@ -77,6 +81,7 @@ public class Jott {
             } else {
                 System.out.println("Parsed JottTree:\n" + parsedTokens);
             }
+
             // validate tree
             if (!parsedTokens.validateTree()) {
                 System.err.println("The Jott code has semantic errors.");
