@@ -2,6 +2,8 @@ package grammar;
 
 import static grammar.Helper.*;
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class NumberNode implements OperandNode {
@@ -50,7 +52,7 @@ public class NumberNode implements OperandNode {
     @Override
     public boolean validateTree() {
         // needs to be implemented
-        return true;
+        return SymbolTable.symbolTable.has(value);
     }
 
     @Override
