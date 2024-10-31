@@ -4,6 +4,8 @@ import provided.*;
 
 import java.util.ArrayList;
 
+import interpreter.SymbolTable;
+
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 
 public class StrLitNode implements ExprNode {
@@ -37,8 +39,7 @@ public class StrLitNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
-        // needs to be implemented in phase 3
-        return true;
+        return SymbolTable.symbolTable.has(str);
     }
 
     @Override
