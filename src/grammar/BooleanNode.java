@@ -3,6 +3,8 @@ import provided.*;
 
 import java.util.ArrayList;
 
+import interpreter.SymbolTable;
+
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class BooleanNode implements ExprNode{
     private Token booleantoken;
@@ -37,6 +39,6 @@ public class BooleanNode implements ExprNode{
     @Override
     public boolean validateTree() {
         // needs to be implemented
-        return true;
+        return SymbolTable.symbolTable.has(booleantoken);
     }
 }
