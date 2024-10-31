@@ -1,11 +1,16 @@
 package grammar;
 import static grammar.Helper.*;
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class IdNode implements OperandNode {
-
     private Token idName;
+
+    public Token getIdName() {
+        return idName;
+    }
 
     // idName might also just be able to just be a string?
     public IdNode(Token idName) {
@@ -45,7 +50,7 @@ public class IdNode implements OperandNode {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) {
         // needs to be implemented
         return true;
     }

@@ -2,9 +2,21 @@ package grammar;
 import static grammar.Helper.*;
 import java.util.ArrayList;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
+import interpreter.*; // symboltable
+
+
 public class Var_DecNode implements JottTree{
     private TypeNode typeNode;
     private IdNode idNode;
+
+    public TypeNode getTypeNode() {
+        return typeNode;
+    }
+
+    public IdNode getIdNode() {
+        return idNode;
+    }
+
     public Var_DecNode(TypeNode typeNode, IdNode idNode)
     {
         this.typeNode = typeNode;
@@ -21,8 +33,9 @@ public class Var_DecNode implements JottTree{
         tokens.remove(0);
 
         Var_DecNode var_DecNode = new Var_DecNode(typeNode, idNode);
+
+
         return var_DecNode;
-        
 
     }
     @Override
@@ -38,8 +51,22 @@ public class Var_DecNode implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
-        // needs to be implemented
+    public boolean validateTree(SymbolTable symbolTable) {
+
+        Token varName = this.idNode.getIdName(); // doesn't return a string.
+        // keeping as Token bc the object has the name, line number, type etc.
+
+        // check if the variable name already exists in the symbol table?
+        // not actually sure if
+        // int x = 5
+        // int x = 4 will be an error or if it will override
+        if (symbolTable.has(varName)) {
+            print_err("Variable name already exists in the symbol table",varName);
+            return false;
+        }
+        // add the variable to the symbol table with an initial value
+        symbolTable.set(varName, varName.getTokenType());
+
         return true;
     }
 

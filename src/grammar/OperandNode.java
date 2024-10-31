@@ -1,6 +1,8 @@
 package grammar;
 import static grammar.Helper.*;
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 /**
  * Represents an operand node in the Jott language, which can be expanded to:
@@ -71,7 +73,7 @@ public interface OperandNode extends JottTree  {
 	 * Errors validating will be reported to System.err
      * @return true if valid Jott code; false otherwise
      */
-    public boolean validateTree();
+    public boolean validateTree(SymbolTable symbolTable);
 	
 	/**
 	 * This will execute the Jott code represented by this JottTree node.
