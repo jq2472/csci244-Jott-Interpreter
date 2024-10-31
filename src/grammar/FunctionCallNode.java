@@ -88,7 +88,7 @@ public class FunctionCallNode implements OperandNode {
     }
 
     @Override
-    public boolean validateTree(SymbolTable symbolTable) {
+    public boolean validateTree() {
         // ::foo[ y ]; // invalid if foo is expecting a non-integer
         //::foo[]; // invalid if foo expects params
         return true;
