@@ -51,5 +51,16 @@ public class Helper {
         }
         return true;
     }
+
+    public static void print_err(String custom, Token token) {
+        StringBuilder errorMsg = new StringBuilder();
+        // custom error message
+        errorMsg.append(custom).append("\n");
+        // details about the token
+        errorMsg.append("In: ").append(token.getFilename()).append(" at line: ").append(token.getLineNum()).append("\n");
+        errorMsg.append("Got: ").append(token.getTokenType()).append(" ").append(token.getToken());
+        // Print the final error message
+        System.err.println(errorMsg.toString());
+    }
     
 }
