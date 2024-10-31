@@ -87,12 +87,7 @@ public class Jott {
             SymbolTable symbolTable = new SymbolTable();
             if (!parsedTokens.validateTree(symbolTable)) {
                 System.err.println("The Jott code has semantic errors.");
-                return;
             }
-//            // execute the Jott code
-//            SymbolTable symTbl = new SymbolTable();
-//            parsedTokens.execute();
-//            System.out.println("Execution completed.");
 
         } catch (IOException e) {
             e.printStackTrace();
