@@ -36,7 +36,21 @@ public class BooleanNode implements ExprNode{
     
     @Override
     public boolean validateTree() {
-        // needs to be implemented
-        return true;
-    }
+        try{
+            String booleanstr = this.booleantoken.getToken();
+            if ((booleanstr.equals("true") || booleanstr.equals("false")) && this.booleantoken.getTokenType()
+            == TokenType.ID_KEYWORD) {
+                return true; // Valid boolean value
+            }
+            else{
+                System.out.println("Invalid booleans: "+ booleanstr + ". Expecting 'True' or 'False'");
+                return false;
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Unexpecting error for validating Boolean node: "+e.getMessage());
+            return false;
+        }
+}
 }
