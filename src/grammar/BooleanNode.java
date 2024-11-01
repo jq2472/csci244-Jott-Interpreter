@@ -38,7 +38,7 @@ public class BooleanNode implements ExprNode{
     public boolean validateTree() {
         try{
             String booleanstr = this.booleantoken.getToken();
-            if ((booleanstr.equals("true") || booleanstr.equals("false")) && this.booleantoken.getTokenType()
+            if ((booleanstr.equals("True") || booleanstr.equals("False")) && this.booleantoken.getTokenType()
             == TokenType.ID_KEYWORD) {
                 return true; // Valid boolean value
             }
