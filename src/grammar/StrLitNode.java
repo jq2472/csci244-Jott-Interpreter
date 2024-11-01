@@ -39,7 +39,7 @@ public class StrLitNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
-        return SymbolTable.symbolTable.has(str);
+        return this.str.getTokenType() == TokenType.STRING;
     }
 
     @Override
