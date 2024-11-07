@@ -2,7 +2,6 @@ package interpreter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import provided.*;
-import grammar.*;
 
 /**
  * The machine's symbol table for handling the mapping of
@@ -10,6 +9,8 @@ import grammar.*;
  */
 public class SymbolTable<JottTree> {
     public static SymbolTable symbolTable;
+
+    public static String currentFunction; // tracking the currently active function, "turn off/on"
 
     /** the symbol tables to handle function/variable scope */
     // func -> <func_name, func_info>
@@ -22,38 +23,46 @@ public class SymbolTable<JottTree> {
     /**
      * Create an empty symbol table.
      */
-    public SymbolTable() {
+    private SymbolTable() {
         // use a LinkedHashMap so that we have O(1) access,
         // but the insertion order is maintained.
         this.funcTable = new LinkedHashMap<>();
         this.varTable = new LinkedHashMap<>();
     }
 
+    // Method to declare a variable in a specific function’s scope
+    public void declareVar(String funcName, String varName, JottTree value) {
+        // Ensure function scope map exists
+        varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
+        // Add the variable to the function’s map
+        varTable.get(funcName).put(varName, value);
+    }
+
     /**
      * Set a variable in the symbol table for a specific function scope.
      * @param funcName the name of the function where the variable is declared
      * @param varName the name of the variable
-     * @param value the associated value (JottTree object)
+     * @param value the associated value (JottTree object/tokentype/undecided..)
      */
-    public void setVar(String funcName, String varName, JottTree value) {
+    public void setVar(String funcName, String varName, Object value) {
         // Ensure the function's variable map exists
         varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
         // Set the variable in the corresponding function's variable map
         varTable.get(funcName).put(varName, value);
     }
 
-    /**
-     * Retrieve the value of a variable within a given function scope.
-     * @param funcName the name of the function
-     * @param varName the name of the variable
-     * @return the associated value (JottTree object), or null if not found
-     */
+    //retrieve a variable within a specific function’s scope
     public JottTree getVar(String funcName, String varName) {
-        Map<String, JottTree> variables = varTable.get(funcName);
-        if (variables != null) {
-            return variables.get(varName);
+        Map<String, JottTree> funcVars = varTable.get(funcName);
+        if (funcVars != null) {
+            return funcVars.get(varName);
         }
-        return null; // variable not found in the given function scope
+        return null; // variable not found in this function scope
+    }
+
+    // overloaded method that defaults to use currentFunction
+    public JottTree getVar(String varName) {
+        return getVar(currentFunction, varName); // Calls the other method with currentFunction as funcName
     }
 
     /**
@@ -63,8 +72,8 @@ public class SymbolTable<JottTree> {
      * @return true if the variable exists, false otherwise
      */
     public boolean hasVar(String funcName, String varName) {
-        Map<String, JottTree> variables = varTable.get(funcName);
-        return variables != null && variables.containsKey(varName);
+        Map<String, JottTree> funcVars = varTable.get(funcName);
+        return funcVars != null && funcVars.containsKey(varName);
     }
 
     /**
@@ -92,6 +101,11 @@ public class SymbolTable<JottTree> {
      */
     public boolean hasFunc(String funcName) {
         return funcTable.containsKey(funcName);
+    }
+
+    // Method to clear variables after a function finishes execution
+    public void clearFunctionScope(String funcName) {
+        varTable.remove(funcName);
     }
 
     /**
