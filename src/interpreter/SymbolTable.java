@@ -6,8 +6,7 @@ import grammar.*;
 
 /**
  * The machine's symbol table for handling the mapping of
- * variable names to their integer values.
- *
+ * variable names and function names to their associated values.
  */
 public class SymbolTable<JottTree> {
     public static SymbolTable symbolTable;
@@ -15,7 +14,6 @@ public class SymbolTable<JottTree> {
     /** the symbol tables to handle function/variable scope */
     // func -> <func_name, func_info>
     private final Map<String, JottTree> funcTable;
-
     // vars -> <var_name, <var_name, var_info>>
     // will know the function scope the variables can be used
     // because it's stored as outermost key
@@ -55,7 +53,7 @@ public class SymbolTable<JottTree> {
         if (variables != null) {
             return variables.get(varName);
         }
-        return null; // Variable not found in the given function scope
+        return null; // variable not found in the given function scope
     }
 
     /**
