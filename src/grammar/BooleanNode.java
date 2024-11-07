@@ -39,4 +39,8 @@ public class BooleanNode implements ExprNode{
         // needs to be implemented
         return true;
     }
+    @Override
+    public Token getToken() {
+        return this.booleantoken;
+    }
 }

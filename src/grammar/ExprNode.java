@@ -68,4 +68,6 @@ public interface ExprNode extends JottTree {
             throw new IllegalArgumentException(ERROR_MESSAGE + ", Got: " + tokens.get(0).getTokenType().toString());
         }
     }
+
+    public Token getToken();
 }
