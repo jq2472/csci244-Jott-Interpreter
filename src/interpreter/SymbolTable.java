@@ -30,26 +30,19 @@ public class SymbolTable<JottTree> {
         this.varTable = new LinkedHashMap<>();
     }
 
-    // Method to declare a variable in a specific function’s scope
-    public void declareVar(String funcName, String varName, JottTree value) {
-        // Ensure function scope map exists
-        varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
-        // Add the variable to the function’s map
-        varTable.get(funcName).put(varName, value);
-    }
-
     /**
      * Set a variable in the symbol table for a specific function scope.
      * @param funcName the name of the function where the variable is declared
      * @param varName the name of the variable
      * @param value the associated value (JottTree object/tokentype/undecided..)
      */
-    public void setVar(String funcName, String varName, Object value) {
+    public void setVar(String funcName, String varName, JottTree value) {
         // Ensure the function's variable map exists
         varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
         // Set the variable in the corresponding function's variable map
         varTable.get(funcName).put(varName, value);
     }
+
 
     //retrieve a variable within a specific function’s scope
     public JottTree getVar(String funcName, String varName) {
