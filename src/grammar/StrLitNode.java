@@ -39,7 +39,23 @@ public class StrLitNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
-        return SymbolTable.symbolTable.has(str);
+        if (this.str.getTokenType() != TokenType.STRING) {
+            System.err.println("Error: Invalid token type for StrlitNode. Expected STRING_LITERAL, got: " 
+                               + this.str.getTokenType());
+            return false;
+        }
+    
+        // Check if the literal value is enclosed in quotes
+        String stringvalue = this.str.getToken();
+        boolean isValid = stringvalue.startsWith("\"") && stringvalue.endsWith("\"");
+    
+        // If isValid is False.
+        if (!isValid) {
+            System.err.println("Error: String literal not enclosed in quotes: " + stringvalue);
+            return isValid; 
+        }
+        
+        return isValid;
     }
 
     @Override

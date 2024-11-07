@@ -2,77 +2,135 @@ package interpreter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import provided.*;
-import grammar.*;
 
 /**
  * The machine's symbol table for handling the mapping of
- * variable names to their integer values.
- *
+ * variable names and function names to their associated values.
  */
 public class SymbolTable<JottTree> {
     public static SymbolTable symbolTable;
-    /** the symbol table */
-    private final Map<Token, JottTree> symTbl;
+
+    public static String currentFunction; // tracking the currently active function, "turn off/on"
+
+    /** the symbol tables to handle function/variable scope */
+    // func -> <func_name, func_info>
+    private final Map<String, JottTree> funcTable;
+    // vars -> <var_name, <var_name, var_info>>
+    // will know the function scope the variables can be used
+    // because it's stored as outermost key
+    private final Map<String, Map<String, JottTree>> varTable;
 
     /**
      * Create an empty symbol table.
      */
-    public SymbolTable() {
+    private SymbolTable() {
         // use a LinkedHashMap so that we have O(1) access,
         // but the insertion order is maintained.
-        this.symTbl = new LinkedHashMap<>();
+        this.funcTable = new LinkedHashMap<>();
+        this.varTable = new LinkedHashMap<>();
+    }
+
+    // Method to declare a variable in a specific function’s scope
+    public void declareVar(String funcName, String varName, JottTree value) {
+        // Ensure function scope map exists
+        varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
+        // Add the variable to the function’s map
+        varTable.get(funcName).put(varName, value);
     }
 
     /**
-     * Set a variable name in the table to an associated value.
-     * @param name the variable name
-     * @param value the associated value
+     * Set a variable in the symbol table for a specific function scope.
+     * @param funcName the name of the function where the variable is declared
+     * @param varName the name of the variable
+     * @param value the associated value (JottTree object/tokentype/undecided..)
      */
-    public void set(Token name, JottTree value) {
-        this.symTbl.put(name, value);
+    public void setVar(String funcName, String varName, Object value) {
+        // Ensure the function's variable map exists
+        varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
+        // Set the variable in the corresponding function's variable map
+        varTable.get(funcName).put(varName, value);
+    }
+
+    //retrieve a variable within a specific function’s scope
+    public JottTree getVar(String funcName, String varName) {
+        Map<String, JottTree> funcVars = varTable.get(funcName);
+        if (funcVars != null) {
+            return funcVars.get(varName);
+        }
+        return null; // variable not found in this function scope
+    }
+
+    // overloaded method that defaults to use currentFunction
+    public JottTree getVar(String varName) {
+        return getVar(currentFunction, varName); // Calls the other method with currentFunction as funcName
     }
 
     /**
-     * Retrieve the associated value of a variable name from the table.
-     * @param name the variable name
-     * @return the value
+     * Check if a variable exists within a given function scope.
+     * @param funcName the name of the function
+     * @param varName the name of the variable
+     * @return true if the variable exists, false otherwise
      */
-    public JottTree get(Token name) {
-        return this.symTbl.get(name);
+    public boolean hasVar(String funcName, String varName) {
+        Map<String, JottTree> funcVars = varTable.get(funcName);
+        return funcVars != null && funcVars.containsKey(varName);
     }
 
     /**
-     * Does a variable name already exist in the symbol table?
-     * @param name the variable name
-     * @return whether the name is in the table or not
+     * Set a function name in the symbol table to an associated value.
+     * @param funcName the function name
+     * @param value the associated value (JottTree object)
      */
-    public boolean has(Token name) {
-        return this.symTbl.containsKey(name);
+    public void setFunc(String funcName, JottTree value) {
+        funcTable.put(funcName, value);
     }
 
     /**
-     * The size of the symbol table.
-     * @return the size
+     * Retrieve the associated value of a function name from the table.
+     * @param funcName the function name
+     * @return the value (JottTree object), or null if not found
      */
-    public int size() { return this.symTbl.size(); }
+    public JottTree getFunc(String funcName) {
+        return funcTable.get(funcName);
+    }
 
     /**
-     * Returns a string representation of the symbol table:<br>
-     * <pre>
-     *     (MAQ) Symbol table:
-     * 	        {variable-1}: {value}
-     * 	        {variable-2}: {value}
-     * 	        ...
-     * 	        {variable-N}: {value}
-     * </pre>
-     * @return the string described here
+     * Check if a function name already exists in the symbol table.
+     * @param funcName the function name
+     * @return true if the function exists, false otherwise
+     */
+    public boolean hasFunc(String funcName) {
+        return funcTable.containsKey(funcName);
+    }
+
+    // Method to clear variables after a function finishes execution
+    public void clearFunctionScope(String funcName) {
+        varTable.remove(funcName);
+    }
+
+    /**
+     * Returns a string representation of the symbol table, including functions and variables.
+     * @return the string representation
      */
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Map.Entry<Token, JottTree> entry : this.symTbl.entrySet()) {
-            result.append(entry.getKey()).append(": ").append(entry.getValue()).append(System.lineSeparator());
+        StringBuilder result = new StringBuilder("Symbol Table:\n");
+
+        // Append function table entries
+        result.append("Functions:\n");
+        for (Map.Entry<String, JottTree> entry : funcTable.entrySet()) {
+            result.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
+
+        // Append variable table entries
+        result.append("Variables:\n");
+        for (Map.Entry<String, Map<String, JottTree>> funcEntry : varTable.entrySet()) {
+            result.append("Function: ").append(funcEntry.getKey()).append("\n");
+            for (Map.Entry<String, JottTree> varEntry : funcEntry.getValue().entrySet()) {
+                result.append("  ").append(varEntry.getKey()).append(": ").append(varEntry.getValue()).append("\n");
+            }
+        }
+
         return result.toString();
     }
 }

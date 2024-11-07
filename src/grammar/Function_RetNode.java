@@ -61,13 +61,14 @@ public class Function_RetNode implements JottTree{
 
     @Override
     public boolean validateTree() {
-        if(this.typeNode == null)
-        {
-            return SymbolTable.symbolTable.has(this.voidtoken);
-        }
-        else{
+        if (this.typeNode != null) {
             return this.typeNode.validateTree();
+        } 
+        else if (this.voidtoken != null) {
+            
+            return this.voidtoken.getToken().equals("Void");
         }
+        return false; // Neither typeNode nor voidtoken is valid
     }
 
     @Override

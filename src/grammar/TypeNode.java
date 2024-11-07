@@ -51,7 +51,9 @@ public class TypeNode implements JottTree{
     @Override
     public boolean validateTree() {
         // needs to be implemented phase 3
-        return SymbolTable.symbolTable.has(typenodetype);
+        String typename = this.typenodetype.getToken();
+        return typename.equals("Double") || typename.equals("Boolean") 
+        || typename.equals("Integer") || typename.equals("String");
     }
 
     @Override

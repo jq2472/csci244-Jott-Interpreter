@@ -49,8 +49,18 @@ public class NumberNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
-        // needs to be implemented
+        if (value.getTokenType() != TokenType.NUMBER) {
+            System.out.println("Invalid token type for NumberNode: " + value.getToken());
+            return false;
+        }
+        try {
+            Double.parseDouble(toString());
+        } 
+        catch (NumberFormatException e) {
+            System.out.println("Incorrect formatting for number "+ toString());
+        }
         return true;
+
     }
 
     @Override
