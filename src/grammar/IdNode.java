@@ -51,7 +51,7 @@ public class IdNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
-        return SymbolTable.symbolTable.has(idName);
+        return this.idName.getTokenType() == TokenType.ID_KEYWORD;
     }
 
     @Override
