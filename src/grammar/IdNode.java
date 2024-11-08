@@ -2,19 +2,22 @@ package grammar;
 import static grammar.Helper.*;
 import java.util.ArrayList;
 
-import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class IdNode implements OperandNode {
     private Token idName;
 
-    public Token getIdName() {
-        return idName;
-    }
-
     // idName might also just be able to just be a string?
     public IdNode(Token idName) {
         this.idName = idName;
+    }
+
+    public String getName() {
+        return this.idName.getToken();
+    }
+
+    public TokenType getType(){
+        return this.idName.getTokenType();
     }
     
     /**

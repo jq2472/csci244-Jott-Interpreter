@@ -29,7 +29,7 @@ public class MathOp implements ExprNode{
     }
     @Override
     public boolean validateTree() {
-        return true;
+        return this.mathoptoken.getTokenType() == TokenType.MATH_OP;
     }
     @Override
     public void execute() {

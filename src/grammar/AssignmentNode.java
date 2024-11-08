@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import interpreter.SymbolTable;
 import provided.*;
 
+import static interpreter.SymbolTable.currentFunction;
+import static interpreter.SymbolTable.symbolTable;
+
 
 
 public class AssignmentNode implements BodyStmt{
     private JottTree id1;
     private Token value;
     private JottTree expresnode;
-
 
     public AssignmentNode(JottTree idnode, Token value, JottTree expression) {
         this.id1 = idnode;
@@ -24,20 +26,34 @@ public class AssignmentNode implements BodyStmt{
         checkIsNotEmpty(tokens);
         try {
             JottTree idnode = IdNode.parseIdNode(tokens);
-            Token currToken = tokens.get(0);
 
+            // (validating) get <id> to assign before it gets popped off
+            String varName = ((IdNode) idnode).getName();
+            // what was assigned i.e. Integer i;
+            TokenType expectedVarType = ((IdNode) idnode).getType(); // has to cast bc getType isn't in JottTree
+            symbolTable.setVar(currentFunction, varName, expectedVarType);
+
+            Token currToken = tokens.get(0);
             checkTokenType(tokens, TokenType.ASSIGN);
             tokens.remove(0);
-
             checkIsNotEmpty(tokens);
             // errors if assignment ends abruptly x =;
             currToken = tokens.get(0);
-
             if (currToken.getTokenType().equals(TokenType.SEMICOLON)) {
                 throw new IllegalArgumentException("Error: Expected Expression Node, got Semicolon.");
             }
             // else parse expression
             JottTree expressionNode = ExprNode.parseExprNode(tokens);
+
+            // (validating) confirm if expressionNode result is the same as expectedVarType
+            // i.e. Integer y;
+                 // y = 3.2 + x;
+                      // <expr> = <3.2 + x>
+            // TODO: implement getTokenType node for expr node to be able to do that i.e.
+            // if (!varType.equals(exprType)) {
+            //                System.err.println("Semantic Error: Type mismatch in assignment to " + varName);
+            //                return false;
+            //            }
 
             // needs semicolon at the end of the assignment
             checkTokenType(tokens, TokenType.SEMICOLON);
@@ -59,10 +75,22 @@ public class AssignmentNode implements BodyStmt{
         return convertToJott();
     }
 
-    public boolean validateTree() {//TODO
-        
-        return true;
-    }
+
+    public boolean validateTree() {
+        String varName = ((IdNode) this.id1).getName();
+
+        //  (validating) make sure the global symbol table instance and current function exists
+        if (!symbolTable.hasVar(currentFunction, varName)) {
+            System.err.println("Semantic Error: Undefined variable, Not in Symbol Table" + varName);
+        }
+
+        // expected var type is stored in sym table i.e. symbolTable.setVar(currentFunction, varName, expectedVarType);
+        // Token expectedVarType = symbolTable.getVar(varName); // change symbol table getVar to return the variable value expected
+        if (!expectedVarType.equals(exprType)) {
+            System.err.println("Semantic Error: Type mismatch in assignment to " + varName);
+            return false;
+        }
+
 
     public void execute() { //TODO
         System.out.println("Executing NumberNode");
