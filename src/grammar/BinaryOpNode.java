@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import static grammar.Helper.checkIsNotEmpty;
 import static grammar.Helper.checkTokenType;
 
-public class BinaryOpNode implements JottTree {
+public class BinaryOpNode implements ExprNode {
 
     private JottTree left;
     private Token operator; // RelopNode or MathopNode
@@ -31,6 +31,11 @@ public class BinaryOpNode implements JottTree {
 
     @Override
     public void execute() {
+    }
+
+    @Override
+    public Token getToken() {
+        return this.getToken();
     }
 
   

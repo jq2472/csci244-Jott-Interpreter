@@ -3,12 +3,12 @@ import provided.*;
 import java.util.ArrayList;
 
 import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
-public class While_LoopNode implements JottTree{
+public class While_LoopNode implements BodyStmt{
 
-    private JottTree exprNode;
-    private JottTree bodyNode;
+    private ExprNode exprNode;
+    private BodyNode bodyNode;
 
-    public While_LoopNode(JottTree exprNode, JottTree bodyNode)
+    public While_LoopNode(ExprNode exprNode, BodyNode bodyNode)
     {
         this.exprNode = exprNode;
         this.bodyNode = bodyNode;
@@ -33,12 +33,12 @@ public class While_LoopNode implements JottTree{
         }
         checkTokenType(tokens, TokenType.L_BRACKET);
         tokens.remove(0);
-        JottTree exprNode = ExprNode.parseExprNode(tokens);
+        ExprNode exprNode = ExprNode.parseExprNode(tokens);
         checkTokenType(tokens, TokenType.R_BRACKET);
         tokens.remove(0);
         checkTokenType(tokens, TokenType.L_BRACE);
         tokens.remove(0);
-        JottTree bodyNode = BodyNode.parseBodyNode(tokens);
+        BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
         checkTokenType(tokens, TokenType.R_BRACE);
         tokens.remove(0);
         return new While_LoopNode(exprNode, bodyNode);
@@ -74,9 +74,6 @@ public class While_LoopNode implements JottTree{
     public void execute() {
         System.out.println("While_LoopNode");
     }
-    @Override
-    public Token getToken() {
-        return this.getToken();
-    }
+  
     
 }

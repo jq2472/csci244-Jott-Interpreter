@@ -70,4 +70,8 @@ public class NumberNode implements OperandNode {
         // needs to be implemented
         System.out.println("Executing NumberNode");
     }
+    @Override
+    public Token getToken() {
+        return this.getToken();
+    }
 }
