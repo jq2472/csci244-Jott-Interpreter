@@ -62,8 +62,13 @@ public class ElseIfNode implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+        // validate bodynode and expressionNode
+        if (this.bodyNode == null){
+            return bodyNode.validateTree();
+        }if (this.exprNode == null){
+            return exprNode.validateTree();
+        }
+        return false;
     }
 
     @Override
