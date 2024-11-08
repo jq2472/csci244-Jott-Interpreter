@@ -13,7 +13,7 @@ import provided.*; // checkTokenType(), checkIsNotEmpty()
  * Handles methods for parsing, converting to Jott, validating, and executing
  * each node's respective grammar rules.
  */
-public interface OperandNode extends JottTree  {
+public interface OperandNode extends ExprNode {
 
     public static final String ERROR_MESSAGE = "Expected: Operand Node";
     
@@ -24,7 +24,7 @@ public interface OperandNode extends JottTree  {
      * @return The proper Node type
      * @throws Exception 
      */
-    public static JottTree parseOperandNode(ArrayList<Token> tokens) throws Exception {
+    public static OperandNode parseOperandNode(ArrayList<Token> tokens) throws Exception {
         
         checkIsNotEmpty(tokens);
 

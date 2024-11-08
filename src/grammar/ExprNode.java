@@ -22,7 +22,7 @@ public interface ExprNode extends JottTree {
      * @param tokens
      * @return The proper Node type
      */
-    public static JottTree parseExprNode(ArrayList<Token> tokens) {
+    public static ExprNode parseExprNode(ArrayList<Token> tokens) {
         
        checkIsNotEmpty(tokens);
 
@@ -47,7 +47,7 @@ public interface ExprNode extends JottTree {
                 // < operand > < relop > < operand > |
                 //  < operand > < mathop > < operand >
                 // so assume parsing operand if not string/bool anyways
-                JottTree left = OperandNode.parseOperandNode(tokens);
+                ExprNode left = OperandNode.parseOperandNode(tokens);
 
                 t = tokens.get(0);
 

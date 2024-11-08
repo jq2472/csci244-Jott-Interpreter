@@ -59,5 +59,10 @@ public class IdNode implements OperandNode {
         // needs to be implemented
         System.out.println("Executing IdNode");
     }
+
+    @Override
+    public Token getToken() {
+        return this.getToken();
+    }
     
 }
