@@ -63,7 +63,7 @@ public class While_LoopNode implements BodyStmt{
         this.exprNode.validateTree();
         this.bodyNode.validateTree();
 
-        if(this.exprNode.getToken().equals(BooleanNode)){
+        if(this.exprNode.getToken().equals("booleanNode")){
             
         }
 

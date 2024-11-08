@@ -103,8 +103,8 @@ public class FunctionCallNode implements OperandNode {
 
 
     @Override
-    public Token getToken() {
-        return this.getToken();
+    public String getToken() {
+        return "funcCallNode";
     }
 
 

@@ -36,8 +36,8 @@ public class MathOp implements ExprNode{
         System.out.println("Executing MathOp");
     }
     @Override
-    public Token getToken() {
-        return this.getToken();
+    public String getToken() {
+        return "mathOP";
     }
 
     

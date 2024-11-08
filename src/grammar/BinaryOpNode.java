@@ -34,8 +34,8 @@ public class BinaryOpNode implements ExprNode {
     }
 
     @Override
-    public Token getToken() {
-        return this.getToken();
+    public String getToken() {
+        return "binaryOpNode";
     }
 
   
