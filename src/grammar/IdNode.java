@@ -19,7 +19,12 @@ public class IdNode implements OperandNode {
     public TokenType getType(){
         return this.idName.getTokenType();
     }
-    
+
+    @Override
+    public Token getToken() {
+        return idName;
+    }
+
     /**
      * Parses an IDNode when Operand Interface is called.
      * IDNode must start with a lowercase letter.
@@ -62,10 +67,4 @@ public class IdNode implements OperandNode {
         // needs to be implemented
         System.out.println("Executing IdNode");
     }
-
-    @Override
-    public String getToken() {
-        return "idNode";
-    }
-    
 }
