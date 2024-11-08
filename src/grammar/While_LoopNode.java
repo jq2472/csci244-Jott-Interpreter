@@ -57,12 +57,15 @@ public class While_LoopNode implements JottTree{
 
     }
 
+    //make sure cond. is valid, make sure body valid, make sure cond. returns bool
     @Override
     public boolean validateTree() {
         this.exprNode.validateTree();
         this.bodyNode.validateTree();
 
-        
+        if(this.exprNode.getToken().equals(BooleanNode)){
+            
+        }
 
         return true;
     }
@@ -70,6 +73,10 @@ public class While_LoopNode implements JottTree{
     @Override
     public void execute() {
         System.out.println("While_LoopNode");
+    }
+    @Override
+    public Token getToken() {
+        return this.getToken();
     }
     
 }
