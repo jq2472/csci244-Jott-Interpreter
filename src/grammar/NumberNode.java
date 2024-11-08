@@ -2,6 +2,8 @@ package grammar;
 
 import static grammar.Helper.*;
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class NumberNode implements OperandNode {

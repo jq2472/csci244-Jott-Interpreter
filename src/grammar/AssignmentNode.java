@@ -2,7 +2,10 @@ package grammar;
 import static grammar.Helper.checkIsNotEmpty;
 import static grammar.Helper.checkTokenType;
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*;
+
 
 
 public class AssignmentNode implements BodyStmt{
@@ -57,6 +60,7 @@ public class AssignmentNode implements BodyStmt{
     }
 
     public boolean validateTree() {//TODO
+        
         return true;
     }
 

@@ -50,9 +50,11 @@ public class BodyNode implements JottTree {
         
         } catch (IllegalArgumentException e){
             System.err.println("IllegalArgumentException in BodyNode: " + e.getMessage());
+            e.printStackTrace();
             throw e;
         } catch (Exception e){
             System.err.println("An unexpected error occured in BodyNode" + e.getMessage());
+            e.printStackTrace();
             throw e;
         }
     }

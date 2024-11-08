@@ -46,10 +46,20 @@ public class Helper {
      * @return true if the list of tokens is not empty
      */
     public static boolean checkIsNotEmpty(ArrayList<Token> tokens) {
-        if (tokens.size() == 0) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + "list of tokens is empty");
+        try {
+            if (tokens.size() == 0) {
+                throw new IllegalArgumentException(ERROR_MESSAGE + "list of tokens is empty");
+            }
+            return true;
+        } catch (IllegalArgumentException e) {
+            // Handle the exception (e.g., log the error)
+            System.err.println("Error in CheckIsNotEmpty in Helper.java: " + e.getMessage());
+            throw e; // Re-throw the exception if you want to propagate it
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            System.err.println("An unexpected error occurred in CheckIsNotEmpty in Helper.java: " + e.getMessage());
+            throw e; // Re-throw the exception if you want to propagate it
         }
-        return true;
     }
 
     public static void print_err(String custom, Token token) {
