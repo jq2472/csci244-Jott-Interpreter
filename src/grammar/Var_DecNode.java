@@ -1,5 +1,6 @@
 package grammar;
 import static grammar.Helper.*;
+import static interpreter.SymbolTable.currentFunction;
 import static interpreter.SymbolTable.symbolTable;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class Var_DecNode implements JottTree{
         this.typeNode = typeNode;
         this.idNode = idNode;
     }
+
+    public String getName(){
+        return this.idNode.getIdName();
+    }
+
     public static Var_DecNode parseVar_DecNode(ArrayList<Token>tokens)
     {
         //        < var_dec > -> < type > < id >;
@@ -35,6 +41,8 @@ public class Var_DecNode implements JottTree{
         tokens.remove(0);
 
         Var_DecNode var_DecNode = new Var_DecNode(typeNode, idNode);
+        // value has not yet been assigned to ID node, is needed for asmt node
+        symbolTable.setVar(currentFunction, this.idNode.getName(), null);
 
 
         return var_DecNode;
