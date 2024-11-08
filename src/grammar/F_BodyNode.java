@@ -11,9 +11,11 @@ public class F_BodyNode implements JottTree {
 
     private ArrayList<JottTree> var_decList;
     private JottTree body;
+
     public F_BodyNode(ArrayList<JottTree> declarations, JottTree bodynode){
         this.var_decList = declarations;
         this.body = bodynode;
+
     }
 
     public static F_BodyNode parseF_BodyNode(ArrayList<Token> tokens) throws Exception{
@@ -55,8 +57,11 @@ public class F_BodyNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+        // validate the children   NEEDS PROOF CHECKING
+        if (this.body.validateTree()){
+            return true;
+        }
+        return false;
     }
 
     @Override
