@@ -54,5 +54,12 @@ public class BooleanNode implements ExprNode{
             System.out.println("Unexpecting error for validating Boolean node: "+e.getMessage());
             return false;
         }
-}
+
+    }
+    
+    @Override
+    public Token getToken() {
+        return this.booleantoken;
+    }
+       
 }

@@ -64,4 +64,9 @@ public class StrLitNode implements ExprNode {
         System.out.println("Executing StrLitNode");
     }
 
+    @Override
+    public Token getToken() {
+        return this.getToken();
+    }
+
 }

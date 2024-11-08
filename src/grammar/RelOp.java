@@ -33,4 +33,9 @@ public class RelOp implements ExprNode{
     public void execute(){
         System.out.println("executing RelOp");
     }
+
+    @Override
+    public Token getToken() {
+        return this.getToken();
+    }
 }
