@@ -53,7 +53,19 @@ public class ElseNode implements JottTree{
     }
     @Override
     public boolean validateTree() {
-        return true;
+        // If there is an empty bodyNode, it is not valid.
+        if (this.bodyNode == null) {
+            System.err.println("Error: Else block must contain a body.");
+            return false;
+        }
+        // Validate bodyNode itself.
+        if (!bodyNode.validateTree()) {
+            System.err.println("Error: Invalid structure within the Else block.");
+            return false;
+        }
+        
+        // BodyNode is valid.
+        return true; 
     }
     @Override
     public void execute() {
