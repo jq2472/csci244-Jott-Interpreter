@@ -26,7 +26,11 @@ public class RelOp implements ExprNode{
 
     @Override
     public boolean validateTree(){
-        return true;
+        // checking if token is RelOp
+        if (this.RelOpToken.getTokenType().equals(TokenType.REL_OP)){
+            return true;
+        }
+        return false;
     }
 
     @Override
