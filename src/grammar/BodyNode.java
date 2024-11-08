@@ -95,10 +95,12 @@ public class BodyNode implements JottTree {
                 return false;
             }
         }
-        // Validate Return Statement
-        if (this.returnnode != null && !this.returnnode.validateTree()) {
-            System.err.println("Invalid return statement in BodyNode.");
-            return false;
+        // If the return statement exists, validate it. 
+        if (this.returnnode != null) {
+            if (!this.returnnode.validateTree()) {
+                System.err.println("Invalid return statement in BodyNode.");
+                return false;
+            }
         }
         return true;
     }
