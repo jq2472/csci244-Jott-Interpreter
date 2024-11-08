@@ -63,12 +63,29 @@ public class ElseIfNode implements JottTree{
     @Override
     public boolean validateTree() {
         // validate bodynode and expressionNode
-        if (this.bodyNode == null){
-            return bodyNode.validateTree();
-        }if (this.exprNode == null){
-            return exprNode.validateTree();
+        // if (this.bodyNode == null){
+        //     return bodyNode.validateTree();
+        // }if (this.exprNode == null){
+        //     return exprNode.validateTree();
+        // }
+        // return false;
+        
+        // Check if there is an exprNode, if there, check if the exprnode is valid.
+        if (exprNode == null || !exprNode.validateTree()) {
+            System.err.println("Error: Invalid or missing condition in ElseIf statement.");
+            return false;
         }
-        return false;
+        // Check if the exprNode is a BooleanNode or BinaryOpNode, for the expression condidion.
+        if (!(exprNode instanceof BooleanNode) && !(exprNode instanceof BinaryOpNode)) {
+            System.err.println("Error: ElseIf condition must evaluate to a boolean or BinaryOpNode.");
+            return false;
+        }
+        // Check if the body is not empty, and see if it is valid.
+        if (bodyNode == null || !bodyNode.validateTree()) {
+            System.err.println("Error: Invalid or missing body in ElseIf statement.");
+            return false;
+        }
+        return true;
     }
 
     @Override

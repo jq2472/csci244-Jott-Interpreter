@@ -104,8 +104,42 @@ public class IfStatementNode implements BodyStmt{
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+        // Check if the condition is valid.
+        if (!condition.validateTree()) {
+            System.err.println("Error: Invalid condition in If statement.");
+            return false;
+        }
+    
+        // Ensure the condition is a boolean-compatible expression. Expression can be boolean or binary condition.
+        if (!(condition instanceof BooleanNode) && !(condition instanceof BinaryOpNode)) {
+            System.err.println("Error: If condition must evaluate to a boolean.");
+            return false;
+        }
+        // Check if the if statement's body is valid.
+        if (body != null && !body.validateTree()) {
+            System.err.println("Error: Invalid body in If statement.");
+            return false;
+        }
+        // Validate each else if statement.
+        if(elsenodes.size()>0){
+            for (JottTree elseifNode : elsenodes) {
+                if (!elseifNode.validateTree()) {
+                    System.err.println("Error: Invalid ElseIf statement in If-Else chain.");
+                    return false;
+                }
+            }
+        }
+        
+        // Check if there is an else statment. 
+        if (finalelsenode != null) {
+            if(!finalelsenode.validateTree())
+            {
+                System.err.println("Error: Invalid Else statement in If-Else chain.");
+                return false;
+            }   
+        }
+        return true;
+    
     }
     
 }
