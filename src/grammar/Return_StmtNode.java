@@ -49,7 +49,16 @@ public class Return_StmtNode implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // needs to be implemented
+        // check the type and validate children
+        if (jottTreeexpr.equals(TokenType.REL_OP)){
+            return true;
+        }
+        if (this.jottTreeexpr != null){
+            return false;
+        }
+        if (!this.jottTreeexpr.validateTree()){
+            return false;
+        }
         return true;
     }
 
