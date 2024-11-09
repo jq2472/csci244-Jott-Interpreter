@@ -58,10 +58,25 @@ public class F_BodyNode implements JottTree {
     @Override
     public boolean validateTree() {
         // validate the children   NEEDS PROOF CHECKING
-        if (this.body.validateTree()){
-            return true;
+        // if (this.body.validateTree()){
+        //     return true;
+        // }
+        // return false;
+        
+        // Validate each Var_DecNode.
+        for (JottTree varDec : var_decList) {
+            if (varDec == null || !varDec.validateTree()) {
+                System.err.println("Error: Invalid variable declaration in function body.");
+                return false;
+            }
         }
-        return false;
+        // Validate if the body is null or not valid
+        if (body == null || !body.validateTree()) {
+            System.err.println("Error: Invalid body in function body.");
+            return false;
+        }
+        // Otherwise everything is valid.
+        return true;
     }
 
     @Override
