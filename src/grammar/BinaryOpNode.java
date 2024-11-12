@@ -26,6 +26,10 @@ public class BinaryOpNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
+        // validate left, right, where type left = type right
+        if (!left.validateTree() || !right.validateTree()){
+            return false;
+        }
         return true;
     }
 
