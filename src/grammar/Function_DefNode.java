@@ -1,6 +1,10 @@
 package grammar;
 import static grammar.Helper.*;
+import static interpreter.SymbolTable.symbolTable;
+
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
 import provided.*;
 
 public class Function_DefNode implements JottTree{
@@ -95,7 +99,13 @@ public class Function_DefNode implements JottTree{
     @Override
     public boolean validateTree() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+        if (symbolTable.hasFunc(null)){ // needs approval
+            return false;
+        }
+        if (!func_def_params.validateTree()){
+            return false;
+        }
+        return true;
     }
 
     @Override

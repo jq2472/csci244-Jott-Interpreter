@@ -108,5 +108,12 @@ public class FunctionCallNode implements OperandNode {
     }
 
 
+    @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getName'");
+    }
+
+
     
 }
