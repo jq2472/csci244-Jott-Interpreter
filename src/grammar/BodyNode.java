@@ -86,6 +86,22 @@ public class BodyNode implements JottTree {
      * @return true if valid Jott code; false otherwise
      */
     public boolean validateTree(){
+        // Validate each body statement
+        for(JottTree statement : this.bodystatementArrayList)
+        {
+            if(!statement.validateTree())
+            {
+                System.err.println("Invalid body statement in BodyNode.");
+                return false;
+            }
+        }
+        // If the return statement exists, validate it. 
+        if (this.returnnode != null) {
+            if (!this.returnnode.validateTree()) {
+                System.err.println("Invalid return statement in BodyNode.");
+                return false;
+            }
+        }
         return true;
     }
 

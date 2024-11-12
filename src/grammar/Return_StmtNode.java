@@ -50,6 +50,7 @@ public class Return_StmtNode implements JottTree{
     @Override
     public boolean validateTree() {
         // check the type and validate children
+        // Possible that jottTreeexpr might check if it is an instance of BinaryOpNode
         if (jottTreeexpr.equals(TokenType.REL_OP)){
             return true;
         }

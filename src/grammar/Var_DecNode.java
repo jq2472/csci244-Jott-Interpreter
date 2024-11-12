@@ -27,7 +27,7 @@ public class Var_DecNode implements JottTree{
     }
 
     public String getName(){
-        return this.idNode.getIdName();
+        return this.idNode.getName();
     }
 
     public static Var_DecNode parseVar_DecNode(ArrayList<Token>tokens)
@@ -41,8 +41,8 @@ public class Var_DecNode implements JottTree{
         tokens.remove(0);
 
         Var_DecNode var_DecNode = new Var_DecNode(typeNode, idNode);
-        // value has not yet been assigned to ID node, is needed for asmt node
-        symbolTable.setVar(currentFunction, this.idNode.getName(), null);
+
+        symbolTable.setVar(currentFunction, idNode.getName(), typeNode);
 
 
         return var_DecNode;
@@ -62,19 +62,20 @@ public class Var_DecNode implements JottTree{
 
     @Override
     public boolean validateTree() {
-        Token varName = this.idNode.getIdName(); // doesn't return a string.
+        String varName = this.idNode.getName(); // doesn't return a string.
         // keeping as Token bc the object has the name, line number, type etc.
 
         // check if the variable name already exists in the symbol table?
         // not actually sure if
         // int x = 5
         // int x = 4 will be an error or if it will override
-        if (symbolTable.has(varName)) {
-            print_err("Variable name already exists in the symbol table",varName);
+        if (symbolTable.hasVar(currentFunction, varName)) {
+            Token token = this.idNode.getToken();
+            print_err("Variable name already exists in the symbol table", token);
             return false;
         }
         // add the variable to the symbol table with an initial value
-        symbolTable.set(varName, varName.getTokenType());
+        symbolTable.setVar(currentFunction, varName, idNode.getType());
 
         return true;
     }
@@ -84,6 +85,6 @@ public class Var_DecNode implements JottTree{
         // needs to be implemented
         System.out.println("Var_DecNode");
     }
-    
+
 
 }

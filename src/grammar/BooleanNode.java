@@ -58,8 +58,8 @@ public class BooleanNode implements ExprNode{
     }
     
     @Override
-    public Token getToken() {
-        return this.booleantoken;
+    public String getToken() {
+        return "booleanNode";
     }
        
 }
