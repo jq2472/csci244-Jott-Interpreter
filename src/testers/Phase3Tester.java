@@ -62,40 +62,55 @@ public class Phase3Tester {
         testCases.add(new TestCase("valid if with return", "validIfReturn.jott", false)); 
     }
 
-    private boolean Phase3Test(TestCase test, String orginalJottCode){
+    private boolean Phase3Test(TestCase test, String orginalJottCode) {
         try {
             ArrayList<Token> tokens = JottTokenizer.tokenize("phase3TestCases/" + test.fileName);
-
+    
             if (tokens == null) {
                 System.err.println("\tFailed Test: " + test.testName);
                 System.err.println("\t\tExpected a list of tokens, but got null");
                 System.err.println("\t\tPlease verify your tokenizer is working properly");
                 return false;
             }
+    
             System.out.println(tokenListString(tokens));
+    
             ArrayList<Token> cpyTokens = new ArrayList<>(tokens);
             JottTree root = JottParser.parse(tokens);
-
+    
             if (!test.error && root == null) {
                 System.err.println("\tFailed Test: " + test.testName);
                 System.err.println("\t\tExpected a JottTree and got null");
                 return false;
             } else if (test.error && root == null) {
-                return true;
+                return true;  // Correct behavior for error case
             } else if (test.error) {
                 System.err.println("\tFailed Test: " + test.testName);
                 System.err.println("\t\tExpected a null and got JottTree");
                 return false;
             }
-
-            System.out.println("Orginal Jott Code:\n");
+    
+            // Now that we have a JottTree, we need to validate it semantically
+            boolean valid = root.validateTree();
+            if (!test.error && !valid) {
+                System.err.println("\tFailed Test: " + test.testName);
+                System.err.println("\t\tExpected valid semantics, but found an error during validation");
+                return false;
+            } else if (test.error && valid) {
+                System.err.println("\tFailed Test: " + test.testName);
+                System.err.println("\t\tExpected semantic error, but validation passed");
+                return false;
+            }
+    
+            // If no errors, continue with conversion to Jott and retokenization
+            System.out.println("Original Jott Code:\n");
             System.out.println(orginalJottCode);
             System.out.println();
-
+    
             String jottCode = root.convertToJott();
             System.out.println("Resulting Jott Code:\n");
             System.out.println(jottCode);
-
+    
             try {
                 FileWriter writer = new FileWriter("phase3TestCases/phase3TestTemp.jott");
                 if (jottCode == null) {
@@ -109,48 +124,49 @@ public class Phase3Tester {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+    
             ArrayList<Token> newTokens = JottTokenizer.tokenize("phase3TestCases/phase3TestTemp.jott");
-
+    
             if (newTokens == null) {
                 System.err.println("\tFailed Test: " + test.testName);
-                System.err.println("Tokenization of files dot not match.");
-                System.err.println("Similar files should have same tokenization.");
+                System.err.println("Tokenization of files does not match.");
+                System.err.println("Similar files should have the same tokenization.");
                 System.err.println("Expected: " + tokenListString(tokens));
                 System.err.println("Got: null");
                 return false;
             }
-
+    
             if (newTokens.size() != cpyTokens.size()) {
                 System.err.println("\tFailed Test: " + test.testName);
-                System.err.println("Tokenization of files dot not match.");
-                System.err.println("Similar files should have same tokenization.");
+                System.err.println("Tokenization of files does not match.");
+                System.err.println("Similar files should have the same tokenization.");
                 System.err.println("Expected: " + tokenListString(cpyTokens));
-                System.err.println("Got:    : " + tokenListString(newTokens));
+                System.err.println("Got    : " + tokenListString(newTokens));
                 return false;
             }
-
+    
             for (int i = 0; i < newTokens.size(); i++) {
                 Token n = newTokens.get(i);
                 Token t = cpyTokens.get(i);
-
+    
                 if (!tokensEqualNoFileData(n, t)) {
                     System.err.println("\tFailed Test: " + test.testName);
                     System.err.println("Token mismatch: Tokens do not match.");
-                    System.err.println("Similar files should have same tokenization.");
+                    System.err.println("Similar files should have the same tokenization.");
                     System.err.println("Expected: " + tokenListString(cpyTokens));
                     System.err.println("Got     : " + tokenListString(newTokens));
                     return false;
                 }
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("\tFailed Test: " + test.testName);
-            System.err.println("Unknown Exception occured.");
+            System.err.println("Unknown Exception occurred.");
             e.printStackTrace();
             return false;
         }
     }
+    
 
     private String tokenListString(ArrayList<Token> tokens){
         StringBuilder sb = new StringBuilder();
@@ -163,39 +179,47 @@ public class Phase3Tester {
         return sb.toString();
     }
 
-    private boolean runTest(TestCase test){
+    private boolean runTest(TestCase test) {
         System.out.println("Running Test: " + test.testName);
         String orginalJottCode;
         try {
             orginalJottCode = new String(
-                    Files.readAllBytes(Paths.get("phase3TestCases/" + test.fileName)));
+                Files.readAllBytes(Paths.get("phase3TestCases/" + test.fileName)));
         } catch (IOException e) {
+            System.err.println("Failed to read test file: " + test.fileName + " for test: " + test.testName);
             e.printStackTrace();
             return false;
         }
-        return Phase3Test(test, orginalJottCode);
-
+    
+        boolean result = Phase3Test(test, orginalJottCode);
+        if (!result) {
+            System.err.println("Test Failed: " + test.testName + "\n");
+        }
+        return result;
     }
 
     public static void main(String[] args) {
         System.out.println("NOTE: System.err may print at the end. This is fine.");
         Phase3Tester tester = new Phase3Tester();
-
         int numTests = 0;
         int passedTests = 0;
+    
+        long startTime = System.currentTimeMillis();
         tester.createTestCases();
-        for(Phase3Tester.TestCase test: tester.testCases){
+    
+        for (Phase3Tester.TestCase test : tester.testCases) {
             numTests++;
-            if(tester.runTest(test)){
+            if (tester.runTest(test)) {
                 passedTests++;
                 System.out.println("\tPassed\n");
-            }
-            else{
-                System.out.println("\tFailed\n");
+            } else {
+                System.err.println("\tFailed: " + test.testName + "\n");
             }
         }
-
-        System.out.printf("Passed: %d/%d%n", passedTests, numTests);
+    
+        long endTime = System.currentTimeMillis();
+        System.out.printf("Passed: %d/%d tests%n", passedTests, numTests);
+        System.out.printf("Total execution time: %.2f seconds%n", (endTime - startTime) / 1000.0);
     }
 
 }
