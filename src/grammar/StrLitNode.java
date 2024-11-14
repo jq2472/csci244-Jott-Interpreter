@@ -65,8 +65,13 @@ public class StrLitNode implements ExprNode {
     }
 
     @Override
-    public String getToken() {
-        return "strLitNode";
+    public Token getToken() {
+        return null;
+    }
+
+    @Override
+    public String getReturnType() {
+        return "StrLitNode";
     }
 
 }
