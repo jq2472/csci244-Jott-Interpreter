@@ -78,7 +78,20 @@ public class FunctionDefParamsNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return true;
+        if(this.params == null)
+        {
+            return true;
+        }
+        else{
+            for(ParameterNode parameterNode : this.params)
+            {
+                if(parameterNode.validateTree()==false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     @Override
@@ -103,7 +116,7 @@ class ParameterNode implements JottTree {
     }
     @Override
     public boolean validateTree() {
-        return true;
+        return paramName.validateTree() && type.validateTree();
     }
 
     @Override
