@@ -71,7 +71,15 @@ public class NumberNode implements OperandNode {
         System.out.println("Executing NumberNode");
     }
     @Override
-    public String getToken() {
-        return "numberNode";
+    public Token getToken() {
+        return this.value;
+    }
+    @Override
+    public String getReturnType() {
+        // TODO Auto-generated method stub
+        if (this.value.getToken().contains(".")) {
+            return "Float";
+        }
+        return "Int";
     }
 }

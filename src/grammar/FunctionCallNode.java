@@ -103,15 +103,15 @@ public class FunctionCallNode implements OperandNode {
 
 
     @Override
-    public String getToken() {
-        return "funcCallNode";
+    public Token getToken() {
+        return this.functionName.getToken();
     }
 
 
     @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getName'");
+    public String getReturnType() {
+        //TODO
+        return "NOT YET IMPLEMENTED";
     }
 
 

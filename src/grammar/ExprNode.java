@@ -59,7 +59,7 @@ public interface ExprNode extends JottTree {
 
                 Token operator = t;
                 tokens.remove(0);
-                JottTree right = OperandNode.parseOperandNode(tokens);
+                OperandNode right = OperandNode.parseOperandNode(tokens);
 
                 return new BinaryOpNode(left, operator, right);
             }
@@ -71,5 +71,5 @@ public interface ExprNode extends JottTree {
 
     public Token getToken();
 
-    public String getName();
+    public String getReturnType();
 }
