@@ -30,7 +30,8 @@ public class AssignmentNode implements BodyStmt {
             String varName = ((IdNode) idnode).getName();
             // what was assigned i.e. Integer i;
             TokenType expectedVarType = ((IdNode) idnode).getType(); // has to cast bc getType isn't in JottTree
-            symbolTable.setVar(currentFunction, varName, expectedVarType);
+            //I believe this line can be removed
+            //symbolTable.setVar(currentFunction, varName, expectedVarType);
 
             Token currToken = tokens.get(0);
             checkTokenType(tokens, TokenType.ASSIGN);
@@ -74,8 +75,8 @@ public class AssignmentNode implements BodyStmt {
             return false;
         }
         // expected var type is stored in sym table i.e. symbolTable.setVar(currentFunction, varName, expectedVarType);
-        TokenType expectedVarType = ((Token)symbolTable.getVar(varName)).getTokenType(); 
-        if (!expectedVarType.equals(((ExprNode)this.expresnode).getToken().getTokenType())) {
+        String expectedVarType = (symbolTable.getVar(varName)).getType(); 
+        if (!expectedVarType.equals(((ExprNode)this.expresnode).getReturnType())) {
             System.err.println("Semantic Error: Type mismatch in assignment to " + varName);
             return false;
         }

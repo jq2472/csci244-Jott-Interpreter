@@ -4,6 +4,7 @@ import java.util.Map;
 
 import grammar.AssignmentNode;
 import grammar.Function_DefNode;
+import grammar.Var_DecNode;
 import provided.*;
 
 /**
@@ -39,7 +40,7 @@ public class SymbolTable<Token> {
      * @param varName the name of the variable
      * @param value the associated value (Token object/tokentype/undecided..)
      */
-    public void setVar(String funcName, String varName, AssignmentNode vardatasource) {
+    public void setVar(String funcName, String varName, Var_DecNode vardatasource) {
         // Ensure the function's variable map exists
         varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
         // Set the variable in the corresponding function's variable map

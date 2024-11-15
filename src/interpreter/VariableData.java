@@ -1,6 +1,7 @@
 package interpreter;
 
 import grammar.AssignmentNode;
+import grammar.Var_DecNode;
 import provided.*;
 
 public class VariableData{ 
@@ -24,7 +25,7 @@ public class VariableData{
         return this.tokeninfo;
     }
 
-    public static VariableData parseVariabledata(AssignmentNode j){
+    public static VariableData parseVariabledata(Var_DecNode j){
         String name = j.getVariablenameString();
         String type = j.getReturnType();
         Token t  = j.getidtoken();

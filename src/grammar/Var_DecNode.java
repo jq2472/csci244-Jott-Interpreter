@@ -42,7 +42,7 @@ public class Var_DecNode implements JottTree{
 
         Var_DecNode var_DecNode = new Var_DecNode(typeNode, idNode);
 
-        symbolTable.setVar(currentFunction, idNode.getName(), typeNode);
+        symbolTable.setVar(currentFunction, idNode.getName(), var_DecNode);
 
 
         return var_DecNode;
@@ -75,7 +75,7 @@ public class Var_DecNode implements JottTree{
             return false;
         }
         // add the variable to the symbol table with an initial value
-        symbolTable.setVar(currentFunction, varName, idNode.getType());
+        symbolTable.setVar(currentFunction, varName, this);
 
         return true;
     }
@@ -84,6 +84,16 @@ public class Var_DecNode implements JottTree{
     public void execute() {
         // needs to be implemented
         System.out.println("Var_DecNode");
+    }
+
+    public String getVariablenameString(){
+        return this.idNode.getName();
+    }
+    public String getReturnType(){
+        return this.typeNode.convertToJott();
+    }
+    public Token getidtoken(){
+        return this.idNode.getToken();
     }
 
 
