@@ -110,8 +110,7 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String getReturnType() {
-        //TODO
-        return "NOT YET IMPLEMENTED";
+        return "funcCallNode";
     }
 
 

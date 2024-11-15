@@ -39,7 +39,12 @@ public class RelOp implements ExprNode{
     }
 
     @Override
-    public String getToken() {
-        return "relOp";
+    public Token getToken() {
+        return null;
+    }
+
+    @Override
+    public String getReturnType() {
+        return "RelOpNode";
     }
 }
