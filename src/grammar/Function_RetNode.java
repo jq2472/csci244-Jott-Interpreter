@@ -45,6 +45,14 @@ public class Function_RetNode implements JottTree{
         }
     
     }
+
+    public String getreturntype(){
+        if (this.voidtoken !=null ) {
+            return "Void";
+        }
+        return this.typeNode.convertToJott();
+    }
+
     @Override
     public String convertToJott() {
         String returnedString = "";

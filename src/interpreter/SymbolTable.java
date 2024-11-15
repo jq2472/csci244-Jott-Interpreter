@@ -1,6 +1,9 @@
 package interpreter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import grammar.AssignmentNode;
+import grammar.Function_DefNode;
 import provided.*;
 
 /**
@@ -14,11 +17,11 @@ public class SymbolTable<Token> {
 
     /** the symbol tables to handle function/variable scope */
     // func -> <func_name, func_info>
-    private final Map<String, Token> funcTable;
+    private final Map<String, FunctionData> funcTable;
     // vars -> <var_name, <var_name, var_info>>
     // will know the function scope the variables can be used
     // because it's stored as outermost key
-    private final Map<String, Map<String, Token>> varTable;
+    private final Map<String, Map<String, VariableData>> varTable;
 
     /**
      * Create an empty symbol table.
@@ -36,25 +39,27 @@ public class SymbolTable<Token> {
      * @param varName the name of the variable
      * @param value the associated value (Token object/tokentype/undecided..)
      */
-    public void setVar(String funcName, String varName, Token value) {
+    public void setVar(String funcName, String varName, AssignmentNode vardatasource) {
         // Ensure the function's variable map exists
         varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
         // Set the variable in the corresponding function's variable map
-        varTable.get(funcName).put(varName, value);
+        varTable.get(funcName).put(varName, VariableData.parseVariabledata(vardatasource));
     }
 
 
     //retrieve a variable within a specific function’s scope
-    public Token getVar(String funcName, String varName) {
-        Map<String, Token> funcVars = varTable.get(funcName);
+    public VariableData getVar(String funcName, String varName) {
+        Map<String, VariableData> funcVars = varTable.get(funcName);
         if (funcVars != null) {
-            return funcVars.get(varName);
+            VariableData vardata = funcVars.get(varName);
+            return vardata;
+
         }
         return null; // variable not found in this function scope
     }
 
     // overloaded method that defaults to use currentFunction
-    public Token getVar(String varName) {
+    public VariableData getVar(String varName) {
         return getVar(currentFunction, varName); // Calls the other method with currentFunction as funcName
     }
 
@@ -65,7 +70,7 @@ public class SymbolTable<Token> {
      * @return true if the variable exists, false otherwise
      */
     public boolean hasVar(String funcName, String varName) {
-        Map<String, Token> funcVars = varTable.get(funcName);
+        Map<String, VariableData> funcVars = varTable.get(funcName);
         return funcVars != null && funcVars.containsKey(varName);
     }
 
@@ -74,8 +79,8 @@ public class SymbolTable<Token> {
      * @param funcName the function name
      * @param value the associated value (Token object)
      */
-    public void setFunc(String funcName, Token value) {
-        funcTable.put(funcName, value);
+    public void setFunc(String funcName, Function_DefNode funcdefnode) {
+        funcTable.put(funcName, FunctionData.parseFunctionData(funcdefnode));
     }
 
     /**
@@ -83,7 +88,7 @@ public class SymbolTable<Token> {
      * @param funcName the function name
      * @return the value (Token object), or null if not found
      */
-    public Token getFunc(String funcName) {
+    public FunctionData getFunc(String funcName) {
         return funcTable.get(funcName);
     }
 
@@ -111,15 +116,15 @@ public class SymbolTable<Token> {
 
         // Append function table entries
         result.append("Functions:\n");
-        for (Map.Entry<String, Token> entry : funcTable.entrySet()) {
+        for (Map.Entry<String, FunctionData> entry : funcTable.entrySet()) {
             result.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
 
         // Append variable table entries
         result.append("Variables:\n");
-        for (Map.Entry<String, Map<String, Token>> funcEntry : varTable.entrySet()) {
+        for (Map.Entry<String, Map<String, VariableData>> funcEntry : varTable.entrySet()) {
             result.append("Function: ").append(funcEntry.getKey()).append("\n");
-            for (Map.Entry<String, Token> varEntry : funcEntry.getValue().entrySet()) {
+            for (Map.Entry<String, VariableData> varEntry : funcEntry.getValue().entrySet()) {
                 result.append("  ").append(varEntry.getKey()).append(": ").append(varEntry.getValue()).append("\n");
             }
         }

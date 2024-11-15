@@ -1,16 +1,25 @@
 package interpreter;
 import java.util.ArrayList;
 
+import grammar.Function_DefNode;
+import provided.Token;
+
 public class FunctionData{ 
     protected String name;
     protected ArrayList<String> params;
     protected String returns;
+    protected Token idnode;
 
 
-    public FunctionData(String inname, ArrayList<String> types, String returntype){
+    public FunctionData(Token intoken, String inname, ArrayList<String> types, String returntype){
+        this.idnode = intoken;
         this.name = inname;
         this.params = types;
         this.returns = returntype;
+    }
+
+    public Token getidNode(){
+        return this.idnode;
     }
 
     public String getName(){
@@ -23,5 +32,13 @@ public class FunctionData{
 
     public String getReturns(){
         return this.returns;
+    }
+
+    public static FunctionData parseFunctionData(Function_DefNode node){
+        ArrayList<String> toparams = node.getparamstrings();
+        Token idnodetoken = node.getnametoken();
+        String toname = idnodetoken.getToken();
+        String returntype = node.getReturnType();
+        return new FunctionData(idnodetoken, toname, toparams, returntype);
     }
 } 

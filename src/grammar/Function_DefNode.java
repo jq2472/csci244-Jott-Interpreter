@@ -10,16 +10,15 @@ import provided.*;
 public class Function_DefNode implements JottTree{
     
     private IdNode Name;
-    private JottTree func_def_params;
-    private JottTree returntype;
+    private FunctionDefParamsNode func_def_params;
+    private Function_RetNode returntype;
     private JottTree bodyNode;
 
-    public Function_DefNode (IdNode idNode, JottTree funcdefparams, JottTree returntypenode, JottTree body){
+    public Function_DefNode (IdNode idNode, FunctionDefParamsNode funcdefparams, Function_RetNode returntypenode, JottTree body){
         this.Name = idNode;
         this.func_def_params = funcdefparams;
         this.returntype = returntypenode;
         this.bodyNode = body;
-
     }
 
 
@@ -53,7 +52,7 @@ public class Function_DefNode implements JottTree{
                 tokens.remove(0);
         
                 // varName:varType, ...
-                JottTree params = FunctionDefParamsNode.parseFunctionDefParamsNode(tokens);
+                FunctionDefParamsNode params = FunctionDefParamsNode.parseFunctionDefParamsNode(tokens);
                 if (tokens.isEmpty()) {
                     throw new IllegalArgumentException("Expected right bracket after function parameters");
                 }
@@ -65,7 +64,7 @@ public class Function_DefNode implements JottTree{
                 tokens.remove(0);
                 
                 // Def <id >[ func_def_params ]: < function_return >
-                JottTree returntypecheck = Function_RetNode.parsefunctionRetNode(tokens);
+                Function_RetNode returntypecheck = Function_RetNode.parsefunctionRetNode(tokens);
                 if (tokens.isEmpty()) {
                     throw new IllegalArgumentException("Expected left brace after return type");
                 }
@@ -112,5 +111,16 @@ public class Function_DefNode implements JottTree{
     public void execute() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    }
+
+    public ArrayList<String> getparamstrings(){
+        return this.func_def_params.getParamStrings();
+    }
+    public Token getnametoken(){
+        return this.Name.getToken();
+    }
+
+    public String getReturnType(){
+        return this.returntype.getreturntype();
     }
 }

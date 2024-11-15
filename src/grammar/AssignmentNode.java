@@ -11,11 +11,11 @@ import static interpreter.SymbolTable.symbolTable;
 
 
 public class AssignmentNode implements BodyStmt {
-    private JottTree id1;
+    private IdNode id1;
     private Token value;
-    private JottTree expresnode;
+    private ExprNode expresnode;
 
-    public AssignmentNode(JottTree idnode, Token value, ExprNode expression) {
+    public AssignmentNode(IdNode idnode, Token value, ExprNode expression) {
         this.id1 = idnode;
         this.value = value;
         this.expresnode = expression;
@@ -24,7 +24,7 @@ public class AssignmentNode implements BodyStmt {
     public static AssignmentNode parseAssignmentNode(ArrayList<Token>tokens){
         checkIsNotEmpty(tokens);
         try {
-            JottTree idnode = IdNode.parseIdNode(tokens);
+            IdNode idnode = IdNode.parseIdNode(tokens);
 
             // (validating) get <id> to assign before it gets popped off
             String varName = ((IdNode) idnode).getName();
@@ -85,6 +85,18 @@ public class AssignmentNode implements BodyStmt {
 
     public void execute() { 
         System.out.println("Executing NumberNode");
+    }
+
+    public String getVariablenameString(){
+        return this.id1.getName();
+    }
+
+    public String getReturnType(){
+        return this.expresnode.getReturnType();
+    }
+
+    public Token getidtoken(){
+        return this.id1.getToken();
     }
     
 }

@@ -98,6 +98,17 @@ public class FunctionDefParamsNode implements JottTree {
     public void execute() {
         // implement
     }
+
+    public ArrayList<String> getParamStrings(){
+        ArrayList<String> toreturn = new ArrayList<>();
+        if (this.params.size() == 0){
+            return new ArrayList<>();
+        }
+        for (ParameterNode p : this.params){
+            toreturn.add(p.getType());
+        }
+        return toreturn;
+    }
 }
 
 /**
@@ -117,6 +128,10 @@ class ParameterNode implements JottTree {
     @Override
     public boolean validateTree() {
         return paramName.validateTree() && type.validateTree();
+    }
+
+    public String getType(){
+        return type.convertToJott();
     }
 
     @Override
