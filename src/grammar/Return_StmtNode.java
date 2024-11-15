@@ -1,12 +1,17 @@
 package grammar;
 
 import static grammar.Helper.*;
+import static interpreter.SymbolTable.currentFunction;
+
 import java.util.ArrayList;
+
+import interpreter.FunctionData;
+import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 public class Return_StmtNode implements JottTree{
 
-    private JottTree jottTreeexpr;
-    public Return_StmtNode(JottTree jottTreeexpr)
+    private ExprNode jottTreeexpr;
+    public Return_StmtNode(ExprNode jottTreeexpr)
     {
         this.jottTreeexpr = jottTreeexpr;
     }
@@ -18,7 +23,7 @@ public class Return_StmtNode implements JottTree{
         if(currToken.getToken().equals("Return"))
         {
             tokens.remove(0);
-            JottTree exprTree = ExprNode.parseExprNode(tokens);
+            ExprNode exprTree = ExprNode.parseExprNode(tokens);
             currToken = tokens.get(0);
             if (currToken.getTokenType() != TokenType.SEMICOLON) {
                 
@@ -54,6 +59,11 @@ public class Return_StmtNode implements JottTree{
         
         if (this.jottTreeexpr != null){
             if (!this.jottTreeexpr.validateTree()){
+                return false;
+            }
+            //Checks that this statement returns what the function claims it should.
+            FunctionData j = SymbolTable.symbolTable.getFunc(currentFunction);
+            if (this.jottTreeexpr.getReturnType() != j.getReturns()) {
                 return false;
             }
         }

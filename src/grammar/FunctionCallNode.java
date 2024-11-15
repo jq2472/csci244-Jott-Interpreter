@@ -63,6 +63,8 @@ public class FunctionCallNode implements OperandNode {
         checkTokenType(tokens, TokenType.R_BRACKET);
         tokens.remove(0);
 
+        parameters.setFuncName(functionName.getToken());
+
         return new FunctionCallNode(functionName, parameters);
 
     }
