@@ -87,10 +87,11 @@ public class Jott {
             }
 
             // validate tree
-            symbolTable = new SymbolTable();
-            // if (!parsedTokens.validateTree()) {
-            //     System.err.println("The Jott code has semantic errors.");
-            // }
+            // symbolTable = new SymbolTable();
+        
+            if (!parsedTokens.validateTree()) {
+                System.err.println("The Jott code has semantic errors.");
+            }
             // iterate through the symbols in the symbol table and just do .validate() 
 
         } catch (IOException e) {
