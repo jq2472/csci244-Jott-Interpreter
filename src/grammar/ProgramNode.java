@@ -63,8 +63,14 @@ public class ProgramNode implements JottTree{
     }
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateTree'");
+        for(JottTree functiondef: this.funcdeflist)
+        {
+            if(!functiondef.validateTree())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
