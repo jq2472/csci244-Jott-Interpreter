@@ -1,8 +1,12 @@
 package grammar;
 
 import static grammar.Helper.*;
+import static interpreter.SymbolTable.currentFunction;
+import static interpreter.SymbolTable.symbolTable;
+
 import java.util.ArrayList;
 
+import interpreter.FunctionData;
 import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
@@ -118,7 +122,8 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String getReturnType() {
-        return "funcCallNode";
+        FunctionData j = SymbolTable.symbolTable.getFunc(currentFunction);
+        return j.getReturns();
     }
 
 

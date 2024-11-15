@@ -68,6 +68,8 @@ public class AssignmentNode implements BodyStmt {
 
     public boolean validateTree() {
         String varName = ((IdNode) this.id1).getName();
+        this.id1.validateTree();
+        this.expresnode.validateTree();
 
         //  (validating) make sure the global symbol table instance and current function exists
         if (!symbolTable.hasVar(currentFunction, varName)) {

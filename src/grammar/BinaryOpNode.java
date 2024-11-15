@@ -5,6 +5,7 @@ import provided.*;
 import java.util.ArrayList;
 import static grammar.Helper.checkIsNotEmpty;
 import static grammar.Helper.checkTokenType;
+import static grammar.Helper.print_err;
 
 public class BinaryOpNode implements ExprNode {
 
@@ -28,6 +29,11 @@ public class BinaryOpNode implements ExprNode {
     public boolean validateTree() {
         // validate left, right, where type left = type right
         if (!left.validateTree() || !right.validateTree()){
+            print_err("Error in left or right half of Binary Op Node", operator);
+            return false;
+        }
+        if (left.getReturnType()!= right.getReturnType()){
+            print_err("Type Mismatch in Binary Op Node", operator);
             return false;
         }
         return true;

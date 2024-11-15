@@ -45,13 +45,13 @@ public class BooleanNode implements ExprNode{
                 return true; // Valid boolean value
             }
             else{
-                System.out.println("Invalid booleans: "+ booleanstr + ". Expecting 'True' or 'False'");
+                print_err("Error in boolean node ", booleantoken);
                 return false;
             }
         }
         catch(Exception e)
         {
-            System.out.println("Unexpecting error for validating Boolean node: "+e.getMessage());
+            print_err("Unknown Error in Boolean Node", booleantoken);
             return false;
         }
 

@@ -62,6 +62,8 @@ public class Var_DecNode implements JottTree{
 
     @Override
     public boolean validateTree() {
+        this.typeNode.validateTree();
+        this.idNode.validateTree();
         String varName = this.idNode.getName(); // doesn't return a string.
         // keeping as Token bc the object has the name, line number, type etc.
 
@@ -70,14 +72,12 @@ public class Var_DecNode implements JottTree{
         // int x = 5
         // int x = 4 will be an error or if it will override
         if (symbolTable.hasVar(currentFunction, varName)) {
-            Token token = this.idNode.getToken();
-            print_err("Variable name already exists in the symbol table", token);
-            return false;
+            return true;
         }
         // add the variable to the symbol table with an initial value
-        symbolTable.setVar(currentFunction, varName, this);
-
-        return true;
+        Token token = this.idNode.getToken();
+        print_err("Variable name already exists in the symbol table", token);
+        return false;
     }
 
     @Override

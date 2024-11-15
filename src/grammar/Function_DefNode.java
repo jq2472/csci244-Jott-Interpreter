@@ -79,7 +79,9 @@ public class Function_DefNode implements JottTree{
                 }
                 checkTokenType(tokens, TokenType.R_BRACE);
                 tokens.remove(0);
-                return new Function_DefNode(x, params, returntypecheck, f_bodynode);
+                Function_DefNode node = new Function_DefNode(x, params, returntypecheck, f_bodynode);
+                SymbolTable.symbolTable.setFunc(node.getnametoken().getToken(), node);
+                return node;
         
             } catch (Exception e) {
                 System.out.println("Caught exception: " + e.getMessage());
@@ -98,10 +100,20 @@ public class Function_DefNode implements JottTree{
     @Override
     public boolean validateTree() {
         // TODO Auto-generated method stub
-        if (symbolTable.hasFunc(null)){ // needs approval
+        if (!symbolTable.hasFunc(this.Name.getName())){
+            print_err("Function Not in Symbol Table", getnametoken()); // needs approval
+            return false;
+        }
+        if (!Name.validateTree()) {
             return false;
         }
         if (!func_def_params.validateTree()){
+            return false;
+        }
+        if (!returntype.validateTree()) {
+            return false;
+        }
+        if (!bodyNode.validateTree()) {
             return false;
         }
         return true;
