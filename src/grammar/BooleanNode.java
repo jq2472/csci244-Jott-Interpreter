@@ -59,7 +59,11 @@ public class BooleanNode implements ExprNode{
     
     @Override
     public Token getToken() {
-        return null;
+        return booleantoken;
+    }
+    @Override
+    public String getReturnType() {
+        return "Boolean";
     }
 
     

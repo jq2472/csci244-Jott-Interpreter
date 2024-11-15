@@ -8,11 +8,11 @@ import static grammar.Helper.checkTokenType;
 
 public class BinaryOpNode implements ExprNode {
 
-    private JottTree left;
+    private ExprNode left;
     private Token operator; // RelopNode or MathopNode
-    private JottTree right;
+    private ExprNode right;
 
-    public BinaryOpNode(JottTree left, Token operator, JottTree right) {
+    public BinaryOpNode(ExprNode left, Token operator, ExprNode right) {
         this.left = left;
         this.operator = operator;
         this.right = right;
@@ -38,8 +38,21 @@ public class BinaryOpNode implements ExprNode {
     }
 
     @Override
-    public String getToken() {
-        return "binaryOpNode";
+    public Token getToken() {
+        return this.operator;
+    }
+
+    @Override
+    public String getReturnType() {
+        if (this.operator.getTokenType().equals(TokenType.REL_OP)) {
+            return "Boolean";
+        }
+        if (this.left.getReturnType().equals(this.right.getReturnType())){
+            if (this.left.getReturnType().equals("Int") || this.left.getReturnType().equals("Float")) {
+                return this.left.getReturnType();
+            }
+        }
+        return "Error";
     }
 
   

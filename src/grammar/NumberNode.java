@@ -74,9 +74,12 @@ public class NumberNode implements OperandNode {
     public Token getToken() {
         return this.value;
     }
-
     @Override
     public String getReturnType() {
-        return "NumberNode";
+        // TODO Auto-generated method stub
+        if (this.value.getToken().contains(".")) {
+            return "Float";
+        }
+        return "Int";
     }
 }

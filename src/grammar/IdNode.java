@@ -67,4 +67,9 @@ public class IdNode implements OperandNode {
         // needs to be implemented
         System.out.println("Executing IdNode");
     }
+
+    @Override
+    public String getReturnType() {
+        return "ID";
+    }
 }
