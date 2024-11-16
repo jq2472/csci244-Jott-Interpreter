@@ -12,7 +12,7 @@ import provided.*;
  * variable names and function names to their associated values.
  */
 public class SymbolTable<Token> {
-    public static SymbolTable symbolTable;
+    public static SymbolTable symbolTable = new SymbolTable<>();
 
     public static String currentFunction; // tracking the currently active function, "turn off/on"
 
