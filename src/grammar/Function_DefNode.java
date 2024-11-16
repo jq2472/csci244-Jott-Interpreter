@@ -4,7 +4,7 @@ import static interpreter.SymbolTable.symbolTable;
 
 import java.util.ArrayList;
 
-import interpreter.SymbolTable;
+import interpreter.*;
 import provided.*;
 
 public class Function_DefNode implements JottTree{
@@ -46,7 +46,7 @@ public class Function_DefNode implements JottTree{
         
                 // function name
                 checkTokenType(tokens, TokenType.ID_KEYWORD);
-                IdNode x = IdNode.parseIdNode(tokens);
+                IdNode funcname = IdNode.parseIdNode(tokens);
                 
                 checkTokenType(tokens, TokenType.L_BRACKET);
                 tokens.remove(0);
@@ -79,7 +79,10 @@ public class Function_DefNode implements JottTree{
                 }
                 checkTokenType(tokens, TokenType.R_BRACE);
                 tokens.remove(0);
-                Function_DefNode node = new Function_DefNode(x, params, returntypecheck, f_bodynode);
+                Function_DefNode node = new Function_DefNode(funcname, params, returntypecheck, f_bodynode);
+                if (SymbolTable.symbolTable.hasFunc(funcname.getName())) {
+                    print_err("Duplicate entry in Symbol table During variable declaration", funcname.getToken());
+                }
                 SymbolTable.symbolTable.setFunc(node.getnametoken().getToken(), node);
                 return node;
         

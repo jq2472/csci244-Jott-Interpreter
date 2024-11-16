@@ -45,8 +45,6 @@ public class Var_DecNode implements JottTree{
             print_err("Duplicate entry in Symbol table During variable declaration", idNode.getToken());
         }
         symbolTable.setVar(currentFunction, idNode.getName(), var_DecNode);
-
-
         return var_DecNode;
 
     }
