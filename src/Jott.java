@@ -94,10 +94,8 @@ public class Jott {
             }
             // iterate through the symbols in the symbol table and just do .validate() 
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
         }
     }
 }
