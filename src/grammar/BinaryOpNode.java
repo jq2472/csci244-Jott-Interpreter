@@ -32,7 +32,7 @@ public class BinaryOpNode implements ExprNode {
             print_err("Error in left or right half of Binary Op Node", operator);
             return false;
         }
-        if (left.getReturnType() != right.getReturnType()){
+        if (!left.getReturnType().equals(right.getReturnType())){
             print_err("Type Mismatch in Binary Op Node", operator);
             return false;
         }

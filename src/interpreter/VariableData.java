@@ -25,10 +25,17 @@ public class VariableData{
         return this.tokeninfo;
     }
 
-    public static VariableData parseVariabledata(Var_DecNode j){
+    public static VariableData parseVariabledataData(Var_DecNode j){
         String name = j.getVariablenameString();
         String type = j.getReturnType();
         Token t  = j.getidtoken();
         return new VariableData(t, name, type);
     } 
+
+    public static VariableData parseVariabledatafromFDefParams(Token inname, String typesString){
+        String name = inname.getToken();
+        String type = typesString;
+        Token t = inname;
+        return new VariableData(t, name, type);
+    }
 }

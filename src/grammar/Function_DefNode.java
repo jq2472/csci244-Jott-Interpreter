@@ -47,7 +47,7 @@ public class Function_DefNode implements JottTree{
                 // function name
                 checkTokenType(tokens, TokenType.ID_KEYWORD);
                 IdNode funcname = IdNode.parseIdNode(tokens);
-                
+                SymbolTable.symbolTable.currentFunction = funcname.getName();
                 checkTokenType(tokens, TokenType.L_BRACKET);
                 tokens.remove(0);
         
@@ -84,6 +84,7 @@ public class Function_DefNode implements JottTree{
                     print_err("Duplicate entry in Symbol table During variable declaration", funcname.getToken());
                 }
                 SymbolTable.symbolTable.setFunc(node.getnametoken().getToken(), node);
+                params.addtosymboltable();
                 return node;
         
             } catch (Exception e) {

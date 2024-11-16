@@ -1,7 +1,12 @@
 package grammar;
 
 import static grammar.Helper.*;
+import static interpreter.SymbolTable.currentFunction;
+
 import java.util.ArrayList;
+
+import interpreter.SymbolTable;
+import interpreter.VariableData;
 import provided.*;
 
 /**
@@ -42,7 +47,20 @@ public class FunctionDefParamsNode implements JottTree {
             }
             else{ break; }
         } while (!tokens.isEmpty() && tokens.get(0).getTokenType() == TokenType.ID_KEYWORD);
+        
         return new FunctionDefParamsNode(parameters);
+        }
+    }
+
+    public void addtosymboltable(){
+        for (ParameterNode paramsNode : this.params){
+            if (SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, paramsNode.getIdNode().getName()) || SymbolTable.symbolTable.hasFunc(paramsNode.getIdNode().getName())) {
+                print_err("Duplicate entry in Symbol table During variable declaration", paramsNode.getIdNode().getToken());
+            }
+            else{
+                VariableData v = VariableData.parseVariabledatafromFDefParams(paramsNode.getIdNode().getToken(), paramsNode.getType());
+                SymbolTable.symbolTable.setVarVarDec(currentFunction, paramsNode.getIdNode().getName(), v);
+            }
         }
     }
 
@@ -115,7 +133,7 @@ public class FunctionDefParamsNode implements JottTree {
 /**
  * Represents a single parameter in the function definition, e.g., `x: Integer`.
  */
-class ParameterNode implements JottTree {
+ class ParameterNode implements JottTree {
     private final IdNode paramName;
     private final TypeNode type;
     public ParameterNode(IdNode paramName, TypeNode type) {

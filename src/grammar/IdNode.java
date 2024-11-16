@@ -61,10 +61,13 @@ public class IdNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
-        //If the symbol table doesnt have this variable as either a Variable or function we have problems
-        if (!SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, this.getName()) && !SymbolTable.symbolTable.hasFunc(this.getName())) {
-            print_err("IDNode not in symbol table", idName);
-            return false;
+        //If the symbol table doesnt have this idNode as either a Variable or function we have problems
+        
+        if (!SymbolTable.symbolTable.hasFunc(this.getName())) {
+            if (!SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, this.getName())) {
+                print_err("IDNode not variable in symbol table", idName);
+                return false;
+            }
         }
         return true;
     }

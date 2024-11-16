@@ -80,6 +80,6 @@ public class NumberNode implements OperandNode {
         if (this.value.getToken().contains(".")) {
             return "Float";
         }
-        return "Int";
+        return "Integer";
     }
 }

@@ -44,7 +44,12 @@ public class SymbolTable<Token> {
         // Ensure the function's variable map exists
         varTable.computeIfAbsent(funcName, k -> new LinkedHashMap<>());
         // Set the variable in the corresponding function's variable map
-        varTable.get(funcName).put(varName, VariableData.parseVariabledata(vardatasource));
+        varTable.get(funcName).put(varName, VariableData.parseVariabledataData(vardatasource));
+    }
+
+    public void setVarVarDec(String funcname, String varName, VariableData vardata){
+        varTable.computeIfAbsent(funcname, k -> new LinkedHashMap<>());
+        varTable.get(funcname).put(varName, vardata);
     }
 
 
