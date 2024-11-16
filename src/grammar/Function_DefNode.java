@@ -99,7 +99,7 @@ public class Function_DefNode implements JottTree{
 
     @Override
     public boolean validateTree() {
-        // TODO Auto-generated method stub
+        SymbolTable.currentFunction = this.Name.getName();
         if (!symbolTable.hasFunc(this.Name.getName())){
             print_err("Function Not in Symbol Table", getnametoken()); // needs approval
             return false;

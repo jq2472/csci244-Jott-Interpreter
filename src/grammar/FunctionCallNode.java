@@ -124,7 +124,7 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String getReturnType() {
-        FunctionData j = SymbolTable.symbolTable.getFunc(currentFunction);
+        FunctionData j = SymbolTable.symbolTable.getFunc(this.functionName.getName());
         return j.getReturns();
     }
 

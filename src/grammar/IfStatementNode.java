@@ -3,7 +3,7 @@ import static grammar.Helper.checkIsNotEmpty;
 import java.util.ArrayList;
 import provided.*;
 public class IfStatementNode implements BodyStmt{
-    private JottTree condition;
+    private ExprNode condition;
     private JottTree body;
     private ArrayList<JottTree> elsenodes;
     private JottTree finalelsenode;
@@ -19,7 +19,7 @@ public class IfStatementNode implements BodyStmt{
 //            this.finalelsenode = finalelse;
 //        }
 //    }
-    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse) {
+    public IfStatementNode(ExprNode cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse) {
         this.condition = cond;
         this.body = bodylist;
         this.elsenodes = (elseiflist != null) ? elseiflist : new ArrayList<>(); // Ensure elsenodes is always initialized
@@ -39,7 +39,7 @@ public class IfStatementNode implements BodyStmt{
                 throw new IllegalArgumentException("Error parsing If statement at condition, should be an expression in brackets");
             }
             tokens.remove(0);
-            JottTree cond = ExprNode.parseExprNode(tokens);
+            ExprNode cond = ExprNode.parseExprNode(tokens);
             currentToken = tokens.get(0);
             if (!currentToken.getTokenType().equals(TokenType.R_BRACKET)){
                 throw new IllegalArgumentException("Error parsing If statement at condition, should be an expression in brackets, missing closing bracket");
@@ -111,7 +111,7 @@ public class IfStatementNode implements BodyStmt{
         }
     
         // Ensure the condition is a boolean-compatible expression. Expression can be boolean or binary condition.
-        if (!(condition instanceof BooleanNode) && !(condition instanceof BinaryOpNode)) {
+        if (condition.getReturnType()!="Boolean") {
             System.err.println("Error: If condition must evaluate to a boolean.");
             return false;
         }
