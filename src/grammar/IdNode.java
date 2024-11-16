@@ -2,6 +2,8 @@ package grammar;
 import static grammar.Helper.*;
 import java.util.ArrayList;
 
+import interpreter.SymbolTable;
+import interpreter.VariableData;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class IdNode implements OperandNode {
@@ -59,7 +61,11 @@ public class IdNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
-        return this.idName.getTokenType() == TokenType.ID_KEYWORD;
+        //If the symbol table doesnt have this variable, we  have an issue
+        if (!SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, this.getName())) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -70,6 +76,11 @@ public class IdNode implements OperandNode {
 
     @Override
     public String getReturnType() {
-        return "ID";
+        if (SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, this.getName())) {
+            VariableData vardata = SymbolTable.symbolTable.getVar(SymbolTable.currentFunction, this.getName());
+            return vardata.getType();
+        }
+        System.err.println("Id node thats not in SymbolTable");
+        return "Error";
     }
 }
