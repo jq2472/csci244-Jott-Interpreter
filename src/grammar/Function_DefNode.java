@@ -126,7 +126,12 @@ public class Function_DefNode implements JottTree{
     }
 
     public ArrayList<String> getparamstrings(){
-        return this.func_def_params.getParamStrings();
+        if (this.func_def_params.getParamStrings().isEmpty()) {
+            return new ArrayList<>();
+        }
+        else{
+            return this.func_def_params.getParamStrings();
+        }
     }
     public Token getnametoken(){
         return this.Name.getToken();
