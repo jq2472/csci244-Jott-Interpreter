@@ -1,5 +1,22 @@
-How to compile:
+main Jott program is in src directory
+cd src
 
-Compile Jott.java from src directory (javac Jott.java)
-Compile the tokenizer tester from src directory (javac testers/JottTokenizerTester.java or javac testers.JottTokenizerTester.Java)
-Run tester.
+Compiling the program:
+javac -d bin src/**/*.java
+
+Running in the program:
+java -cp bin Jott
+
+or cd into the src directory, and run the program with:
+java Jott
+
+The necessary packages to compile are:
+javac grammar/*.java
+javac interpreter/*.java 
+javac Jott.java 
+
+
+Use the Jott program with
+java Jott [Jott filename]
+for example:
+java Jott parserTestCases/funcCallParamInvalid.jott
