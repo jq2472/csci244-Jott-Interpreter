@@ -78,7 +78,7 @@ public class AssignmentNode implements BodyStmt {
         }
         // expected var type is stored in sym table i.e. symbolTable.setVar(currentFunction, varName, expectedVarType);
         String expectedVarType = (symbolTable.getVar(varName)).getType(); 
-        if (!expectedVarType.equals(((ExprNode)this.expresnode).getReturnType())) {
+        if (!expectedVarType.equals((this.expresnode).getReturnType())) {
             System.err.println("Semantic Error: Type mismatch in assignment to " + varName);
             return false;
         }

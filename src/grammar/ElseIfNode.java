@@ -6,9 +6,9 @@ import provided.*;
 public class ElseIfNode implements JottTree{
 
     private JottTree bodyNode;
-    private JottTree exprNode;
+    private ExprNode exprNode;
 
-    public ElseIfNode(JottTree bodyNode, JottTree exprNode){
+    public ElseIfNode(JottTree bodyNode, ExprNode exprNode){
         this.bodyNode = bodyNode;
         this.exprNode = exprNode;
     }
@@ -22,7 +22,7 @@ public class ElseIfNode implements JottTree{
                 tokens.remove(0);
                 checkTokenType(tokens, TokenType.L_BRACKET);
                 tokens.remove(0);
-                JottTree condition = ExprNode.parseExprNode(tokens);
+                ExprNode condition = ExprNode.parseExprNode(tokens);
                 checkTokenType(tokens, TokenType.R_BRACKET);
                 tokens.remove(0);
                 checkTokenType(tokens, TokenType.L_BRACE);
@@ -76,8 +76,8 @@ public class ElseIfNode implements JottTree{
             return false;
         }
         // Check if the exprNode is a BooleanNode or BinaryOpNode, for the expression condidion.
-        if (!(exprNode instanceof BooleanNode) && !(exprNode instanceof BinaryOpNode)) {
-            System.err.println("Error: ElseIf condition must evaluate to a boolean or BinaryOpNode.");
+        if (!exprNode.getReturnType().equals("Boolean")) {
+            System.err.println("Error: ElseIf condition must evaluate to a boolean");
             return false;
         }
         // Check if the body is not empty, and see if it is valid.

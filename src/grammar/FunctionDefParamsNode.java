@@ -87,6 +87,7 @@ public class FunctionDefParamsNode implements JottTree {
             {
                 if(parameterNode.validateTree()==false)
                 {
+                    print_err("Error parsing paramater at", parameterNode.getIdNode().getToken());
                     return false;
                 }
             }
@@ -128,6 +129,10 @@ class ParameterNode implements JottTree {
     @Override
     public boolean validateTree() {
         return paramName.validateTree() && type.validateTree();
+    }
+
+    public IdNode getIdNode(){
+        return this.paramName;
     }
 
     public String getType(){

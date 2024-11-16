@@ -97,6 +97,9 @@ public class FunctionCallNode implements OperandNode {
     public boolean validateTree() {
         // ::foo[ y ]; // invalid if foo is expecting a non-integer
         //::foo[]; // invalid if foo expects params
+        if (!SymbolTable.symbolTable.hasFunc(functionName.getName())) {
+            return false;
+        }
         if(!this.functionName.validateTree())
         {
             return false;
