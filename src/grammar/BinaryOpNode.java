@@ -53,8 +53,8 @@ public class BinaryOpNode implements ExprNode {
         if (this.operator.getTokenType().equals(TokenType.REL_OP)) {
             return "Boolean";
         }
-        if (this.left.getReturnType().equals(this.right.getReturnType())){
-            if (this.left.getReturnType().equals("Int") || this.left.getReturnType().equals("Float")) {
+        if (this.left.getReturnType().equals(this.right.getReturnType()) || this.left.getReturnType().equals("Any") || this.right.getReturnType().equals("Any")){
+            if (this.left.getReturnType().equals("Integer") || this.left.getReturnType().equals("Double")) {
                 return this.left.getReturnType();
             }
         }

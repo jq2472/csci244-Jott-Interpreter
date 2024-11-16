@@ -63,7 +63,7 @@ public class Return_StmtNode implements JottTree{
             }
             //Checks that this statement returns what the function claims it should.
             FunctionData j = SymbolTable.symbolTable.getFunc(currentFunction);
-            if (!this.jottTreeexpr.getReturnType().equals(j.getReturns())) {
+            if (!this.jottTreeexpr.getReturnType().equals(j.getReturns()) && !j.getReturns().equals("Any")) {
                 return false;
             }
         }

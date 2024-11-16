@@ -41,4 +41,8 @@ public class FunctionData{
         String returntype = node.getReturnType();
         return new FunctionData(idnodetoken, toname, toparams, returntype);
     }
+
+    public static FunctionData prebuiltFunctionData(String inname, ArrayList<String> types, String returntype){
+        return new FunctionData(null, inname, types, returntype);
+    }
 } 

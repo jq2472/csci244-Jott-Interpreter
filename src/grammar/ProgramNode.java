@@ -1,6 +1,9 @@
 package grammar;
 
 import java.util.ArrayList;
+
+import interpreter.FunctionData;
+import interpreter.SymbolTable;
 import provided.*;
 
 
@@ -12,6 +15,7 @@ public class ProgramNode implements JottTree{
     }
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception{
         try{
+            addbuiltinfunctions();
             if (!tokens.isEmpty() && !tokens.get(0).getToken().equals("Def")){
                 throw new Exception("You cannot have statements outside a function");
             }
@@ -77,6 +81,22 @@ public class ProgramNode implements JottTree{
     public void execute() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    }
+
+    private static void addbuiltinfunctions(){
+        ArrayList<String> j = new ArrayList<>();
+        j.add("String");
+        j.add("String");
+        FunctionData f1 = FunctionData.prebuiltFunctionData("concat", j, "String");
+        SymbolTable.symbolTable.setprebuiltfunc("concat", f1);
+        ArrayList<String> h  = new ArrayList<>();
+        h.add("String");
+        FunctionData f2 = FunctionData.prebuiltFunctionData("length", h, "Integer");
+        SymbolTable.symbolTable.setprebuiltfunc("length", f2);
+        ArrayList<String> g = new ArrayList<>();
+        g.add("Any");
+        FunctionData f3 = FunctionData.prebuiltFunctionData("print", g, "Void");
+        SymbolTable.symbolTable.setprebuiltfunc("print", f3);
     }
 
 }

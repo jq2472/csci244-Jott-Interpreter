@@ -78,7 +78,7 @@ public class NumberNode implements OperandNode {
     public String getReturnType() {
         // TODO Auto-generated method stub
         if (this.value.getToken().contains(".")) {
-            return "Float";
+            return "Double";
         }
         return "Integer";
     }

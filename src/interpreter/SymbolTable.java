@@ -88,6 +88,9 @@ public class SymbolTable<Token> {
     public void setFunc(String funcName, Function_DefNode funcdefnode) {
         funcTable.put(funcName, FunctionData.parseFunctionData(funcdefnode));
     }
+    public void setprebuiltfunc(String funcName, FunctionData f){
+        funcTable.put(funcName, f);
+    }
 
     /**
      * Retrieve the associated value of a function name from the table.
