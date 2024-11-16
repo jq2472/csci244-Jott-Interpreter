@@ -85,7 +85,7 @@ public class ParamsNode implements JottTree {
             }
         }
         FunctionData func = SymbolTable.symbolTable.getFunc(this.funcname.getToken());
-        if ( types!= func.getParams()){
+        if ( func != null && types!= func.getParams()){
             print_err("Params do not match function from symbol table", this.funcname);
             return false;
         }
