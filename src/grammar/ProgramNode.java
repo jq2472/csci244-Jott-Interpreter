@@ -1,5 +1,7 @@
 package grammar;
 
+import static grammar.Helper.print_err;
+
 import java.util.ArrayList;
 
 import interpreter.FunctionData;
@@ -9,8 +11,8 @@ import provided.*;
 
 public class ProgramNode implements JottTree{
 
-    private ArrayList<JottTree> funcdeflist;
-    public ProgramNode(ArrayList<JottTree> funcnodes){
+    private ArrayList<Function_DefNode> funcdeflist;
+    public ProgramNode(ArrayList<Function_DefNode> funcnodes){
         this.funcdeflist = funcnodes;
     }
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception{
@@ -22,10 +24,10 @@ public class ProgramNode implements JottTree{
             if (tokens.isEmpty()) {
                 throw new IllegalArgumentException("Tokens list is empty.");
             }
-            ArrayList<JottTree> j = new ArrayList<>();
+            ArrayList<Function_DefNode> j = new ArrayList<>();
             while(!tokens.isEmpty() && tokens.get(0).getToken().equals("Def")){
 
-                JottTree newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
+                Function_DefNode newfuncdef = Function_DefNode.ParseFunctionDefnode(tokens);
 
 
                 if (newfuncdef != null) {
@@ -67,6 +69,10 @@ public class ProgramNode implements JottTree{
     }
     @Override
     public boolean validateTree() {
+        if (!SymbolTable.symbolTable.hasFunc("main")) {
+            System.err.println("Missing Main Function");
+            return false;
+        }
         for(JottTree functiondef: this.funcdeflist)
         {
             if(!functiondef.validateTree())
@@ -74,6 +80,7 @@ public class ProgramNode implements JottTree{
                 return false;
             }
         }
+        
         return true;
     }
 

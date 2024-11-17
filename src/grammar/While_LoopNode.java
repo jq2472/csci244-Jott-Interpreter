@@ -63,7 +63,7 @@ public class While_LoopNode implements BodyStmt{
         this.exprNode.validateTree();
         this.bodyNode.validateTree();
 
-        if(!this.exprNode.getToken().equals("Boolean")){
+        if(!this.exprNode.getReturnType().equals("Boolean")){
             System.err.println("Condition in while Loop does not evaluate to BooleanNode");
             return false;
         }

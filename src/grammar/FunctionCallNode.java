@@ -98,6 +98,7 @@ public class FunctionCallNode implements OperandNode {
         // ::foo[ y ]; // invalid if foo is expecting a non-integer
         //::foo[]; // invalid if foo expects params
         if (!SymbolTable.symbolTable.hasFunc(functionName.getName())) {
+            print_err("Function not defined", getToken());
             return false;
         }
         if(!this.functionName.validateTree())
@@ -127,8 +128,13 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String getReturnType() {
-        FunctionData j = SymbolTable.symbolTable.getFunc(this.functionName.getName());
-        return j.getReturns();
+        if (SymbolTable.symbolTable.hasFunc(this.functionName.getName())) {
+            FunctionData j = SymbolTable.symbolTable.getFunc(this.functionName.getName());
+            return j.getReturns();
+        }
+        else{
+            return "Error";
+        }
     }
 
 

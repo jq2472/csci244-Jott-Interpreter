@@ -31,7 +31,7 @@ public class Function_DefNode implements JottTree{
      * @return
      * @throws Exception
      */
-    public static JottTree ParseFunctionDefnode (ArrayList<Token> tokens) throws Exception{
+    public static Function_DefNode ParseFunctionDefnode (ArrayList<Token> tokens) throws Exception{
         {
             try {
                 checkIsNotEmpty(tokens);
