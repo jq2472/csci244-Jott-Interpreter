@@ -10,9 +10,9 @@ import provided.*;
 public class F_BodyNode implements JottTree {
 
     private ArrayList<JottTree> var_decList;
-    private JottTree body;
+    private BodyNode body;
 
-    public F_BodyNode(ArrayList<JottTree> declarations, JottTree bodynode){
+    public F_BodyNode(ArrayList<JottTree> declarations, BodyNode bodynode){
         this.var_decList = declarations;
         this.body = bodynode;
 
@@ -42,7 +42,7 @@ public class F_BodyNode implements JottTree {
         }
         // otherwise continue parsing the body node
         checkIsNotEmpty(tokens);
-        JottTree bodytosave = BodyNode.parseBodyNode(tokens);
+        BodyNode bodytosave = BodyNode.parseBodyNode(tokens);
         return new F_BodyNode(declarations, bodytosave);
     }
     @Override
@@ -77,6 +77,10 @@ public class F_BodyNode implements JottTree {
         }
         // Otherwise everything is valid.
         return true;
+    }
+
+    public Return_StmtNode getReturnNode() {
+        return body.getReturnNode();
     }
 
     @Override

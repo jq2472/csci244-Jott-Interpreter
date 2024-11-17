@@ -12,9 +12,9 @@ public class Function_DefNode implements JottTree{
     private IdNode Name;
     private FunctionDefParamsNode func_def_params;
     private Function_RetNode returntype;
-    private JottTree bodyNode;
+    private F_BodyNode bodyNode;
 
-    public Function_DefNode (IdNode idNode, FunctionDefParamsNode funcdefparams, Function_RetNode returntypenode, JottTree body){
+    public Function_DefNode (IdNode idNode, FunctionDefParamsNode funcdefparams, Function_RetNode returntypenode, F_BodyNode body){
         this.Name = idNode;
         this.func_def_params = funcdefparams;
         this.returntype = returntypenode;
@@ -73,7 +73,7 @@ public class Function_DefNode implements JottTree{
                 tokens.remove(0);
         
                 // { < f_body >}
-                JottTree f_bodynode = F_BodyNode.parseF_BodyNode(tokens);
+                F_BodyNode f_bodynode = F_BodyNode.parseF_BodyNode(tokens);
                 if (tokens.isEmpty() || tokens.get(0).getTokenType() != TokenType.R_BRACE) {
                     throw new IllegalArgumentException("Expected right brace after function body");
                 }
@@ -118,6 +118,9 @@ public class Function_DefNode implements JottTree{
             return false;
         }
         if (!bodyNode.validateTree()) {
+            return false;
+        }
+        if (!returntype.equals(null) && this.bodyNode.getReturnNode().validateTree()){
             return false;
         }
         return true;

@@ -7,9 +7,9 @@ import provided.*; // checkTokenType(), checkIsNotEmpty()
 public class BodyNode implements JottTree {
 
     private ArrayList<JottTree> bodystatementArrayList;
-    private JottTree returnnode;
+    private Return_StmtNode returnnode;
 
-    public BodyNode(ArrayList<JottTree> bodystmts, JottTree returnstatement) {
+    public BodyNode(ArrayList<JottTree> bodystmts, Return_StmtNode returnstatement) {
         this.bodystatementArrayList = bodystmts;
         this.returnnode = returnstatement;
 
@@ -37,7 +37,7 @@ public class BodyNode implements JottTree {
                 bodystmts.add(bodystmt); // Add to the list
             }
 
-            JottTree returnStmt = null; // Default to no return statement.
+            Return_StmtNode returnStmt = null; // Default to no return statement.
 
             // Check if the next token is a 'Return' statement.
             
@@ -103,6 +103,10 @@ public class BodyNode implements JottTree {
             }
         }
         return true;
+    }
+
+    public Return_StmtNode getReturnNode() {
+        return this.returnnode;
     }
 
     /**

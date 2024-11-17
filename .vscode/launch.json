@@ -35,11 +35,11 @@
         },
         {
             "type": "java",
-            "name": "Jott(provEx1)",
+            "name": "Jott(missRet)",
             "request": "launch",
             "mainClass": "Jott",
             "projectName": "csci244-Jott-Interpreter_beae52eb",
-            "args": ["parserTestCases/providedExample1.jott"]
+            "args": ["parserTestCases/missingReturn.jott"]
         },
     ]
 }
