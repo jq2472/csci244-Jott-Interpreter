@@ -19,4 +19,5 @@ javac Jott.java
 Use the Jott program with
 java Jott [Jott filename]
 for example:
+cd src
 java Jott parserTestCases/funcCallParamInvalid.jott
