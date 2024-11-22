@@ -90,8 +90,22 @@ public class ElseIfNode implements JottTree{
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        if(this.exprNode == null && !exprNode.getReturnType().equals("Boolean")){
+            System.out.println("Error: Invalid or missing condition in ElseIf statement.");
+            System.out.println("Error: ElseIf condition must evaluate to a boolean");
+        }
+        else
+        {
+            this.exprNode.execute();
+            
+        }
+        if(this.bodyNode == null)
+        {
+            System.err.println("Error: Invalid or missing body in ElseIf statement.");
+        }
+        else{
+            this.bodyNode.execute();
+        }
     }
 
     
