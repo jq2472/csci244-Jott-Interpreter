@@ -82,8 +82,31 @@ public class IfStatementNode implements BodyStmt{
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        if(condition != null && condition.getReturnType()=="Boolean")
+        {
+            condition.execute();
+        }
+        else{
+            System.err.println("Error: Invalid condition in If statement.");
+            System.err.println("Error: If condition must evaluate to a boolean.");
+            return;
+        }
+        if(body != null){
+            body.execute();
+        }
+        else{
+            System.err.println("Error: Invalid body in If statement.");
+            return;
+        }
+        if(elsenodes.size()>0){
+            for (JottTree elseifNode : elsenodes) {
+                elseifNode.execute();
+            }
+        }
+        if (finalelsenode != null) {
+            finalelsenode.execute();   
+        }
+        return;
     }
 
     @Override
