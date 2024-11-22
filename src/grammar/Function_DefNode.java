@@ -120,8 +120,8 @@ public class Function_DefNode implements JottTree{
         if (!bodyNode.validateTree()) {
             return false;
         }
-        if (!returntype.equals(null) && this.bodyNode.getReturnNode().validateTree()){
-            return false;
+        if (this.bodyNode.getReturnNode() != null){
+            return this.bodyNode.getReturnNode().validateTree();
         }
         return true;
     }
