@@ -72,8 +72,11 @@ public class While_LoopNode implements BodyStmt{
     }
 
     @Override
-    public void execute() {
-        System.out.println("While_LoopNode");
+    public Object execute() {
+        while (!(boolean)this.exprNode.execute()) {
+            this.bodyNode.execute();
+        }
+        return "WhileLoop Completed";
     }
   
     

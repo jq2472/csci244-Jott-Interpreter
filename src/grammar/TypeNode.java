@@ -57,8 +57,8 @@ public class TypeNode implements JottTree{
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // needs to be implemented phase 3
-        System.out.println("Type Node");
+        return "Placeholder for Typenode";
     }
 }

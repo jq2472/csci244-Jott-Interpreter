@@ -32,8 +32,8 @@ public class MathOp implements ExprNode{
         return this.mathoptoken.getTokenType() == TokenType.MATH_OP;
     }
     @Override
-    public void execute() {
-        System.out.println("Executing MathOp");
+    public Object execute() {
+        return "Placeholder in mathop";
     }
     @Override
     public Token getToken() {

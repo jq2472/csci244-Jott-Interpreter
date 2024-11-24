@@ -5,7 +5,7 @@ import provided.*;
 public class IfStatementNode implements BodyStmt{
     private ExprNode condition;
     private JottTree body;
-    private ArrayList<JottTree> elsenodes;
+    private ArrayList<ElseIfNode> elsenodes;
     private JottTree finalelsenode;
 
 //    public IfStatementNode(JottTree cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse){
@@ -19,7 +19,7 @@ public class IfStatementNode implements BodyStmt{
 //            this.finalelsenode = finalelse;
 //        }
 //    }
-    public IfStatementNode(ExprNode cond, JottTree bodylist, ArrayList<JottTree> elseiflist, JottTree finalelse) {
+    public IfStatementNode(ExprNode cond, JottTree bodylist, ArrayList<ElseIfNode> elseiflist, JottTree finalelse) {
         this.condition = cond;
         this.body = bodylist;
         this.elsenodes = (elseiflist != null) ? elseiflist : new ArrayList<>(); // Ensure elsenodes is always initialized
@@ -61,7 +61,7 @@ public class IfStatementNode implements BodyStmt{
             }
             
             currentToken = tokens.get(0);
-            ArrayList<JottTree> elseifs = new ArrayList<>();
+            ArrayList<ElseIfNode> elseifs = new ArrayList<>();
             while (currentToken.getToken().equals("ElseIf")){
                 ElseIfNode j = ElseIfNode.parseElseIfNode(tokens);
                 elseifs.add(j);
@@ -81,32 +81,20 @@ public class IfStatementNode implements BodyStmt{
 
 
     @Override
-    public void execute() {
-        if(condition != null && condition.getReturnType()=="Boolean")
-        {
-            condition.execute();
-        }
-        else{
-            System.err.println("Error: Invalid condition in If statement.");
-            System.err.println("Error: If condition must evaluate to a boolean.");
-            return;
-        }
-        if(body != null){
+    public Object execute() {
+        if ((boolean)condition.execute()){
             body.execute();
+            return "IfStatement Completed";
         }
         else{
-            System.err.println("Error: Invalid body in If statement.");
-            return;
-        }
-        if(elsenodes.size()>0){
-            for (JottTree elseifNode : elsenodes) {
-                elseifNode.execute();
+            for (ElseIfNode elif : this.elsenodes) {
+                if (elif.execute().equals("Branch Taken")) {
+                    return "IfStatement Completed";
+                }
             }
+            finalelsenode.execute();
+            return "IfStatement Completed";
         }
-        if (finalelsenode != null) {
-            finalelsenode.execute();   
-        }
-        return;
     }
 
     @Override

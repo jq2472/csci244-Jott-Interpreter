@@ -127,9 +127,9 @@ public class Function_DefNode implements JottTree{
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        return "Placeholder in function_defNode";
     }
 
     public ArrayList<String> getparamstrings(){

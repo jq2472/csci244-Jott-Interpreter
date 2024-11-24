@@ -89,22 +89,13 @@ public class ElseIfNode implements JottTree{
     }
 
     @Override
-    public void execute() {
-        if(this.exprNode == null && !exprNode.getReturnType().equals("Boolean")){
-            System.out.println("Error: Invalid or missing condition in ElseIf statement.");
-            System.out.println("Error: ElseIf condition must evaluate to a boolean");
-        }
-        else
-        {
-            this.exprNode.execute();
-            
-        }
-        if(this.bodyNode == null)
-        {
-            System.err.println("Error: Invalid or missing body in ElseIf statement.");
+    public Object execute() {
+        if ((Boolean)this.exprNode.execute()) {
+            this.bodyNode.execute();
+            return "Branch Taken";
         }
         else{
-            this.bodyNode.execute();
+            return "Branch Not Taken";
         }
     }
 

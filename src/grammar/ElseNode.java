@@ -68,14 +68,9 @@ public class ElseNode implements JottTree{
         return true; 
     }
     @Override
-    public void execute() {
-        if(this.bodyNode != null)
-        {
-            this.bodyNode.execute();
-        }
-        else {
-            System.err.println("Error: Attempted to execute an Else block with no body.");
-        }
+    public Object execute() {
+        this.bodyNode.execute();
+        return "Branch Taken";
     }
    
 }

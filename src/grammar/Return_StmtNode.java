@@ -72,9 +72,9 @@ public class Return_StmtNode implements JottTree{
 
 
     @Override
-    public void execute() {
+    public Object execute() {
          // needs to be implemented
-         System.out.println("Return_StmtNode");
+         return "Placeholder in Return_StmtNode";
     }
     
 }

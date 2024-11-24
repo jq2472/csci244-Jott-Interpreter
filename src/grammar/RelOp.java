@@ -34,8 +34,8 @@ public class RelOp implements ExprNode{
     }
 
     @Override
-    public void execute(){
-        System.out.println("executing RelOp");
+    public Object execute(){
+        return "Placeholder in relop";
     }
 
     @Override

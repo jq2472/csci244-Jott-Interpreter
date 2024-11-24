@@ -114,9 +114,9 @@ public class FunctionCallNode implements OperandNode {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // needs to be implemented
-        System.out.println("Executing FunctionCallNode");
+        return "Placeholder in FunctionCallNode";
     }
 
 

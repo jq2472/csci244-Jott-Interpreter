@@ -85,9 +85,9 @@ public class ProgramNode implements JottTree{
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        return "Placeholder in ProgramNode";
     }
 
     private static void addbuiltinfunctions(){

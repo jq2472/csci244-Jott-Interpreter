@@ -40,7 +40,30 @@ public class BinaryOpNode implements ExprNode {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
+        switch (operator.getToken()) {
+            case "+":
+                return ((double)left.execute() + (double)right.execute());
+            case "-":
+                return ((double)left.execute() - (double)right.execute());
+            case "*":
+                return ((double)left.execute() * (double)right.execute());
+            case "/":
+                return ((double)left.execute() / (double)right.execute());
+            case "<":
+                return ((double)left.execute() < (double)right.execute());
+            case "<=":
+                return ((double)left.execute() <= (double)right.execute());
+            case ">":
+                return ((double)left.execute() > (double)right.execute());
+            case ">=":
+                return ((double)left.execute() >= (double)right.execute());
+            case "==":
+                return (left.execute() == right.execute());
+            default:
+                System.out.println("Potential Error In BinaryOp Execution, did not return one of the intended nodes.");
+                return false;
+        }
     }
 
     @Override

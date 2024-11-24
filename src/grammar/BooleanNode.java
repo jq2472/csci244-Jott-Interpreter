@@ -31,9 +31,10 @@ public class BooleanNode implements ExprNode{
     }
     
     @Override
-    public void execute() {
+    public Object execute() {
          // needs to be implemented
-         System.out.println("Executing BooleanNode");
+         if (this.booleantoken.equals("True")){return true;}
+         else {return false;}
     }
     
     @Override

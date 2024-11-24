@@ -73,9 +73,9 @@ public class IdNode implements OperandNode {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // needs to be implemented
-        System.out.println("Executing IdNode");
+        return "Placeholder in IdNode";
     }
 
     @Override

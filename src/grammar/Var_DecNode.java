@@ -81,9 +81,9 @@ public class Var_DecNode implements JottTree{
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // needs to be implemented
-        System.out.println("Var_DecNode");
+        return "Placeholder in execute";
     }
 
     public String getVariablenameString(){

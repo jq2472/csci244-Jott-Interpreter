@@ -99,8 +99,8 @@ public class ParamsNode implements JottTree {
         return true;
     }
     @Override
-    public void execute() {
+    public Object execute() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        return "Placeholder in paramsnode";
     }
 }

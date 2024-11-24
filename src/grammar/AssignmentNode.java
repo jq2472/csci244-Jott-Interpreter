@@ -86,8 +86,8 @@ public class AssignmentNode implements BodyStmt {
     }
 
 
-    public void execute() { 
-        System.out.println("Executing NumberNode");
+    public Object execute() { 
+        return "Placeholder in AssignmentNode";
     }
 
     public String getVariablenameString(){

@@ -66,9 +66,9 @@ public class NumberNode implements OperandNode {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // needs to be implemented
-        System.out.println("Executing NumberNode");
+        return Double.parseDouble(this.getToken().getToken());
     }
     @Override
     public Token getToken() {

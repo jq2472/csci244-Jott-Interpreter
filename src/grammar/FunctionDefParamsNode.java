@@ -114,8 +114,9 @@ public class FunctionDefParamsNode implements JottTree {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // implement
+        return "Placeholder in FunctionDefParamsNode";
     }
 
     public ArrayList<String> getParamStrings(){
@@ -158,8 +159,9 @@ public class FunctionDefParamsNode implements JottTree {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // implement
+        return "Placeholder in ParamNode";
     }
 }
 

@@ -59,9 +59,10 @@ public class StrLitNode implements ExprNode {
     }
 
     @Override
-    public void execute() {
+    public Object execute() {
         // needs to be implemented in phase 3
-        System.out.println("Executing StrLitNode");
+        //TODO check this is the unformatted string, and doesnt include quotation marks
+        return this.str.getToken();
     }
 
     @Override

@@ -80,8 +80,8 @@ public class Function_RetNode implements JottTree{
     }
 
     @Override
-    public void execute() {
-        System.out.println("Function_RetNode");
+    public Object execute() {
+        return "Placeholder in Function_RetNode";
     }
     
 }
