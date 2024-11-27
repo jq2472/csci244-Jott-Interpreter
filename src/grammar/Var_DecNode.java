@@ -83,7 +83,41 @@ public class Var_DecNode implements JottTree{
     @Override
     public Object execute() {
         // needs to be implemented
-        return "Placeholder in execute";
+        // return "Placeholder in execute";
+
+         // Retrieve the variable name and type
+        String varName = this.getVariablenameString();
+        String varType = this.getReturnType();
+
+        // Set default value depending on type. 
+        Object defaultValue = getDefaultValueForType(varType);
+
+        // 3. Use the `parseVariabledataData()` method to create VariableData from the Var_DecNode
+        // This avoids direct access to the constructor of VariableData.
+        VariableData varData = VariableData.parseVariabledataData(this);
+
+        // 4. Add the variable to the symbol table for the current function
+        // We store the Var_DecNode, which is the correct type for symbolTable.setVar().
+        symbolTable.setVar(currentFunction, varName, this);
+
+        // 5. Return the default value for the variable
+        return defaultValue;
+    }
+
+    // Sets default values to whatever the type
+    private Object getDefaultValueForType(String type) {
+        switch (type) {
+            case "Integer":
+                return 0;  // Default value for integers
+            case "Double":
+                return 0.0;  // Default value for doubles
+            case "String":
+                return "";  // Default value for strings
+            case "Boolean":
+                return false;  // Default value for booleans, always start with false
+            default:
+                return null;  // For any other types, return null
+        }
     }
 
     public String getVariablenameString(){
