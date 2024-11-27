@@ -33,7 +33,7 @@ public class BooleanNode implements ExprNode{
     @Override
     public Object execute() {
          // needs to be implemented
-         if (this.booleantoken.equals("True")){return true;}
+         if (this.booleantoken.getToken().equals("True")){return true;}
          else {return false;}
     }
     
