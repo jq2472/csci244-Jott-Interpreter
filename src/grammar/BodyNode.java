@@ -113,7 +113,16 @@ public class BodyNode implements JottTree {
      * This will execute the Jott code represented by this JottTree node.
      */
     public Object execute(){
-        return "Placeholder in BodyNode";
+        // return "Placeholder in BodyNode";
+        for(JottTree statement : this.bodystatementArrayList)
+        {
+            statement.execute();
+        }
+        if(this.returnnode != null)
+        {
+            returnnode.execute();
+        }
+        return "BodyNode exectued";
     }
 
    
