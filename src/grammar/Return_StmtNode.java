@@ -74,7 +74,20 @@ public class Return_StmtNode implements JottTree{
     @Override
     public Object execute() {
          // needs to be implemented
-         return "Placeholder in Return_StmtNode";
+        //  return "Placeholder in Return_StmtNode";
+
+        // If the expression is null, the return value should be null (e.g., for void functions).
+        if (this.jottTreeexpr != null) {
+            // Evaluate the expression to get its result, call execute function on ExprNode
+            Object returnValue = this.jottTreeexpr.execute();
+            
+            // Return the evaluated value for the return statement
+            return returnValue;
+        }
+        
+        // If there's no expression, this is equivalent to returning "nothing" or null for void functions, not all functions have 
+        // return statements.
+        return null;
     }
     
 }
