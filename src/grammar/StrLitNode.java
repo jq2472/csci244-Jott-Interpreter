@@ -62,7 +62,17 @@ public class StrLitNode implements ExprNode {
     public Object execute() {
         // needs to be implemented in phase 3
         //TODO check this is the unformatted string, and doesnt include quotation marks
-        return this.str.getToken();
+        // return this.str.getToken();
+
+        // Get the string value from the token
+        String stringValue = this.str.getToken();
+
+        // Remove the quotes (if present) from the string value, they will be at the beginning and end of a string.
+        if (stringValue.startsWith("\"") && stringValue.endsWith("\"")) {
+            stringValue = stringValue.substring(1, stringValue.length() - 1); // Remove quotes
+        }
+
+        return stringValue;
     }
 
     @Override
