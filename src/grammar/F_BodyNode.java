@@ -86,7 +86,22 @@ public class F_BodyNode implements JottTree {
     @Override
     public Object execute() {
         // TODO Auto-generated method stub
-        return "Placeholder in F_bodyNode";
+        // return "Placeholder in F_bodyNode";
+        
+
+        // Execute all variable declarations
+        for (JottTree varDec : var_decList) {
+            if (varDec != null) {
+                System.out.println((varDec.execute())); // Assumes Var_DecNode handles its execution
+            }
+        }
+
+        // Execute the body
+        if (body != null) {
+            System.out.println(body.execute()); // Executes all statements in the body
+        }
+
+        return "F_Body executed"; // Return the value from the body, if any (e.g., from a return statement)
     }
 
    
