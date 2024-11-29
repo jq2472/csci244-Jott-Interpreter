@@ -59,6 +59,9 @@ public class TypeNode implements JottTree{
     @Override
     public Object execute() {
         // needs to be implemented phase 3
-        return "Placeholder for Typenode";
+        // return "Placeholder for Typenode";
+        
+        // TypeNode by itself has no specific operation except just declare the type of a variable.
+        return this.typenodetype.getToken();
     }
 }
