@@ -1,12 +1,11 @@
 package grammar;
 import static grammar.Helper.checkIsNotEmpty;
 import static grammar.Helper.checkTokenType;
-import java.util.ArrayList;
-
-import provided.*;
-
 import static interpreter.SymbolTable.currentFunction;
 import static interpreter.SymbolTable.symbolTable;
+import interpreter.VariableData;
+import java.util.ArrayList;
+import provided.*;
 
 
 
@@ -87,7 +86,10 @@ public class AssignmentNode implements BodyStmt {
 
 
     public Object execute() { 
-        return "Placeholder in AssignmentNode";
+        String varName = ((IdNode) this.id1).getName();
+        VariableData data = symbolTable.getVar(currentFunction, varName);
+        data.setvalue(this.expresnode.execute());
+        return data.getValue();
     }
 
     public String getVariablenameString(){

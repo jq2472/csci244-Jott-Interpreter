@@ -1,9 +1,8 @@
 package grammar;
 import static grammar.Helper.*;
-import java.util.ArrayList;
-
 import interpreter.SymbolTable;
 import interpreter.VariableData;
+import java.util.ArrayList;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 public class IdNode implements OperandNode {
@@ -74,8 +73,19 @@ public class IdNode implements OperandNode {
 
     @Override
     public Object execute() {
-        // needs to be implemented
-        return "Placeholder in IdNode";
+        // Partially implemented
+        if (SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, this.getName())){
+            VariableData j = SymbolTable.symbolTable.getVar(SymbolTable.currentFunction, this.getName());
+            if (j.getValue() != null){
+                return j.getValue();
+            }
+            else{
+                return "Variable is uninitialized";
+            }
+        }
+        else{
+            return "THIS HALF IS UNIMPLEMENTED THIS WOULD BE IF ITS A FUNCTION";
+        }
     }
 
     @Override
