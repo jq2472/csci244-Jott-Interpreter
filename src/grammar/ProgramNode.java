@@ -86,8 +86,12 @@ public class ProgramNode implements JottTree{
 
     @Override
     public Object execute() {
-        // TODO Auto-generated method stub
-        return "Placeholder in ProgramNode";
+        FunctionData mainfunction = SymbolTable.symbolTable.getFunc("main");
+        if (mainfunction == null){
+            System.err.println("main function not found");
+            return null;
+        }
+        return mainfunction;
     }
 
     private static void addbuiltinfunctions(){
