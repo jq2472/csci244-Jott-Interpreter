@@ -5,10 +5,14 @@ import static grammar.Helper.*; // checkTokenType(), checkIsNotEmpty()
 public class MathOp implements ExprNode{
 
     private Token mathoptoken;
+    private ExprNode left;
+    private ExprNode right;
 
     public MathOp(Token token)
     {
         this.mathoptoken = token;
+        this.left = left;
+        this.right = right;
     }
     /**
      * 
@@ -32,8 +36,29 @@ public class MathOp implements ExprNode{
         return this.mathoptoken.getTokenType() == TokenType.MATH_OP;
     }
     @Override
-    public Object execute() {
-        return "Placeholder in mathop";
+    public Object execute() { // needs verification
+        Object leftValue = left.execute();
+        Object rightValue = right.execute();
+        if (!(leftValue instanceof Number) || !(rightValue instanceof Number)){
+            System.err.println("Operands must be numeric");
+        }
+        double left = ((Number) leftValue).doubleValue();
+        double right = ((Number) rightValue).doubleValue();
+        switch (this.mathoptoken.getToken()) {
+            case "+":
+                return left + right;
+            case "-":
+                return left - right;
+            case "*":
+                return left * right;
+            case "/":
+                if (right == 0) {
+                    System.err.println("error: division by zero");
+                }
+                return left / right;
+            default:
+                throw new UnsupportedOperationException("unsupported math operator: " + this.mathoptoken.getToken());
+        }
     }
     @Override
     public Token getToken() {
