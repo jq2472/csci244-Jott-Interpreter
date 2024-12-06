@@ -1,11 +1,7 @@
 package grammar;
 
-import provided.*;
-
-import java.util.ArrayList;
-import static grammar.Helper.checkIsNotEmpty;
-import static grammar.Helper.checkTokenType;
 import static grammar.Helper.print_err;
+import provided.*;
 
 public class BinaryOpNode implements ExprNode {
 
@@ -49,6 +45,10 @@ public class BinaryOpNode implements ExprNode {
             case "*":
                 return ((double)left.execute() * (double)right.execute());
             case "/":
+                if((double)right.execute() == 0){
+                    System.out.println("Error divided bt zero");
+                    return null;
+                }
                 return ((double)left.execute() / (double)right.execute());
             case "<":
                 return ((double)left.execute() < (double)right.execute());
