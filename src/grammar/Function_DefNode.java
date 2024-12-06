@@ -170,4 +170,8 @@ public class Function_DefNode implements JottTree{
     public String getReturnType(){
         return this.returntype.getreturntype();
     }
+
+    public JottTree getBody() {
+        return this.bodyNode;
+    }
 }

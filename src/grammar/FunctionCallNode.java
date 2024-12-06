@@ -6,7 +6,9 @@ import static interpreter.SymbolTable.symbolTable;
 
 import java.util.ArrayList;
 
+import interpreter.CallStack;
 import interpreter.FunctionData;
+import interpreter.StackFrame;
 import interpreter.SymbolTable;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
@@ -113,11 +115,48 @@ public class FunctionCallNode implements OperandNode {
 
     }
 
+//    @Override
+//    public Object execute() {
+//        // needs to be implemented
+//        return "Placeholder in FunctionCallNode";
+//    }
     @Override
     public Object execute() {
-        // needs to be implemented
-        return "Placeholder in FunctionCallNode";
+        // check if the function exists in the symbol table
+        if (!SymbolTable.symbolTable.hasFunc(functionName.getName())) {
+            throw new RuntimeException("Function not defined: " + functionName.getName());
+        }
+        // get functiondata
+        FunctionData funcData = SymbolTable.symbolTable.getFunc(functionName.getName());
+        // get and validate params
+        // parameters.execute returns the params. params are NOT technically evaluated*
+        ArrayList<ExprNode> paramValues = parameters.execute();
+        if (paramValues.size() != funcData.getParams().size()) {
+            throw new RuntimeException("Incorrect number of arguments for function: " + functionName.getName());
+        }
+        // create a new call stack context/stackframe
+        StackFrame newFrame = new StackFrame(funcData);
+        CallStack.pushContext(newFrame);
+
+        // bind parameters to local variables in the new context
+        for (int i = 0; i < paramValues.size(); i++) {
+            String paramName = funcData.getParams().get(i);
+            newFrame.setVariable(paramName, paramValues.get(i));
+        }
+        // execute fbody
+        Object returnValue = null;
+        try {
+            // function body handles execution / evaluation of methods (?)
+            returnValue = funcData.getBody().execute();
+        } catch (Exception e) {
+            returnValue = e.getMessage();
+        } finally {
+            CallStack.popContext();
+        }
+        // Return the function's result
+        return returnValue;
     }
+
 
 
     @Override
