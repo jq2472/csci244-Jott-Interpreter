@@ -100,6 +100,6 @@ public class ParamsNode implements JottTree {
     }
     @Override
     public Object execute() {
-        return "Placeholder in paramsnode";
+        return params;
     }
 }

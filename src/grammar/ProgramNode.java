@@ -1,11 +1,8 @@
 package grammar;
 
-import static grammar.Helper.print_err;
-
-import java.util.ArrayList;
-
 import interpreter.FunctionData;
 import interpreter.SymbolTable;
+import java.util.ArrayList;
 import provided.*;
 
 
@@ -91,7 +88,14 @@ public class ProgramNode implements JottTree{
             System.err.println("main function not found");
             return null;
         }
-        return mainfunction;
+        
+        for(Function_DefNode function: this.funcdeflist){
+            if(function.getnametoken().equals("main")){
+                SymbolTable.currentFunction = "main";
+                function.execute();
+            }
+        }
+        return "Error";
     }
 
     private static void addbuiltinfunctions(){

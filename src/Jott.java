@@ -93,7 +93,8 @@ public class Jott {
                 System.err.println("The Jott code has semantic errors.");
             }
             // iterate through the symbols in the symbol table and just do .validate() 
-
+            parsedTokens.execute();
+            
         } catch (Exception e) {
            e.printStackTrace();
         }
