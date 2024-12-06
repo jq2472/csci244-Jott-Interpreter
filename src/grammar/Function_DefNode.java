@@ -80,6 +80,7 @@ public class Function_DefNode implements JottTree{
                 checkTokenType(tokens, TokenType.R_BRACE);
                 tokens.remove(0);
                 Function_DefNode node = new Function_DefNode(funcname, params, returntypecheck, f_bodynode);
+
                 if (SymbolTable.symbolTable.hasFunc(funcname.getName())) {
                     print_err("Duplicate entry in Symbol table During variable declaration", funcname.getToken());
                 }
@@ -126,10 +127,30 @@ public class Function_DefNode implements JottTree{
         return true;
     }
 
+    // // @Override
+    // public Object execute() { // Needs Approval
+    //     System.out.println("in function_defnode execute");
+    //     SymbolTable.currentFunction = this.Name.getName();
+    //     if (!SymbolTable.symbolTable.hasFunc(this.Name.getName())){
+    //         print_err("Function Not in Symbol Table", getnametoken()); 
+    //         return false;
+    //     }else{
+    //         return func_def_params.execute();
+    //     }
+
+    // }
+
     @Override
     public Object execute() {
-        // TODO Auto-generated method stub
-        return "Placeholder in function_defNode";
+        System.out.println("Executing function: " + this.Name.getName());
+        SymbolTable.currentFunction = this.Name.getName();
+        
+        func_def_params.execute(); 
+
+        Object result = bodyNode.execute();
+        System.out.println("Function " + this.Name.getName() + " executed, result: " + result);
+
+        return result;
     }
 
     public ArrayList<String> getparamstrings(){
@@ -146,5 +167,9 @@ public class Function_DefNode implements JottTree{
 
     public String getReturnType(){
         return this.returntype.getreturntype();
+    }
+
+    public JottTree getBody() {
+        return this.bodyNode;
     }
 }

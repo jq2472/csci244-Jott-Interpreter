@@ -22,6 +22,15 @@ public class ParamsNode implements JottTree {
     public void setFuncName(Token funcnameinput){
         this.funcname = funcnameinput;
     }
+
+    public ArrayList<ExprNode> getParams(){
+        return this.params;
+    }
+
+    public Token getFuncname() {
+        return funcname;
+    }
+
     public static ParamsNode parseParamsNode(ArrayList<Token> tokens) throws Exception {
         checkIsNotEmpty(tokens);
         Token currToken = tokens.get(0);
@@ -99,7 +108,8 @@ public class ParamsNode implements JottTree {
         return true;
     }
     @Override
-    public Object execute() {
+    public ArrayList<ExprNode> execute() {
+        System.out.println("in paramsNode execute");
         return params;
     }
 }

@@ -83,18 +83,27 @@ public class ProgramNode implements JottTree{
 
     @Override
     public Object execute() {
-        FunctionData mainfunction = SymbolTable.symbolTable.getFunc("main");
-        if (mainfunction == null){
-            System.err.println("main function not found");
-            return null;
-        }
+        System.out.println("in ProgramNode execute");
+
+        // FunctionData mainfunction = SymbolTable.symbolTable.getFunc("main");
+        // if (mainfunction == null){
+        //     System.err.println("main function not found");
+        //     return null;
+        // }
         
         for(Function_DefNode function: this.funcdeflist){
-            if(function.getnametoken().equals("main")){
+
+            String functionName = function.getnametoken().getToken().trim(); // Use .trim() to handle extra spaces
+            System.out.println("Checking function: '" + functionName + "'");
+
+            if(functionName.equals("main")){
+                System.out.println("found main function");
                 SymbolTable.currentFunction = "main";
                 function.execute();
+                return "Program executed successfully";
             }
         }
+        System.err.println("Main function not found in function list");
         return "Error";
     }
 

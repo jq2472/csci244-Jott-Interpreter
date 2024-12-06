@@ -56,7 +56,9 @@ public class Jott {
      * @throws FileNotFoundException if the machine file is not found
      */
     public static void main(String[] args) {
-//        String path = "parserTestCases/";
+        String path = "parserTestCases/";
+        // helloWorld.jott
+        // validLoop.jott
         try {
             if (args.length != 1) {
                 System.out.println("Usage: java Jott [filename.jott]");
@@ -82,9 +84,11 @@ public class Jott {
             JottTree parsedTokens = JottParser.parse(cpyTokens);
             if (parsedTokens == null) {
                 System.err.println("Expected a JottTree, but got null");
-            } else {
-                System.out.println("Parsed JottTree:\n" + parsedTokens);
-            }
+            } 
+            // commenting out debugging prints
+            // else {
+            //     System.out.println("Parsed JottTree:\n" + parsedTokens);
+            // }
 
             // validate tree
             symbolTable = SymbolTable.symbolTable;
@@ -93,8 +97,9 @@ public class Jott {
                 System.err.println("The Jott code has semantic errors.");
             }
             // iterate through the symbols in the symbol table and just do .validate() 
-            parsedTokens.execute();
             
+            parsedTokens.execute();
+                
         } catch (Exception e) {
            e.printStackTrace();
         }
