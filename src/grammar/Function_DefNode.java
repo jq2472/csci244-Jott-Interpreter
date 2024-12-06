@@ -126,10 +126,17 @@ public class Function_DefNode implements JottTree{
         return true;
     }
 
-    @Override
-    public Object execute() {
-        // TODO Auto-generated method stub
-        return "Placeholder in function_defNode";
+    // @Override
+    public Object execute() { // Needs Approval
+        System.out.println("in function_defnode execute");
+        SymbolTable.currentFunction = this.Name.getName();
+        if (!symbolTable.hasFunc(this.Name.getName())){
+            print_err("Function Not in Symbol Table", getnametoken()); 
+            return false;
+        }else{
+            return func_def_params.execute();
+        }
+
     }
 
     public ArrayList<String> getparamstrings(){
