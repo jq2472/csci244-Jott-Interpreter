@@ -61,9 +61,6 @@ public class StrLitNode implements ExprNode {
     @Override
     public Object execute() {
         System.out.println("in strlit node execute");
-        // needs to be implemented in phase 3
-        //TODO check this is the unformatted string, and doesnt include quotation marks
-        // return this.str.getToken();
 
         // Get the string value from the token
         String stringValue = this.str.getToken();

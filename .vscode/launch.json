@@ -35,11 +35,11 @@
         },
         {
             "type": "java",
-            "name": "Jott(missRet)",
+            "name": "Jott(helloWorld)",
             "request": "launch",
             "mainClass": "Jott",
             "projectName": "csci244-Jott-Interpreter_beae52eb",
-            "args": ["parserTestCases/missingReturn.jott"]
+            "args": ["parserTestCases/helloWorld.jott"]
         },
     ]
 }

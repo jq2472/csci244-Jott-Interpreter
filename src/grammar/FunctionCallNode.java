@@ -146,6 +146,18 @@ public class FunctionCallNode implements OperandNode {
         // execute fbody
         Object returnValue = null;
         try {
+
+            //executing builtinFuncs
+            if(funcData.getName().equals("print")){
+                System.out.println(paramValues.get(0).execute());
+            }
+            if(funcData.getName().equals("length")){
+                System.out.println("Length found!!!");
+            }
+            if(funcData.getName().equals("concat")){
+                System.out.println("Concat found!!!");
+            }
+
             // function body handles execution / evaluation of methods (?)
             returnValue = funcData.getBody().execute();
         } catch (Exception e) {
