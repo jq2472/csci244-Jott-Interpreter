@@ -86,6 +86,7 @@ public class AssignmentNode implements BodyStmt {
 
 
     public Object execute() { 
+        System.out.println("in AssignmentNode execute");
         String varName = ((IdNode) this.id1).getName();
         VariableData data = symbolTable.getVar(currentFunction, varName);
         data.setvalue(this.expresnode.execute());

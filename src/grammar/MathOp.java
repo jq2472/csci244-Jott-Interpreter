@@ -37,6 +37,7 @@ public class MathOp implements ExprNode{
     }
     @Override
     public Object execute() { // needs verification
+        System.out.println("in MathOp execute");
         Object leftValue = left.execute();
         Object rightValue = right.execute();
         if (!(leftValue instanceof Number) || !(rightValue instanceof Number)){

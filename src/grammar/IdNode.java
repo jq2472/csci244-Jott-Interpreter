@@ -73,6 +73,7 @@ public class IdNode implements OperandNode {
 
     @Override
     public Object execute() {
+        System.out.println("in IdNode execute");
         // Partially implemented
         if (SymbolTable.symbolTable.hasVar(SymbolTable.currentFunction, this.getName())){
             VariableData j = SymbolTable.symbolTable.getVar(SymbolTable.currentFunction, this.getName());

@@ -83,6 +83,7 @@ public class ProgramNode implements JottTree{
 
     @Override
     public Object execute() {
+        System.out.println("in ProgramNode execute");
         FunctionData mainfunction = SymbolTable.symbolTable.getFunc("main");
         if (mainfunction == null){
             System.err.println("main function not found");
