@@ -81,8 +81,6 @@ public class Function_DefNode implements JottTree{
                 tokens.remove(0);
                 Function_DefNode node = new Function_DefNode(funcname, params, returntypecheck, f_bodynode);
 
-                System.out.println("Parsed function: " + funcname.getName());
-
                 if (SymbolTable.symbolTable.hasFunc(funcname.getName())) {
                     print_err("Duplicate entry in Symbol table During variable declaration", funcname.getToken());
                 }
