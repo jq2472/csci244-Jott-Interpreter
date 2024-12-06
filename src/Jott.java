@@ -1,3 +1,4 @@
+import interpreter.CallStack;
 import interpreter.SymbolTable;
 import provided.JottParser;
 import provided.JottTokenizer;
@@ -56,7 +57,7 @@ public class Jott {
      * @throws FileNotFoundException if the machine file is not found
      */
     public static void main(String[] args) {
-        String path = "parserTestCases/";
+        //String path = "parserTestCases/";
         // helloWorld.jott
         // validLoop.jott
         try {
@@ -84,11 +85,9 @@ public class Jott {
             JottTree parsedTokens = JottParser.parse(cpyTokens);
             if (parsedTokens == null) {
                 System.err.println("Expected a JottTree, but got null");
-            } 
-            // commenting out debugging prints
-            // else {
-            //     System.out.println("Parsed JottTree:\n" + parsedTokens);
-            // }
+            } else {
+                System.out.println("Parsed JottTree:\n" + parsedTokens);
+            }
 
             // validate tree
             symbolTable = SymbolTable.symbolTable;
@@ -97,9 +96,9 @@ public class Jott {
                 System.err.println("The Jott code has semantic errors.");
             }
             // iterate through the symbols in the symbol table and just do .validate() 
-            
+
             parsedTokens.execute();
-                
+
         } catch (Exception e) {
            e.printStackTrace();
         }
