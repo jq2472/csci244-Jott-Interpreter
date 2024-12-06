@@ -1,0 +1,15 @@
+#custom test case for testing the builtIn func Print
+
+Def main[]:Void{
+    Integer x;
+    Double y;
+	x = 3;
+    y = 3.2 + x;
+    ::print[5];
+    ::print[x];
+    ::print[y];
+    ::print[5 + 5];
+
+    #this is a comment
+    ::print[ "foo bar" ];
+}
