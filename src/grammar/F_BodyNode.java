@@ -86,7 +86,6 @@ public class F_BodyNode implements JottTree {
     @Override
     public Object execute() {
         System.out.println("in F BodyNode execute");
-        // TODO Auto-generated method stub
         // return "Placeholder in F_bodyNode";
         
 
@@ -99,10 +98,14 @@ public class F_BodyNode implements JottTree {
 
         // Execute the body
         if (body != null) {
-            System.out.println(body.execute()); // Executes all statements in the body
+            return body.execute(); // Executes all statements in the body
         }
 
-        return "F_Body executed"; // Return the value from the body, if any (e.g., from a return statement)
+
+        System.out.println("F_Body executed");
+
+        return null; // Return the value from the body, if any (e.g., from a return statement)
+                     //will likely need to change this later, placeholder for now
     }
 
    

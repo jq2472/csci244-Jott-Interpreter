@@ -35,11 +35,11 @@
         },
         {
             "type": "java",
-            "name": "Jott(concatTest)",
+            "name": "Jott(validLoop)",
             "request": "launch",
             "mainClass": "Jott",
             "projectName": "csci244-Jott-Interpreter_beae52eb",
-            "args": ["src/parserTestCases/concatTest.jott"]
+            "args": ["src/parserTestCases/validLoop.jott"]
         },
     ]
 }

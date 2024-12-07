@@ -121,7 +121,7 @@ public class BodyNode implements JottTree {
         }
         if(this.returnnode != null)
         {
-            returnnode.execute();
+            return returnnode.execute();
         }
         return "BodyNode exectued";
     }
