@@ -156,7 +156,7 @@ public class FunctionCallNode implements OperandNode {
                 returnValue = builtInFuncs.builtInConcat(paramValues);
             }
             else if(funcData.getName().equals("length")){
-                System.out.println("Length found!!!");
+                returnValue = builtInFuncs.builtInLength(paramValues);
             }
             else{
 

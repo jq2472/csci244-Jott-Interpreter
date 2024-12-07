@@ -16,4 +16,8 @@ public class builtInFuncs {
         String concatStr = paramValues.get(0).execute() + "" + paramValues.get(1).execute();
         return concatStr;
     }
+
+    public static int builtInLength(ArrayList<ExprNode> paramValues){
+        return paramValues.get(0).execute().toString().length();
+    }
 }

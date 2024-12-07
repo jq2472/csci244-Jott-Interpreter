@@ -1,0 +1,7 @@
+#custom test case for testing the builtInFunc length
+
+Def main[]:Void{
+    Integer i;
+    i = ::length["foo"];
+    ::print[i];
+}
