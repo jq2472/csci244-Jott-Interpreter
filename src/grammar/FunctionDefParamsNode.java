@@ -24,6 +24,15 @@ public class FunctionDefParamsNode implements JottTree {
         this.params = params;
     }
 
+
+    public ArrayList<String> returnparamnames(){
+        ArrayList<String> toreturn = new ArrayList<>();
+        for (ParameterNode singleparam : this.params) {
+            toreturn.add(singleparam.getparamname());
+        }
+        return toreturn;
+    }
+
     /**
      * Parses function definition parameters from tokens.
      * @param tokens list of tokens to parse.
@@ -152,6 +161,10 @@ public class FunctionDefParamsNode implements JottTree {
 
     public IdNode getIdNode(){
         return this.paramName;
+    }
+
+    public String getparamname(){
+        return this.paramName.getName();
     }
 
     public String getType(){

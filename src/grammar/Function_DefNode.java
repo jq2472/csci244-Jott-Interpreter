@@ -85,6 +85,8 @@ public class Function_DefNode implements JottTree{
                     print_err("Duplicate entry in Symbol table During variable declaration", funcname.getToken());
                 }
                 SymbolTable.symbolTable.setFunc(node.getnametoken().getToken(), node);
+                FunctionData f = symbolTable.getFunc(node.getnametoken().getToken());
+                f.addparamnames(params);
                 params.addtosymboltable();
                 return node;
         

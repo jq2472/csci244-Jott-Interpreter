@@ -138,10 +138,11 @@ public class FunctionCallNode implements OperandNode {
         // create a new call stack context/stackframe
         StackFrame newFrame = new StackFrame(funcData);
         CallStack.pushContext(newFrame);
-
+        String nametosave = SymbolTable.currentFunction; 
+        SymbolTable.currentFunction = functionName.getName();
         // bind parameters to local variables in the new context
         for (int i = 0; i < paramValues.size(); i++) {
-            String paramName = funcData.getParams().get(i);
+            String paramName = funcData.getParamNames().get(i);
             newFrame.setVariable(paramName, paramValues.get(i));
         }
         // execute fbody
@@ -159,7 +160,7 @@ public class FunctionCallNode implements OperandNode {
                 returnValue = builtInFuncs.builtInLength(paramValues);
             }
             else{
-
+                newFrame.setSymbolTableVariables();
                 // function body handles execution / evaluation of methods (?)
                 returnValue = funcData.getBody().execute();
             }
@@ -169,6 +170,7 @@ public class FunctionCallNode implements OperandNode {
         } finally {
             CallStack.popContext();
         }
+        SymbolTable.currentFunction = nametosave;
         // Return the function's result
         return returnValue;
     }

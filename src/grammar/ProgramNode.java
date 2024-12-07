@@ -2,6 +2,9 @@ package grammar;
 
 import interpreter.FunctionData;
 import interpreter.SymbolTable;
+
+import static interpreter.SymbolTable.symbolTable;
+
 import java.util.ArrayList;
 import provided.*;
 
@@ -113,13 +116,16 @@ public class ProgramNode implements JottTree{
         j.add("String");
         FunctionData f1 = FunctionData.prebuiltFunctionData("concat", j, "String");
         SymbolTable.symbolTable.setprebuiltfunc("concat", f1);
+        f1.addparamnamesprebuilt(j);
         ArrayList<String> h  = new ArrayList<>();
         h.add("String");
         FunctionData f2 = FunctionData.prebuiltFunctionData("length", h, "Integer");
         SymbolTable.symbolTable.setprebuiltfunc("length", f2);
+        f2.addparamnamesprebuilt(h);
         ArrayList<String> g = new ArrayList<>();
         g.add("Any");
         FunctionData f3 = FunctionData.prebuiltFunctionData("print", g, "Void");
+        f3.addparamnamesprebuilt(g);
         SymbolTable.symbolTable.setprebuiltfunc("print", f3);
     }
 

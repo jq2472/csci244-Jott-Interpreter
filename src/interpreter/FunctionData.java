@@ -1,6 +1,7 @@
 package interpreter;
 import java.util.ArrayList;
 
+import grammar.FunctionDefParamsNode;
 import grammar.Function_DefNode;
 import provided.JottTree;
 import provided.Token;
@@ -8,6 +9,7 @@ import provided.Token;
 public class FunctionData{ 
     protected String name;
     protected ArrayList<String> params;
+    protected ArrayList<String> paramnames;
     protected String returns;
     protected Token idnode;
     protected JottTree body; // to get computed results of function calls
@@ -22,6 +24,18 @@ public class FunctionData{
     public JottTree getBody() {
         return this.body;
     }
+
+    public void addparamnames(FunctionDefParamsNode paramsnode){
+        this.paramnames = paramsnode.returnparamnames();
+    }
+
+    public void addparamnamesprebuilt(ArrayList<String> strings){
+        this.paramnames = strings;
+    }
+
+    public ArrayList<String> getParamNames(){
+        return this.paramnames;
+    } 
 
     public void setBody(JottTree body) {
         this.body = body;
