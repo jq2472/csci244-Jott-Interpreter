@@ -10,6 +10,7 @@ import interpreter.CallStack;
 import interpreter.FunctionData;
 import interpreter.StackFrame;
 import interpreter.SymbolTable;
+import interpreter.builtInFuncs;
 import provided.*; // checkTokenType(), checkIsNotEmpty()
 
 /**
@@ -149,17 +150,20 @@ public class FunctionCallNode implements OperandNode {
 
             //executing builtinFuncs
             if(funcData.getName().equals("print")){
-                System.out.println(paramValues.get(0).execute());
+                builtInFuncs.builtInPrint(paramValues);
             }
-            if(funcData.getName().equals("length")){
+            else if(funcData.getName().equals("concat")){
+                returnValue = builtInFuncs.builtInConcat(paramValues);
+            }
+            else if(funcData.getName().equals("length")){
                 System.out.println("Length found!!!");
             }
-            if(funcData.getName().equals("concat")){
-                System.out.println("Concat found!!!");
-            }
+            else{
 
-            // function body handles execution / evaluation of methods (?)
-            returnValue = funcData.getBody().execute();
+                // function body handles execution / evaluation of methods (?)
+                returnValue = funcData.getBody().execute();
+            }
+            
         } catch (Exception e) {
             returnValue = e.getMessage();
         } finally {
