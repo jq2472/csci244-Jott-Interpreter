@@ -35,11 +35,11 @@
         },
         {
             "type": "java",
-            "name": "Jott(validLoop)",
+            "name": "Jott(validIfReturn)",
             "request": "launch",
             "mainClass": "Jott",
             "projectName": "csci244-Jott-Interpreter_beae52eb",
-            "args": ["src/parserTestCases/validLoop.jott"]
+            "args": ["src/parserTestCases/validIfReturn.jott"]
         },
     ]
 }

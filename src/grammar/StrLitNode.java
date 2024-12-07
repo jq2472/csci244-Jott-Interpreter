@@ -60,7 +60,7 @@ public class StrLitNode implements ExprNode {
 
     @Override
     public Object execute() {
-        System.out.println("in strlit node execute");
+        //System.out.println("in strlit node execute");
 
         // Get the string value from the token
         String stringValue = this.str.getToken();

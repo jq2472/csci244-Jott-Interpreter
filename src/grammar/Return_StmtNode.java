@@ -73,9 +73,7 @@ public class Return_StmtNode implements JottTree{
 
     @Override
     public Object execute() {
-        System.out.println("in return stmtnode execute");
-         // needs to be implemented
-        //  return "Placeholder in Return_StmtNode";
+        //System.out.println("in return stmtnode execute");
 
         // If the expression is null, the return value should be null (e.g., for void functions).
         if (this.jottTreeexpr != null) {

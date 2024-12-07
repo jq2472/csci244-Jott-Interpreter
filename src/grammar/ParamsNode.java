@@ -109,7 +109,7 @@ public class ParamsNode implements JottTree {
     }
     @Override
     public ArrayList<ExprNode> execute() {
-        System.out.println("in paramsNode execute");
+        //System.out.println("in paramsNode execute");
         return params;
     }
 }

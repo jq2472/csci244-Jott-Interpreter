@@ -142,13 +142,13 @@ public class Function_DefNode implements JottTree{
 
     @Override
     public Object execute() {
-        System.out.println("Executing function: " + this.Name.getName());
+        //System.out.println("Executing function: " + this.Name.getName());
         SymbolTable.currentFunction = this.Name.getName();
         
         func_def_params.execute(); 
 
         Object result = bodyNode.execute();
-        System.out.println("Function " + this.Name.getName() + " executed, result: " + result);
+        //System.out.println("Function " + this.Name.getName() + " executed, result: " + result);
 
         return result;
     }

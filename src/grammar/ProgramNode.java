@@ -83,7 +83,7 @@ public class ProgramNode implements JottTree{
 
     @Override
     public Object execute() {
-        System.out.println("in ProgramNode execute");
+        //System.out.println("in ProgramNode execute");
 
         // FunctionData mainfunction = SymbolTable.symbolTable.getFunc("main");
         // if (mainfunction == null){
@@ -94,10 +94,10 @@ public class ProgramNode implements JottTree{
         for(Function_DefNode function: this.funcdeflist){
 
             String functionName = function.getnametoken().getToken().trim(); // Use .trim() to handle extra spaces
-            System.out.println("Checking function: '" + functionName + "'");
+            //System.out.println("Checking function: '" + functionName + "'");
 
             if(functionName.equals("main")){
-                System.out.println("found main function");
+                //System.out.println("found main function");
                 SymbolTable.currentFunction = "main";
                 function.execute();
                 return "Program executed successfully";

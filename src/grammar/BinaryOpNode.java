@@ -37,7 +37,7 @@ public class BinaryOpNode implements ExprNode {
 
     @Override
     public Object execute() {
-        System.out.println("in BinaryOpNode execute");
+        //System.out.println("in BinaryOpNode execute");
         switch (operator.getToken()) {
             case "+":
                 return ((double)left.execute() + (double)right.execute());
